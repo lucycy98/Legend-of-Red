@@ -23,8 +23,4 @@ public class Projectile {
     public void paint(Graphics2D win) {
         win.fillOval(currentXPos, currentYPos, 10, 10);
     }
-
-    public void start(){
-
-    }
 }
