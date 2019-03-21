@@ -7,7 +7,7 @@ import java.awt.event.KeyListener;
 
 public class GamePanel extends JPanel implements KeyListener{
 
-    JPanel temp_this = this;
+    JPanel panel = this;
 
     ProjectileHandler projectiles;
     Protagonist player;
@@ -15,7 +15,6 @@ public class GamePanel extends JPanel implements KeyListener{
     // Game timer for repaint
     Timer paint_timer, player_timer;
     static int paint_updateInterval = 300;
-    static int player_updateInterval = 300;
 
     // gameScreen Constructor
     public GamePanel() {
@@ -36,8 +35,6 @@ public class GamePanel extends JPanel implements KeyListener{
         this.requestFocus();
         paint_timer.start();
     }
-
-
 
     @Override
     public void paint(Graphics gr) {
@@ -73,6 +70,25 @@ public class GamePanel extends JPanel implements KeyListener{
 
     @Override
     public void keyReleased(KeyEvent e) {
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_LEFT:
+                player.setReleased(Protagonist.Direction.LEFT);
+                System.out.println("left rel");
+                break;
+            case KeyEvent.VK_RIGHT:
+                player.setReleased(Protagonist.Direction.RIGHT);
+                System.out.println("right rel");
+                break;
+            case KeyEvent.VK_UP:
+                player.setReleased(Protagonist.Direction.UP);
+                System.out.println("up rel");
+                break;
+            case KeyEvent.VK_DOWN:
+                player.setReleased(Protagonist.Direction.DOWN);
+                System.out.println("down rel");
+                break;
+        }
+
     }
 
     @Override
@@ -80,26 +96,25 @@ public class GamePanel extends JPanel implements KeyListener{
 
         switch (evt.getKeyCode()) {
             case KeyEvent.VK_LEFT:
-                player.move(Protagonist.Direction.LEFT);
+                player.setDirection(Protagonist.Direction.LEFT);
                 System.out.println("left");
                 break;
             case KeyEvent.VK_RIGHT:
-                player.move(Protagonist.Direction.RIGHT);
+                player.setDirection(Protagonist.Direction.RIGHT);
                 System.out.println("right");
                 break;
             case KeyEvent.VK_UP:
-                player.move(Protagonist.Direction.UP);
+                player.setDirection(Protagonist.Direction.UP);
                 System.out.println("up");
                 break;
             case KeyEvent.VK_DOWN:
-                player.move(Protagonist.Direction.DOWN);
+                player.setDirection(Protagonist.Direction.DOWN);
                 System.out.println("down");
                 break;
             case KeyEvent.VK_SPACE:
                 projectiles.start();
                 projectiles.shoot(2, 2, player.getX(), player.getY());
                 System.out.println("shoot");
-                //projectiles.start();
         }
 
     }
