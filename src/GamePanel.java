@@ -49,7 +49,7 @@ public class GamePanel extends JPanel implements KeyListener{
 
         JFrame mainFrame = new JFrame("Game 1.1");
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainFrame.setBounds(10, 10, 400, 400);
+        mainFrame.setBounds(10, 10, 1280, 720);
         mainFrame.setLayout(new BorderLayout());
 
         JPanel mainPanel = new JPanel();

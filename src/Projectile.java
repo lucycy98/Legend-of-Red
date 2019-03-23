@@ -21,6 +21,6 @@ public class Projectile {
     }
 
     public void paint(Graphics2D win) {
-        win.fillOval(currentXPos, currentYPos, 10, 10);
+        win.fillOval(currentXPos, currentYPos, 2, 2);
     }
 }
