@@ -12,7 +12,6 @@ public class GameController {
     public GameController(GameEngine game, GameView view){
         this.game = game;
         this.view = view;
-
     }
 
 
