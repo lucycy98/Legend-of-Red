@@ -29,11 +29,15 @@ public class ProjectileHandler {
     public void move(){
         for (Projectile proj : projectiles){
             proj.move();
+            if (proj.checkCollision()){
+                //projectiles.remove(proj);
+                //remove projectile
+            }
         }
     }
 
-    public void shoot(int xVel, int yVel, int xPos, int yPos){
-        Projectile projectile = new Projectile(xVel, yVel, xPos, yPos);
+    public void shoot(Direction dir, int xPos, int yPos, int tileSize){
+        Projectile projectile = new Projectile(dir, xPos, yPos, tileSize);
         projectiles.add(projectile);
     }
 

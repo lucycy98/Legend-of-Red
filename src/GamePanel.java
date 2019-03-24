@@ -11,15 +11,16 @@ public class GamePanel extends JPanel implements KeyListener{
 
     ProjectileHandler projectiles;
     Protagonist player;
+    int tileSize = 5;
 
     // Game timer for repaint
-    Timer paint_timer, player_timer;
-    static int paint_updateInterval = 300;
+    Timer paint_timer;
+    static int paint_updateInterval = 500;
 
     // gameScreen Constructor
     public GamePanel() {
 
-        player = new Protagonist(10, 10);
+        player = new Protagonist(10, 10, tileSize);
         projectiles = new ProjectileHandler();
 
         this.paint_timer = new Timer(1000 / paint_updateInterval, (new ActionListener() {
@@ -29,7 +30,6 @@ public class GamePanel extends JPanel implements KeyListener{
             }
         }));
 
-        //player_timer.start();
         this.addKeyListener(this);
         this.setFocusable(true);
         this.requestFocus();
@@ -49,7 +49,7 @@ public class GamePanel extends JPanel implements KeyListener{
 
         JFrame mainFrame = new JFrame("Game 1.1");
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainFrame.setBounds(10, 10, 1280, 720);
+        mainFrame.setBounds(10, 10, 1280, 960);
         mainFrame.setLayout(new BorderLayout());
 
         JPanel mainPanel = new JPanel();
@@ -59,6 +59,7 @@ public class GamePanel extends JPanel implements KeyListener{
 
         mainFrame.add(mainPanel, BorderLayout.PAGE_START);
         mainFrame.add(paintPanel, BorderLayout.CENTER);
+        mainFrame.setResizable(false);
 
         mainFrame.setVisible(true);
 
@@ -70,51 +71,21 @@ public class GamePanel extends JPanel implements KeyListener{
 
     @Override
     public void keyReleased(KeyEvent e) {
-        switch (e.getKeyCode()) {
-            case KeyEvent.VK_LEFT:
-                player.setReleased(Protagonist.Direction.LEFT);
-                System.out.println("left rel");
-                break;
-            case KeyEvent.VK_RIGHT:
-                player.setReleased(Protagonist.Direction.RIGHT);
-                System.out.println("right rel");
-                break;
-            case KeyEvent.VK_UP:
-                player.setReleased(Protagonist.Direction.UP);
-                System.out.println("up rel");
-                break;
-            case KeyEvent.VK_DOWN:
-                player.setReleased(Protagonist.Direction.DOWN);
-                System.out.println("down rel");
-                break;
-        }
-
+        player.keyReleased(e);
     }
 
     @Override
     public void keyPressed(KeyEvent evt) {
 
         switch (evt.getKeyCode()) {
-            case KeyEvent.VK_LEFT:
-                player.setDirection(Protagonist.Direction.LEFT);
-                System.out.println("left");
-                break;
-            case KeyEvent.VK_RIGHT:
-                player.setDirection(Protagonist.Direction.RIGHT);
-                System.out.println("right");
-                break;
-            case KeyEvent.VK_UP:
-                player.setDirection(Protagonist.Direction.UP);
-                System.out.println("up");
-                break;
-            case KeyEvent.VK_DOWN:
-                player.setDirection(Protagonist.Direction.DOWN);
-                System.out.println("down");
-                break;
+
             case KeyEvent.VK_SPACE:
                 projectiles.start();
-                projectiles.shoot(2, 2, player.getX(), player.getY());
+                projectiles.shoot(player.getDir(), player.getX(), player.getY(), tileSize);
                 System.out.println("shoot");
+                break;
+            default:
+                player.keyPressed(evt);
         }
 
     }
