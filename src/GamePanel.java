@@ -5,12 +5,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class GamePanel extends JPanel implements KeyListener{
+public class GamePanel extends JPanel implements KeyListener {
 
     JPanel panel = this;
 
     ProjectileHandler projectiles;
     Protagonist player;
+    Map map;
     int tileSize = 5;
 
     // Game timer for repaint
@@ -22,7 +23,7 @@ public class GamePanel extends JPanel implements KeyListener{
 
         player = new Protagonist(10, 10, tileSize);
         projectiles = new ProjectileHandler();
-
+        map = new Map();
         this.paint_timer = new Timer(1000 / paint_updateInterval, (new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -41,6 +42,7 @@ public class GamePanel extends JPanel implements KeyListener{
         // Clears window
         super.paint(gr);
         Graphics2D window = (Graphics2D) gr;
+        map.paint(window);
         player.paint(window);
         projectiles.paint(window);
     }

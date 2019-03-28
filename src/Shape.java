@@ -23,7 +23,7 @@ public class Shape {
         this.y = y;
     }
 
-    public void setIsRenderable(Boolean r){
+    public void setIsRenderable(Boolean r) {
         this.isRenderable = r;
     }
 
@@ -43,7 +43,7 @@ public class Shape {
         return this.height;
     }
 
-    public Boolean isRenderable(){
+    public Boolean isRenderable() {
         return this.isRenderable;
     }
 

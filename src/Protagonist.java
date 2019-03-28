@@ -17,7 +17,10 @@ public class Protagonist {
     private Rectangle2D rec;
     private Direction currentDirection = Direction.NORTH_EAST;
     Timer move_timer;
-    Boolean pressUp = false; Boolean pressDown = false; Boolean pressLeft = false; Boolean pressRight = false;
+    Boolean pressUp = false;
+    Boolean pressDown = false;
+    Boolean pressLeft = false;
+    Boolean pressRight = false;
 
     public Protagonist(int width, int height, int tile) {
         // call main constructor with default values
@@ -31,7 +34,7 @@ public class Protagonist {
         height = h;
         tileSize = tile;
         rec = new Rectangle2D.Double(x, y, w, h);
-        this.move_timer = new Timer(1000/300, (new ActionListener() {
+        this.move_timer = new Timer(1000 / 300, (new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 movePlayer();
@@ -40,19 +43,19 @@ public class Protagonist {
         move_timer.start();
     }
 
-    public int getX(){
+    public int getX() {
         return x;
     }
 
-    public int getY(){
+    public int getY() {
         return y;
     }
 
-    public Direction getDir(){
+    public Direction getDir() {
         return currentDirection;
     }
 
-    public void paint(Graphics2D win){
+    public void paint(Graphics2D win) {
         win.draw(rec);
     }
 
@@ -64,54 +67,54 @@ public class Protagonist {
         rec.setRect(x, y, width, height);
     }
 
-    public void face(){
-        if (pressUp){
+    public void face() {
+        if (pressUp) {
 
-            if (pressRight){
+            if (pressRight) {
                 currentDirection = Direction.NORTH_EAST;
-            } else if (pressLeft){
+            } else if (pressLeft) {
                 currentDirection = Direction.NORTH_WEST;
             } else {
                 currentDirection = Direction.NORTH;
             }
 
-        } else if (pressDown){
+        } else if (pressDown) {
 
-            if (pressRight){
+            if (pressRight) {
                 currentDirection = Direction.SOUTH_EAST;
-            } else if (pressLeft){
+            } else if (pressLeft) {
                 currentDirection = Direction.SOUTH_WEST;
             } else {
                 currentDirection = Direction.SOUTH;
             }
 
-        } else if (pressRight){
+        } else if (pressRight) {
 
             currentDirection = Direction.EAST;
 
-        } else if (pressLeft){
+        } else if (pressLeft) {
 
             currentDirection = Direction.WEST;
 
         }
     }
 
-    public void setVelocity(){
-        if (pressUp && pressDown){
+    public void setVelocity() {
+        if (pressUp && pressDown) {
             dy = 0;
-        } else if (pressUp){
+        } else if (pressUp) {
             dy = -tileSize;
-        } else if (pressDown){
+        } else if (pressDown) {
             dy = tileSize;
         } else {
             dy = 0;
         }
 
-        if (pressRight && pressLeft){
+        if (pressRight && pressLeft) {
             dx = 0;
-        } else if (pressLeft){
+        } else if (pressLeft) {
             dx = -tileSize;
-        } else if (pressRight){
+        } else if (pressRight) {
             dx = tileSize;
         } else {
             dx = 0;

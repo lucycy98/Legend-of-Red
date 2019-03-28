@@ -59,8 +59,8 @@ public class Projectile {
                 dx = 0;
                 dy = 0;
         }
-        dx = dx*2;
-        dy = dy*2;
+        dx = dx * 2;
+        dy = dy * 2;
     }
 
     public void move() {
@@ -68,14 +68,14 @@ public class Projectile {
         currentYPos += dy;
     }
 
-    public Boolean checkCollision(){
-        if (currentXPos < 10 || currentXPos > 1200 || currentYPos < 10 || currentYPos > 700){
+    public Boolean checkCollision() {
+        if (currentXPos < 10 || currentXPos > 1200 || currentYPos < 10 || currentYPos > 700) {
             return true;
         }
         return false;
     }
 
     public void paint(Graphics2D win) {
-        win.fillOval(currentXPos, currentYPos, 2, 2);
+        win.fillOval(currentXPos, currentYPos, 5, 5);
     }
 }

@@ -3,7 +3,7 @@ package Engine;
 import Menu.MainMenu;
 
 /**
- *  This class represents the Game: Legend of Red
+ * This class represents the Game: Legend of Red
  */
 public class GameEngine {
     private final MainMenu scene;
@@ -19,11 +19,12 @@ public class GameEngine {
 
     /**
      * changes the scene
+     *
      * @param sceneName
      * @return
      */
     public GameScene initScene(String sceneName) {
-       return null;
+        return null;
     }
 
 }

@@ -19,10 +19,9 @@ public class TileShape extends Shape {
 
     @Override
     public void renderShape(Graphics g) {
-        if (isRenderable()){ //
-            //g.drawimage();
+        if (isRenderable()) { //
+//            g.drawimage();
         }
-
 
 
     }
