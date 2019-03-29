@@ -20,7 +20,7 @@ public class TileShape extends Shape {
     @Override
     public void renderShape(Graphics g) {
         if (isRenderable()) { //
-//            g.drawimage();
+            g.drawImage(tileImg, this.getX(), this.getY(), 40, 40, null);
         }
 
 
