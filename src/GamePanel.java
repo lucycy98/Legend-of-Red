@@ -12,29 +12,23 @@ public class GamePanel extends JPanel implements KeyListener {
     ProjectileHandler projectiles;
     Protagonist player;
     Map map;
-    int tileSize = 40;
+    int tileSize = 4;
 
     // Game timer for repaint
     Timer paint_timer;
-    static int paint_updateInterval = 500;
+    static int paint_updateInterval = 900;
 
     // gameScreen Constructor
     public GamePanel() {
-
-        player = new Protagonist(10, 10, tileSize);
-        projectiles = new ProjectileHandler();
         map = new Map();
-        this.paint_timer = new Timer(1000 / paint_updateInterval, (new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                repaint();
-            }
-        }));
+        player = new Protagonist(40, 40, "player.jpg", tileSize, map.getObstacles());
+        projectiles = new ProjectileHandler();
+
 
         this.addKeyListener(this);
         this.setFocusable(true);
         this.requestFocus();
-        paint_timer.start();
+       // paint_timer.start();
     }
 
     @Override
@@ -45,6 +39,7 @@ public class GamePanel extends JPanel implements KeyListener {
         map.paint(window);
         player.paint(window);
         projectiles.paint(window);
+        repaint();
     }
 
     public static void main(String[] args) {
@@ -64,7 +59,6 @@ public class GamePanel extends JPanel implements KeyListener {
         mainFrame.setResizable(true);
 
         mainFrame.setVisible(true);
-
     }
 
     @Override

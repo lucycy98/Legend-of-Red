@@ -4,51 +4,28 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 /**
  * keep incrementing x, y until key release OR another arrow is pressed.
  */
-public class Protagonist {
+public class Protagonist extends TileShape{
 
     // co-ordinates of player
-    private int x, y, dx, dy;
-    int width, height;
+    private int dx, dy;
     int tileSize;
     private Rectangle2D rec;
     private Direction currentDirection = Direction.NORTH_EAST;
-    Timer move_timer;
     Boolean pressUp = false;
     Boolean pressDown = false;
     Boolean pressLeft = false;
     Boolean pressRight = false;
+    private ArrayList<TileShape> currentObstacles;
 
-    public Protagonist(int width, int height, int tile) {
-        // call main constructor with default values
-        this(30, 30, width, height, tile);
-    }
-
-    public Protagonist(int xPos, int yPos, int w, int h, int tile) {
-        x = xPos;
-        y = yPos;
-        width = w;
-        height = h;
-        tileSize = tile;
-        rec = new Rectangle2D.Double(x, y, w, h);
-        this.move_timer = new Timer(1000 / 300, (new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                movePlayer();
-            }
-        }));
-        move_timer.start();
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
+    public Protagonist(int xPos, int yPos, String image, int tile, ArrayList<TileShape> obs) {
+        super(xPos, yPos, image, true);
+        this.tileSize = tile;
+        currentObstacles = obs;
     }
 
     public Direction getDir() {
@@ -56,15 +33,44 @@ public class Protagonist {
     }
 
     public void paint(Graphics2D win) {
-        win.draw(rec);
+        movePlayer();
+        renderShape(win);
     }
 
     public void movePlayer() {
+        int currentX = getX();
+        setX(currentX + dx);
+        int currentY = getY();
+        setY(currentY + dy);
+        checkCollision();
+    }
 
-        x += dx;
-        y += dy;
+    public void checkCollision() {
 
-        rec.setRect(x, y, width, height);
+        Rectangle playerRec = this.getBounds();
+
+        for (TileShape obstacle : currentObstacles){
+            Rectangle obstacleRec = obstacle.getBounds();
+
+            if (playerRec.intersects(obstacleRec)) {
+
+                if (this.getX() - 6 < obstacle.getX() - this.getWidth() ) {//intersects left
+                    this.setX(obstacle.getX() - this.getWidth());
+                }
+
+                if ( this.getX() + 6 > obstacle.getX() + obstacle.getWidth()) { //intersects right
+                    this.setX(obstacle.getX() + obstacle.getWidth());
+                }
+
+                if (this.getY() - 6 < obstacle.getY() - this.getHeight()) { //intersect bottom
+                    this.setY(obstacle.getY() - this.getHeight());
+                }
+
+                if (this.getY() + 6 > obstacle.getY() + obstacle.getHeight()) { //intersects top
+                    this.setY(obstacle.getY() + obstacle.getHeight());
+                }
+            }
+        }
     }
 
     public void face() {

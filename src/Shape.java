@@ -1,5 +1,4 @@
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 
 public class Shape {
     private int x;
@@ -18,9 +17,15 @@ public class Shape {
         this.isRenderable = render;
     }
 
-    public Shape(int x, int y) {
+    public Shape(int x, int y, int w, int h) {
         this.x = x;
         this.y = y;
+        this.width = w;
+        this.height = h;
+    }
+
+    public Rectangle getBounds() {
+        return new Rectangle(x, y, width, height);
     }
 
     public void setIsRenderable(Boolean r) {

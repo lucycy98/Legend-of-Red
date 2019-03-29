@@ -1,18 +1,22 @@
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Map {
 
-    TileShape[][] map = new TileShape[32][24];
+    TileShape[][] _map = new TileShape[32][24];
+    ArrayList<TileShape> _obstacles = new ArrayList<TileShape>();
     int tileSize = 40;
 
     public Map() {
         for (int i = 0; i < 32; i++) {
             for (int j = 0; j < 24; j++) {
                 if (i == 0 | i == 31 | j == 0 | j == 23) {
-                    map[i][j] = new TileShape(i*tileSize, j*tileSize,"tree.png", true);
+                    TileShape tile = new TileShape(i*tileSize, j*tileSize,"tree.png", true);
+                    _obstacles.add(tile);
+                    _map[i][j] = tile;
                 } else {
-                    map[i][j] = new TileShape(i*tileSize, j*tileSize,"grass.jpg", true);
+                    _map[i][j] = new TileShape(i*tileSize, j*tileSize,"grass.jpg", true);
                 }
             }
         }
@@ -20,15 +24,21 @@ public class Map {
         for (int k = 0; k < 20; k++){
             int x = new Random().nextInt(32);
             int y = new Random().nextInt(24);
-            map[x][y] = new TileShape(x*tileSize, y*tileSize,"tree.png", true);
+            TileShape tile = new TileShape(x*tileSize, y*tileSize,"tree.png", true);
+            _obstacles.add(tile);
+            _map[x][y] = tile;
         }
     }
 
     public void paint(Graphics g) {
         for (int i = 0; i < 32; i++) {
             for (int j = 0; j < 24; j++) {
-                map[i][j].renderShape(g);
+                _map[i][j].renderShape(g);
             }
         }
+    }
+
+    public ArrayList<TileShape> getObstacles(){
+        return this._obstacles;
     }
 }
