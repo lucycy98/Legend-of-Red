@@ -1,5 +1,5 @@
 import javax.swing.*;
-import java.awt.Graphics;
+import java.awt.*;
 import java.net.URL;
 
 /**
@@ -7,13 +7,11 @@ import java.net.URL;
  */
 public class TileShape extends Shape {
 
-    private java.awt.Image tileImg = null;
+    private Image tileImg = null;
 
     public TileShape(int x, int y, String img, Boolean r) {
         super(x, y);
-        URL location = TileShape.class.getResource("/" + img);
-        ImageIcon im = new ImageIcon(location);
-        tileImg = im.getImage();
+        tileImg = ImageHandler.getImage(img);
         setIsRenderable(r);
     }
 
@@ -22,7 +20,5 @@ public class TileShape extends Shape {
         if (isRenderable()) { //
             g.drawImage(tileImg, this.getX(), this.getY(), 40, 40, null);
         }
-
-
     }
 }

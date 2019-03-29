@@ -12,7 +12,7 @@ public class GamePanel extends JPanel implements KeyListener {
     ProjectileHandler projectiles;
     Protagonist player;
     Map map;
-    int tileSize = 5;
+    int tileSize = 40;
 
     // Game timer for repaint
     Timer paint_timer;
@@ -61,7 +61,7 @@ public class GamePanel extends JPanel implements KeyListener {
 
         mainFrame.add(mainPanel, BorderLayout.PAGE_START);
         mainFrame.add(paintPanel, BorderLayout.CENTER);
-        mainFrame.setResizable(false);
+        mainFrame.setResizable(true);
 
         mainFrame.setVisible(true);
 
