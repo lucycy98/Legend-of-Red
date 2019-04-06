@@ -9,7 +9,7 @@ import java.util.ArrayList;
 /**
  * keep incrementing x, y until key release OR another arrow is pressed.
  */
-public class Protagonist extends TileShape{
+public class Protagonist extends Being{
 
     // co-ordinates of player
     private int dx, dy;
@@ -22,8 +22,8 @@ public class Protagonist extends TileShape{
     Boolean pressRight = false;
     private ArrayList<TileShape> currentObstacles;
 
-    public Protagonist(int xPos, int yPos, String image, int tile, ArrayList<TileShape> obs) {
-        super(xPos, yPos, image, true);
+    public Protagonist(int xPos, int yPos, String image, int tile, ArrayList<TileShape> obs, GamePanel game) {
+        super(xPos, yPos, image, obs, game);
         this.tileSize = tile;
         currentObstacles = obs;
     }
@@ -43,34 +43,6 @@ public class Protagonist extends TileShape{
         int currentY = getY();
         setY(currentY + dy);
         checkCollision();
-    }
-
-    public void checkCollision() {
-
-        Rectangle playerRec = this.getBounds();
-
-        for (TileShape obstacle : currentObstacles){
-            Rectangle obstacleRec = obstacle.getBounds();
-
-            if (playerRec.intersects(obstacleRec)) {
-
-                if (this.getX() - 6 < obstacle.getX() - this.getWidth() ) {//intersects left
-                    this.setX(obstacle.getX() - this.getWidth());
-                }
-
-                if ( this.getX() + 6 > obstacle.getX() + obstacle.getWidth()) { //intersects right
-                    this.setX(obstacle.getX() + obstacle.getWidth());
-                }
-
-                if (this.getY() - 6 < obstacle.getY() - this.getHeight()) { //intersect bottom
-                    this.setY(obstacle.getY() - this.getHeight());
-                }
-
-                if (this.getY() + 6 > obstacle.getY() + obstacle.getHeight()) { //intersects top
-                    this.setY(obstacle.getY() + obstacle.getHeight());
-                }
-            }
-        }
     }
 
     public void face() {
@@ -125,6 +97,10 @@ public class Protagonist extends TileShape{
         } else {
             dx = 0;
         }
+    }
+
+    public void damageHealth(){
+        System.out.println("bullet hit player");
     }
 
     public void keyReleased(KeyEvent e) {

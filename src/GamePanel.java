@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
 public class GamePanel extends JPanel implements KeyListener {
 
@@ -13,6 +14,7 @@ public class GamePanel extends JPanel implements KeyListener {
     Protagonist player;
     Map map;
     int tileSize = 4;
+    EnemyHandler enemies;
 
     // Game timer for repaint
     Timer paint_timer;
@@ -21,14 +23,20 @@ public class GamePanel extends JPanel implements KeyListener {
     // gameScreen Constructor
     public GamePanel() {
         map = new Map();
-        player = new Protagonist(40, 40, "player.jpg", tileSize, map.getObstacles());
-        projectiles = new ProjectileHandler();
+        player = new Protagonist(40, 40, "player.jpg", tileSize, map.getObstacles(), this);
+
+        projectiles = new ProjectileHandler(map.getObstacles());
+        enemies = new EnemyHandler(1, map, tileSize, this);
 
 
         this.addKeyListener(this);
         this.setFocusable(true);
         this.requestFocus();
        // paint_timer.start();
+    }
+
+    public ArrayList<Projectile> getProjectiles(){
+        return projectiles.getProjectiles();
     }
 
     @Override
@@ -38,6 +46,7 @@ public class GamePanel extends JPanel implements KeyListener {
         Graphics2D window = (Graphics2D) gr;
         map.paint(window);
         player.paint(window);
+        enemies.paint(window);
         projectiles.paint(window);
         repaint();
     }
