@@ -8,7 +8,6 @@ public class ProjectileHandler {
     private final MapHandler maps;
     private ArrayList<Projectile> projectiles;
     Timer velocity_timer;
-    private ArrayList<TileShape> currentObs;
 
     // Constructor initialises array of bullets
     public ProjectileHandler(MapHandler maps) {
@@ -43,7 +42,6 @@ public class ProjectileHandler {
                 projectiles.remove(proj);
             }
         }
-
     }
 
     public void shoot(Direction dir, int xPos, int yPos, int tileSize){
@@ -59,6 +57,5 @@ public class ProjectileHandler {
     public void stop(){
         velocity_timer.stop();
     }
-
 
 }

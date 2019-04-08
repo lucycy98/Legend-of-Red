@@ -10,7 +10,7 @@ public class MapHandler {
 
     // Constructor initialises array of bullets
     public MapHandler() {
-        maps = new HashMap<Integer, Map>();
+        maps = new HashMap<>();
         for (int i = 0; i < 3; i++){
             maps.put(i, new Map());
         }

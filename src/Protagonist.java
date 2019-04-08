@@ -11,19 +11,36 @@ import java.util.ArrayList;
  */
 public class Protagonist extends Being{
 
+    private EnemyHandler enemies;
     // co-ordinates of player
     private int dx, dy;
     int tileSize;
     private Rectangle2D rec;
     private Direction currentDirection = Direction.NORTH_EAST;
+    private MapHandler maps;
     Boolean pressUp = false;
     Boolean pressDown = false;
     Boolean pressLeft = false;
     Boolean pressRight = false;
 
-    public Protagonist(int xPos, int yPos, String image, int tile,MapHandler maps, ProjectileHandler ph) {
-        super(xPos, yPos, image, maps, ph);
+    public Protagonist(int xPos, int yPos, String image, int tile, MapHandler maps, ProjectileHandler ph, EnemyHandler enemies) {
+        super(xPos, yPos, image, maps.getCurrentObstacles(), ph);
         this.tileSize = tile;
+        this.maps = maps;
+        this.enemies = enemies;
+    }
+
+    public void checkPortal() {
+        Rectangle playerRec = this.getBounds();
+        for (TileShape portal : maps.getCurrentPortal()) {
+            Rectangle portalRec = portal.getBounds();
+            if (playerRec.intersects(portalRec)) {
+                maps.setNextLevel();
+                enemies.setNextLevel();
+                this.setX(40);
+                this.setY(40);
+            }
+        }
     }
 
     public Direction getDir() {

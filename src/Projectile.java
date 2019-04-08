@@ -5,11 +5,9 @@ public class Projectile {
 
     private int dx;
     private int dy;
-
     private int currentXPos;
     private int currentYPos;
     private Direction direction;
-    private ArrayList<TileShape> currentObstacles;
     private Boolean isRenderable = true;
     private MapHandler maps;
 
@@ -78,7 +76,6 @@ public class Projectile {
             currentYPos += dy;
         }
     }
-
 
     public boolean checkCollision() {
 

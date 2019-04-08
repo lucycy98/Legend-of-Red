@@ -1,7 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
@@ -11,9 +9,6 @@ public class GamePanel extends JPanel implements KeyListener {
     JPanel panel = this;
     ProjectileHandler projectiles;
     Protagonist player;
-    Map map;
-    Map map1;
-    Map map2;
     int tileSize = 4;
     EnemyHandler enemies;
     MapHandler maps;
@@ -22,16 +17,12 @@ public class GamePanel extends JPanel implements KeyListener {
     public GamePanel() {
 
         maps = new MapHandler();
-        player = new Protagonist(40, 40, "player.jpg", tileSize, maps, projectiles);
         projectiles = new ProjectileHandler(maps);
         enemies = new EnemyHandler(4, maps, projectiles);
+        player = new Protagonist(40, 40, "player.jpg", tileSize, maps, projectiles, enemies);
         this.addKeyListener(this);
         this.setFocusable(true);
         this.requestFocus();
-    }
-
-    public ArrayList<Projectile> getProjectiles() {
-        return projectiles.getProjectiles();
     }
 
     @Override

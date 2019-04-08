@@ -14,7 +14,7 @@ public class Enemy extends Being {
     private Direction currentDirection = Direction.NORTH_EAST;
 
     public Enemy(int xPos, int yPos, String image, int tile, MapHandler maps, ProjectileHandler ph) {
-        super(xPos, yPos, image, maps, ph);
+        super(xPos, yPos, image, maps.getCurrentObstacles(), ph);
         this.tileSize = tile;
         dy = tileSize / 4;
         dx = tileSize / 2;

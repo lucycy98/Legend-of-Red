@@ -6,35 +6,20 @@ import java.util.ArrayList;
  */
 public class Being extends TileShape {
 
-    private MapHandler maps;
     private ProjectileHandler  projectileHandler;
-    private int level;
+    private ArrayList<TileShape> obstacles;
 
-
-    public Being(int xPos, int yPos, String image, MapHandler maps, ProjectileHandler ph) {
+    public Being(int xPos, int yPos, String image, ArrayList<TileShape> obs, ProjectileHandler ph) {
         super(xPos, yPos, image, true);
         this.projectileHandler = ph;
-        level = 0;
-        this.maps = maps;
-    }
-
-    public void checkPortal() {
-        Rectangle playerRec = this.getBounds();
-        for (TileShape portal : maps.getCurrentPortal()) {
-            Rectangle portalRec = portal.getBounds();
-            if (playerRec.intersects(portalRec)) {
-                maps.setNextLevel();
-                this.setX(40);
-                this.setY(40);
-            }
-        }
+        this.obstacles = obs;
     }
 
     public void checkCollision() {
 
         Rectangle playerRec = this.getBounds();
 
-        for (TileShape obstacle : maps.getCurrentObstacles()) {
+        for (TileShape obstacle : obstacles) {
             Rectangle obstacleRec = obstacle.getBounds();
 
             if (playerRec.intersects(obstacleRec)) {
