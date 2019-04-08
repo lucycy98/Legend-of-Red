@@ -6,33 +6,24 @@ import java.util.ArrayList;
  */
 public class Being extends TileShape {
 
-    private ArrayList<TileShape> currentObstacles;
-    private ArrayList<TileShape> currentPortals;
-    private GamePanel game;
-    int level;
+    private MapHandler maps;
+    private ProjectileHandler  projectileHandler;
+    private int level;
 
 
-    public Being(int xPos, int yPos, String image, ArrayList<TileShape> obs, ArrayList<TileShape> port, GamePanel g) {
+    public Being(int xPos, int yPos, String image, MapHandler maps, ProjectileHandler ph) {
         super(xPos, yPos, image, true);
-        game = g;
-        currentObstacles = obs;
-        currentPortals = port;
+        this.projectileHandler = ph;
         level = 0;
-    }
-
-    public void setNewObstacles(ArrayList<TileShape> obs) {
-        currentObstacles.clear();
-        currentObstacles = obs;
+        this.maps = maps;
     }
 
     public void checkPortal() {
         Rectangle playerRec = this.getBounds();
-
-        for (TileShape portal : currentPortals) {
+        for (TileShape portal : maps.getCurrentPortal()) {
             Rectangle portalRec = portal.getBounds();
-
             if (playerRec.intersects(portalRec)) {
-                level++;
+                maps.setNextLevel();
                 this.setX(40);
                 this.setY(40);
             }
@@ -43,7 +34,7 @@ public class Being extends TileShape {
 
         Rectangle playerRec = this.getBounds();
 
-        for (TileShape obstacle : currentObstacles) {
+        for (TileShape obstacle : maps.getCurrentObstacles()) {
             Rectangle obstacleRec = obstacle.getBounds();
 
             if (playerRec.intersects(obstacleRec)) {
@@ -73,8 +64,7 @@ public class Being extends TileShape {
 
     public Boolean checkCollisionWeapon() {
         Rectangle playerRec = this.getBounds();
-        ArrayList<Projectile> bullets = game.getProjectiles();
-        for (Projectile bullet : bullets) {
+        for (Projectile bullet : projectileHandler.getProjectiles()) {
             Rectangle bulletRec = bullet.getBounds();
             if (playerRec.intersects(bulletRec)) {
                 return true;

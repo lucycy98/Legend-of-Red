@@ -20,14 +20,10 @@ public class Protagonist extends Being{
     Boolean pressDown = false;
     Boolean pressLeft = false;
     Boolean pressRight = false;
-    private ArrayList<TileShape> currentObstacles;
-    private ArrayList<TileShape> currentPortals;
 
-    public Protagonist(int xPos, int yPos, String image, int tile, ArrayList<TileShape> obs, ArrayList<TileShape> port, GamePanel game) {
-        super(xPos, yPos, image, obs, port, game);
+    public Protagonist(int xPos, int yPos, String image, int tile,MapHandler maps, ProjectileHandler ph) {
+        super(xPos, yPos, image, maps, ph);
         this.tileSize = tile;
-        currentObstacles = obs;
-        currentPortals = port;
     }
 
     public Direction getDir() {

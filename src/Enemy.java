@@ -12,16 +12,12 @@ public class Enemy extends Being {
     private int dx, dy;
     int tileSize;
     private Direction currentDirection = Direction.NORTH_EAST;
-    private ArrayList<TileShape> currentObstacles;
-    private ArrayList<TileShape> currentPortals;
 
-    public Enemy(int xPos, int yPos, String image, int tile, ArrayList<TileShape> obs, ArrayList<TileShape> port, GamePanel game) {
-        super(xPos, yPos, image, obs, port, game);
+    public Enemy(int xPos, int yPos, String image, int tile, MapHandler maps, ProjectileHandler ph) {
+        super(xPos, yPos, image, maps, ph);
         this.tileSize = tile;
         dy = tileSize / 4;
         dx = tileSize / 2;
-        currentObstacles = obs;
-        currentPortals = port;
     }
 
     public Direction getDir() {

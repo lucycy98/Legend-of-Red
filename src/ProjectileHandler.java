@@ -3,17 +3,16 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.concurrent.TimeoutException;
-
 public class ProjectileHandler {
 
+    private final MapHandler maps;
     private ArrayList<Projectile> projectiles;
     Timer velocity_timer;
     private ArrayList<TileShape> currentObs;
 
     // Constructor initialises array of bullets
-    public ProjectileHandler(ArrayList<TileShape> obstacles) {
-        this.currentObs = obstacles;
+    public ProjectileHandler(MapHandler maps) {
+        this.maps = maps;
         projectiles = new ArrayList<>();
         this.velocity_timer = new Timer(1000/300, (new ActionListener() {
             @Override
@@ -48,7 +47,7 @@ public class ProjectileHandler {
     }
 
     public void shoot(Direction dir, int xPos, int yPos, int tileSize){
-        Projectile projectile = new Projectile(dir, xPos, yPos, tileSize, currentObs);
+        Projectile projectile = new Projectile(dir, xPos, yPos, tileSize, maps);
         projectiles.add(projectile);
     }
 

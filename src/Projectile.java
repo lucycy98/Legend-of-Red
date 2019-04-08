@@ -11,13 +11,14 @@ public class Projectile {
     private Direction direction;
     private ArrayList<TileShape> currentObstacles;
     private Boolean isRenderable = true;
+    private MapHandler maps;
 
-    public Projectile(Direction dir, int xPos, int yPos, int tileSize, ArrayList<TileShape> obstacles) {
+    public Projectile(Direction dir, int xPos, int yPos, int tileSize, MapHandler maps) {
         setVelocity(dir, tileSize);
         direction = dir;
         currentXPos = xPos;
         currentYPos = yPos;
-        this.currentObstacles = obstacles;
+        this.maps = maps;
     }
 
     public Rectangle getBounds() {
@@ -83,7 +84,7 @@ public class Projectile {
 
         Rectangle bulletRec = this.getBounds();
 
-        for (TileShape obstacle : currentObstacles){
+        for (TileShape obstacle : maps.getCurrentObstacles()){
             Rectangle obstacleRec = obstacle.getBounds();
 
             if (bulletRec.intersects(obstacleRec)) {

@@ -9,7 +9,6 @@ import java.util.ArrayList;
 public class GamePanel extends JPanel implements KeyListener {
 
     JPanel panel = this;
-
     ProjectileHandler projectiles;
     Protagonist player;
     Map map;
@@ -17,26 +16,18 @@ public class GamePanel extends JPanel implements KeyListener {
     Map map2;
     int tileSize = 4;
     EnemyHandler enemies;
-
-    // Game timer for repaint
-    Timer paint_timer;
-    static int paint_updateInterval = 900;
+    MapHandler maps;
 
     // gameScreen Constructor
     public GamePanel() {
-        map = new Map();
-        map1 = new Map();
-        map2 = new Map();
-        player = new Protagonist(40, 40, "player.jpg", tileSize, map.getObstacles(), map.getPortals(),this);
 
-        projectiles = new ProjectileHandler(map.getObstacles());
-        enemies = new EnemyHandler(1, map, tileSize, this);
-
-
+        maps = new MapHandler();
+        player = new Protagonist(40, 40, "player.jpg", tileSize, maps, projectiles);
+        projectiles = new ProjectileHandler(maps);
+        enemies = new EnemyHandler(4, maps, projectiles);
         this.addKeyListener(this);
         this.setFocusable(true);
         this.requestFocus();
-        // paint_timer.start();
     }
 
     public ArrayList<Projectile> getProjectiles() {
@@ -48,15 +39,7 @@ public class GamePanel extends JPanel implements KeyListener {
         // Clears window
         super.paint(gr);
         Graphics2D window = (Graphics2D) gr;
-        if(player.level == 0) {
-            map.paint(window);
-        } else if (player.level == 1) {
-            map1.paint(window);
-            player.setNewObstacles(map1.getObstacles());
-        } else {
-            map2.paint(window);
-            player.setNewObstacles(map2.getObstacles());
-        }
+        maps.paint(gr);
         player.paint(window);
         enemies.paint(window);
         projectiles.paint(window);
