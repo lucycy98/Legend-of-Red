@@ -13,13 +13,15 @@ public class Enemy extends Being {
     int tileSize;
     private Direction currentDirection = Direction.NORTH_EAST;
     private ArrayList<TileShape> currentObstacles;
+    private ArrayList<TileShape> currentPortals;
 
-    public Enemy(int xPos, int yPos, String image, int tile, ArrayList<TileShape> obs, GamePanel game) {
-        super(xPos, yPos, image, obs, game);
+    public Enemy(int xPos, int yPos, String image, int tile, ArrayList<TileShape> obs, ArrayList<TileShape> port, GamePanel game) {
+        super(xPos, yPos, image, obs, port, game);
         this.tileSize = tile;
-        dy = tileSize/4;
-        dx = tileSize/2;
+        dy = tileSize / 4;
+        dx = tileSize / 2;
         currentObstacles = obs;
+        currentPortals = port;
     }
 
     public Direction getDir() {
@@ -31,12 +33,12 @@ public class Enemy extends Being {
     }
 
     @Override
-    public void damageHealth(){
+    public void damageHealth() {
         System.out.println("bullet hit wolf");
         killWolf();
     }
 
-    private void killWolf(){
+    private void killWolf() {
         this.setIsRenderable(false);
     }
 
@@ -45,11 +47,11 @@ public class Enemy extends Being {
         int currentX = getX();
         int currentY = getY();
 
-        if (currentX <=40 || currentX >1200){
+        if (currentX <= 40 || currentX > 1200) {
             dx = dx * -1;
         }
 
-        if (currentY <= 40 || currentY >=700){
+        if (currentY <= 40 || currentY >= 700) {
             dy = dy * -1;
         }
         setX(currentX + dx);

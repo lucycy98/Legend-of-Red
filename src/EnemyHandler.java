@@ -22,7 +22,7 @@ public class EnemyHandler {
                 int x = new Random().nextInt(32);
                 int y = new Random().nextInt(24);
 
-                enemies.add(new Enemy(x*40, y*40, "wolf.png", tileSize, map.getObstacles(), parent));
+                enemies.add(new Enemy(x*40, y*40, "wolf.png", tileSize, map.getObstacles(), map.getPortals(), parent));
             }
         }
         this.level = level;

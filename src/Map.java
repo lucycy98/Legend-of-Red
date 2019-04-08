@@ -6,6 +6,7 @@ public class Map {
 
     TileShape[][] _map = new TileShape[32][24];
     ArrayList<TileShape> _obstacles = new ArrayList<TileShape>();
+    ArrayList<TileShape> _portals = new ArrayList<TileShape>();
     int tileSize = 40;
 
     public Map() {
@@ -28,6 +29,10 @@ public class Map {
             _obstacles.add(tile);
             _map[x][y] = tile;
         }
+
+        TileShape portal = new TileShape(30*tileSize, 11*tileSize,"portal.jpg", true);
+        _portals.add(portal);
+        _map[30][11] = portal;
     }
 
     public void paint(Graphics g) {
@@ -40,5 +45,13 @@ public class Map {
 
     public ArrayList<TileShape> getObstacles(){
         return this._obstacles;
+    }
+
+    public void setObstacles(ArrayList<TileShape> _obstacles) {
+        this._obstacles = _obstacles;
+    }
+
+    public ArrayList<TileShape> getPortals() {
+        return _portals;
     }
 }

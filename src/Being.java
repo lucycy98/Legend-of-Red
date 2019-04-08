@@ -7,34 +7,52 @@ import java.util.ArrayList;
 public class Being extends TileShape {
 
     private ArrayList<TileShape> currentObstacles;
+    private ArrayList<TileShape> currentPortals;
     private GamePanel game;
+    int level;
 
 
-    public Being(int xPos, int yPos, String image, ArrayList<TileShape> obs, GamePanel g) {
+    public Being(int xPos, int yPos, String image, ArrayList<TileShape> obs, ArrayList<TileShape> port, GamePanel g) {
         super(xPos, yPos, image, true);
         game = g;
         currentObstacles = obs;
+        currentPortals = port;
+        level = 0;
     }
 
-    public void setNewObstacles(ArrayList<TileShape> obs){
+    public void setNewObstacles(ArrayList<TileShape> obs) {
         currentObstacles.clear();
-        currentObstacles  = obs;
+        currentObstacles = obs;
+    }
+
+    public void checkPortal() {
+        Rectangle playerRec = this.getBounds();
+
+        for (TileShape portal : currentPortals) {
+            Rectangle portalRec = portal.getBounds();
+
+            if (playerRec.intersects(portalRec)) {
+                level++;
+                this.setX(40);
+                this.setY(40);
+            }
+        }
     }
 
     public void checkCollision() {
 
         Rectangle playerRec = this.getBounds();
 
-        for (TileShape obstacle : currentObstacles){
+        for (TileShape obstacle : currentObstacles) {
             Rectangle obstacleRec = obstacle.getBounds();
 
             if (playerRec.intersects(obstacleRec)) {
 
-                if (this.getX() - 6 < obstacle.getX() - this.getWidth() ) {//intersects left
+                if (this.getX() - 6 < obstacle.getX() - this.getWidth()) {//intersects left
                     this.setX(obstacle.getX() - this.getWidth());
                 }
 
-                if ( this.getX() + 6 > obstacle.getX() + obstacle.getWidth()) { //intersects right
+                if (this.getX() + 6 > obstacle.getX() + obstacle.getWidth()) { //intersects right
                     this.setX(obstacle.getX() + obstacle.getWidth());
                 }
 
@@ -49,14 +67,14 @@ public class Being extends TileShape {
         }
     }
 
-    public void damageHealth(){
+    public void damageHealth() {
         System.out.println("bullet hit player");
     }
 
-    public Boolean checkCollisionWeapon(){
+    public Boolean checkCollisionWeapon() {
         Rectangle playerRec = this.getBounds();
         ArrayList<Projectile> bullets = game.getProjectiles();
-        for (Projectile bullet : bullets){
+        for (Projectile bullet : bullets) {
             Rectangle bulletRec = bullet.getBounds();
             if (playerRec.intersects(bulletRec)) {
                 return true;

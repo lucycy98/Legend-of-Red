@@ -21,11 +21,13 @@ public class Protagonist extends Being{
     Boolean pressLeft = false;
     Boolean pressRight = false;
     private ArrayList<TileShape> currentObstacles;
+    private ArrayList<TileShape> currentPortals;
 
-    public Protagonist(int xPos, int yPos, String image, int tile, ArrayList<TileShape> obs, GamePanel game) {
-        super(xPos, yPos, image, obs, game);
+    public Protagonist(int xPos, int yPos, String image, int tile, ArrayList<TileShape> obs, ArrayList<TileShape> port, GamePanel game) {
+        super(xPos, yPos, image, obs, port, game);
         this.tileSize = tile;
         currentObstacles = obs;
+        currentPortals = port;
     }
 
     public Direction getDir() {
@@ -43,6 +45,7 @@ public class Protagonist extends Being{
         int currentY = getY();
         setY(currentY + dy);
         checkCollision();
+        checkPortal();
     }
 
     public void face() {

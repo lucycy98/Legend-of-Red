@@ -13,6 +13,8 @@ public class GamePanel extends JPanel implements KeyListener {
     ProjectileHandler projectiles;
     Protagonist player;
     Map map;
+    Map map1;
+    Map map2;
     int tileSize = 4;
     EnemyHandler enemies;
 
@@ -23,7 +25,9 @@ public class GamePanel extends JPanel implements KeyListener {
     // gameScreen Constructor
     public GamePanel() {
         map = new Map();
-        player = new Protagonist(40, 40, "player.jpg", tileSize, map.getObstacles(), this);
+        map1 = new Map();
+        map2 = new Map();
+        player = new Protagonist(40, 40, "player.jpg", tileSize, map.getObstacles(), map.getPortals(),this);
 
         projectiles = new ProjectileHandler(map.getObstacles());
         enemies = new EnemyHandler(1, map, tileSize, this);
@@ -32,10 +36,10 @@ public class GamePanel extends JPanel implements KeyListener {
         this.addKeyListener(this);
         this.setFocusable(true);
         this.requestFocus();
-       // paint_timer.start();
+        // paint_timer.start();
     }
 
-    public ArrayList<Projectile> getProjectiles(){
+    public ArrayList<Projectile> getProjectiles() {
         return projectiles.getProjectiles();
     }
 
@@ -44,7 +48,15 @@ public class GamePanel extends JPanel implements KeyListener {
         // Clears window
         super.paint(gr);
         Graphics2D window = (Graphics2D) gr;
-        map.paint(window);
+        if(player.level == 0) {
+            map.paint(window);
+        } else if (player.level == 1) {
+            map1.paint(window);
+            player.setNewObstacles(map1.getObstacles());
+        } else {
+            map2.paint(window);
+            player.setNewObstacles(map2.getObstacles());
+        }
         player.paint(window);
         enemies.paint(window);
         projectiles.paint(window);
