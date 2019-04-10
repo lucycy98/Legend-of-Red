@@ -13,6 +13,7 @@ public class EnemyHandler {
     private ArrayList<Enemy> currentEnemies;
     private int tileSize;
     private MapHandler maps;
+    private Dagger dagger;
 
     public EnemyHandler(int tileSize, MapHandler maps, ProjectileHandler ph) {
         enemies = new HashMap<>();
@@ -51,11 +52,6 @@ public class EnemyHandler {
         for (int i = 0; i < currentEnemies.size(); i++) {
             Enemy enemy = currentEnemies.get(i);
             enemy.move();
-            if (enemy.checkCollisionWeapon()){
-                System.out.println("being hit by projectile");
-                enemy.setIsRenderable(false);
-                enemies.remove(enemy);
-            }
         }
     }
 
@@ -64,6 +60,15 @@ public class EnemyHandler {
         for (Enemy enemy : currentEnemies){
             enemy.paint(win);
         }
+    }
+
+    public void damageEnemy(Enemy enemy){
+        enemy.damageHealth();
+        if(!enemy.getIsAlive()){
+            //dead
+            currentEnemies.remove(enemy); //todo update the hashmap!!!
+        }
+
     }
 
     public ArrayList<Enemy> getCurrentEnemies(){

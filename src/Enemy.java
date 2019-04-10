@@ -12,6 +12,7 @@ public class Enemy extends Being {
     private int dx, dy;
     int tileSize;
     private Direction currentDirection = Direction.NORTH_EAST;
+    private Boolean isAlive = true;
 
     public Enemy(int xPos, int yPos, String image, int tile, MapHandler maps, ProjectileHandler ph) {
         super(xPos, yPos, image, maps.getCurrentObstacles(), ph);
@@ -36,6 +37,11 @@ public class Enemy extends Being {
 
     private void killWolf() {
         this.setIsRenderable(false);
+        isAlive = false;
+    }
+
+    public Boolean getIsAlive(){
+        return isAlive;
     }
 
 

@@ -1,5 +1,4 @@
 import java.awt.*;
-import java.util.ArrayList;
 
 public class Projectile {
 
@@ -78,12 +77,9 @@ public class Projectile {
     }
 
     public boolean checkCollision() {
-
         Rectangle bulletRec = this.getBounds();
-
         for (TileShape obstacle : maps.getCurrentObstacles()){
             Rectangle obstacleRec = obstacle.getBounds();
-
             if (bulletRec.intersects(obstacleRec)) {
                 return true;
             }

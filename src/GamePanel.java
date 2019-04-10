@@ -12,14 +12,16 @@ public class GamePanel extends JPanel implements KeyListener {
     int tileSize = 4;
     EnemyHandler enemies;
     MapHandler maps;
+    WeaponHandler weapons;
 
     // gameScreen Constructor
     public GamePanel() {
-
         maps = new MapHandler();
-        projectiles = new ProjectileHandler(maps);
+        //projectiles = new ProjectileHandler(maps);
         enemies = new EnemyHandler(4, maps, projectiles);
         player = new Protagonist(40, 40, "player.jpg", tileSize, maps, projectiles, enemies);
+        weapons = new WeaponHandler(maps, projectiles, player, enemies);
+        //dagger = new Dagger(player, 40, 40, "dagger.jpg", false);
         this.addKeyListener(this);
         this.setFocusable(true);
         this.requestFocus();
@@ -33,7 +35,7 @@ public class GamePanel extends JPanel implements KeyListener {
         maps.paint(gr);
         player.paint(window);
         enemies.paint(window);
-        projectiles.paint(window);
+        weapons.paint(window);
         repaint();
     }
 
@@ -71,9 +73,10 @@ public class GamePanel extends JPanel implements KeyListener {
         switch (evt.getKeyCode()) {
 
             case KeyEvent.VK_SPACE:
-                projectiles.start();
-                projectiles.shoot(player.getDir(), player.getX(), player.getY(), tileSize);
-                System.out.println("shoot");
+                weapons.attack();
+                break;
+            case KeyEvent.VK_S:
+                weapons.changeWeapon();
                 break;
             default:
                 player.keyPressed(evt);

@@ -8,6 +8,7 @@ public class Being extends TileShape {
 
     private ProjectileHandler  projectileHandler;
     private ArrayList<TileShape> obstacles;
+    private Dagger dagger;
 
     public Being(int xPos, int yPos, String image, ArrayList<TileShape> obs, ProjectileHandler ph) {
         super(xPos, yPos, image, true);
@@ -45,17 +46,6 @@ public class Being extends TileShape {
 
     public void damageHealth() {
         System.out.println("bullet hit player");
-    }
-
-    public Boolean checkCollisionWeapon() {
-        Rectangle playerRec = this.getBounds();
-        for (Projectile bullet : projectileHandler.getProjectiles()) {
-            Rectangle bulletRec = bullet.getBounds();
-            if (playerRec.intersects(bulletRec)) {
-                return true;
-            }
-        }
-        return false;
     }
 
 }
