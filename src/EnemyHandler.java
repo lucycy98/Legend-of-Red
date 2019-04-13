@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class EnemyHandler {
 
@@ -29,14 +30,14 @@ public class EnemyHandler {
         ArrayList<Enemy> enemies = new ArrayList<>();
         if (level == 1){
             for (int i = 0; i < 4; i++){
-                int x = new Random().nextInt(32);
-                int y = new Random().nextInt(24);
+                int x = ThreadLocalRandom.current().nextInt(1, 30);
+                int y = ThreadLocalRandom.current().nextInt(1, 22);
                 enemies.add(new Enemy(x*40, y*40, "wolf.png", tileSize, maps, projectiles));
             }
         } else if (level == 2){
             for (int i = 0; i < 5; i++) {
-                int x = new Random().nextInt(32);
-                int y = new Random().nextInt(24);
+                int x = ThreadLocalRandom.current().nextInt(1, 30);
+                int y = ThreadLocalRandom.current().nextInt(1, 22);
                 enemies.add(new Enemy(x * 40, y * 40, "wolf.png", tileSize*2, maps, projectiles));
             }
         }
@@ -51,7 +52,7 @@ public class EnemyHandler {
     public void move(){
         for (int i = 0; i < currentEnemies.size(); i++) {
             Enemy enemy = currentEnemies.get(i);
-            enemy.move();
+            enemy.randomMovement();
         }
     }
 

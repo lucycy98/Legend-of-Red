@@ -24,7 +24,7 @@ public class Protagonist extends Being{
     Boolean pressRight = false;
 
     public Protagonist(int xPos, int yPos, String image, int tile, MapHandler maps, ProjectileHandler ph, EnemyHandler enemies) {
-        super(xPos, yPos, image, maps.getCurrentObstacles(), ph);
+        super(xPos, yPos, image, ph);
         this.tileSize = tile;
         this.maps = maps;
         this.enemies = enemies;
@@ -57,7 +57,7 @@ public class Protagonist extends Being{
         setX(currentX + dx);
         int currentY = getY();
         setY(currentY + dy);
-        checkCollision();
+        checkCollision(maps.getCurrentObstacles());
         checkPortal();
     }
 

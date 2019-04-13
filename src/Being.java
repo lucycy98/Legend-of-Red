@@ -7,16 +7,14 @@ import java.util.ArrayList;
 public class Being extends TileShape {
 
     private ProjectileHandler  projectileHandler;
-    private ArrayList<TileShape> obstacles;
     private Dagger dagger;
 
-    public Being(int xPos, int yPos, String image, ArrayList<TileShape> obs, ProjectileHandler ph) {
+    public Being(int xPos, int yPos, String image, ProjectileHandler ph) {
         super(xPos, yPos, image, true);
         this.projectileHandler = ph;
-        this.obstacles = obs;
     }
 
-    public void checkCollision() {
+    public boolean checkCollision(ArrayList<TileShape> obstacles) {
 
         Rectangle playerRec = this.getBounds();
 
@@ -40,8 +38,11 @@ public class Being extends TileShape {
                 if (this.getY() + 6 > obstacle.getY() + obstacle.getHeight()) { //intersects top
                     this.setY(obstacle.getY() + obstacle.getHeight());
                 }
+
+                return true;
             }
         }
+        return false;
     }
 
     public void damageHealth() {

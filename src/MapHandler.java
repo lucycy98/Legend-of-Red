@@ -14,7 +14,7 @@ public class MapHandler {
         for (int i = 0; i < 3; i++){
             maps.put(i, new Map());
         }
-        currentLevel = 1;
+        currentLevel = 0;
     }
 
     public int setNextLevel(){
