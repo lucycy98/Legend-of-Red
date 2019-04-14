@@ -12,11 +12,11 @@ public class TileShape {
     private int height;
     private Boolean isRenderable;
 
-    public TileShape(int x, int y, String img, Boolean r) {
+    public TileShape(int x, int y, int width, int height, String img, Boolean r) {
         this.x = x;
         this.y = y;
-        this.width = 40;
-        this.height = 40;
+        this.width = width;
+        this.height = height;
         this.isRenderable = r;
         tileImg = ImageHandler.getImage(img);
     }

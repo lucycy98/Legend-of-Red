@@ -9,8 +9,8 @@ public class Being extends TileShape {
     private ProjectileHandler  projectileHandler;
     private Dagger dagger;
 
-    public Being(int xPos, int yPos, String image, ProjectileHandler ph) {
-        super(xPos, yPos, image, true);
+    public Being(int xPos, int yPos, int width, int height, String image, ProjectileHandler ph) {
+        super(xPos, yPos, width, height, image, true);
         this.projectileHandler = ph;
     }
 

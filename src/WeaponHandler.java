@@ -10,6 +10,7 @@ public class WeaponHandler {
     private ProjectileHandler projectiles;
     private Weapon currentWeapon;
     private Weapon otherWeapon;
+//    private Weapon bossWeapon;
     Timer velocity_timer;
 
     // Constructor initialises array of bullets
@@ -18,6 +19,7 @@ public class WeaponHandler {
         this.projectiles = projectiles;
         currentWeapon = new Dagger(player, 40, 40, "dagger.jpg", false, enemies);
         otherWeapon = new ProjectileHandler(maps, player, enemies);
+//        bossWeapon = new ProjectileHandler(maps, player, enemies);
 
         this.velocity_timer = new Timer(1000/300, (new ActionListener() {
             @Override

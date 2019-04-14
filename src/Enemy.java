@@ -19,8 +19,8 @@ public class Enemy extends Being {
     private int timeLeft;
     private int level;
 
-    public Enemy(int xPos, int yPos, String image, int tile, MapHandler maps, ProjectileHandler ph, int level) {
-        super(xPos, yPos, image, ph);
+    public Enemy(int xPos, int yPos, int width, int height, String image, int tile, MapHandler maps, ProjectileHandler ph, int level) {
+        super(xPos, yPos, width, height, image, ph);
         this.tileSize = tile;
         this.maps = maps;
         dy = tileSize / 4;
@@ -110,8 +110,17 @@ public class Enemy extends Being {
 
         int scale = Math.max(Math.abs(distX), Math.abs(distY));
 
-        int dx = (distX / scale);
-        int dy = (distY / scale);
+        int dx;
+        int dy;
+
+        if (scale != 0){
+             dx = (distX / scale);
+             dy = (distY / scale);
+        }
+        else{
+            dx = 0;
+            dy = 0;
+        }
 
         if (!checkCollision(maps.getCurrentObstacles())) {
             setX(currentX + dx);

@@ -47,6 +47,17 @@ public class ProjectileHandler implements Weapon {
         projectiles.add(projectile);
     }
 
+//    public void bossAttack() {
+//        Enemy boss = enemies.getCurrentEnemies().get(0);
+//        int playerX = player.getX();
+//        int playerY = player.getY();
+//
+//        int bossX = boss.getX();
+//        int bossY = boss.getY();
+////        Projectile projectile = new Projectile(dir, xPos, yPos, projectileSpeed, maps);
+////        projectiles.add(projectile);
+//    }
+
     @Override
     public void paint(Graphics2D g) {
         for (Projectile proj : projectiles){

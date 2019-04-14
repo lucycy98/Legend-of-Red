@@ -12,7 +12,7 @@ public class Dagger extends TileShape implements Weapon {
     private EnemyHandler enemies;
 
     public Dagger (Protagonist player, int x, int y, String img, Boolean r, EnemyHandler enemies) {
-        super(x,y,img,false);
+        super(x,y, 40, 40, img,false);
         this.player = player;
         this.enemies = enemies;
     }

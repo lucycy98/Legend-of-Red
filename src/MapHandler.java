@@ -12,8 +12,9 @@ public class MapHandler {
     public MapHandler() {
         maps = new HashMap<>();
         for (int i = 0; i < 3; i++){
-            maps.put(i, new Map());
+            maps.put(i, new Map(20));
         }
+        maps.put(3, new Map(0));
         currentLevel = 0;
     }
 

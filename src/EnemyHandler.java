@@ -37,21 +37,25 @@ public class EnemyHandler {
             for (int i = 0; i < 6; i++){
                 int x = ThreadLocalRandom.current().nextInt(1, 30);
                 int y = ThreadLocalRandom.current().nextInt(1, 22);
-                enemies.add(new Enemy(x*40, y*40, "wolf.png", tileSize, maps, projectiles, 0));
+                enemies.add(new Enemy(x*40, y*40, 40, 40, "wolf.png", tileSize, maps, projectiles, 0));
             }
         } else if (level == 1){
             for (int i = 0; i < 10; i++) {
                 int x = ThreadLocalRandom.current().nextInt(1, 30);
                 int y = ThreadLocalRandom.current().nextInt(1, 22);
-                enemies.add(new Enemy(x * 40, y * 40, "wolf.png", tileSize*2, maps, projectiles,1));
+                enemies.add(new Enemy(x * 40, y * 40, 40, 40,"wolf.png", tileSize*2, maps, projectiles,1));
             }
-        } else{
+        } else if (level == 2){
             for (int i = 0; i < 6; i++) {
                 int x = ThreadLocalRandom.current().nextInt(1, 30);
                 int y = ThreadLocalRandom.current().nextInt(1, 22);
-                enemies.add(new Enemy(x * 40, y * 40, "wolf.png", tileSize * 2, maps, projectiles, 2));
+                enemies.add(new Enemy(x * 40, y * 40, 40, 40,"wolf.png", tileSize * 2, maps, projectiles, 2));
             }
-        }
+        } else {
+            int x = ThreadLocalRandom.current().nextInt(1, 30);
+            int y = ThreadLocalRandom.current().nextInt(1, 22);
+            enemies.add(new Enemy(x * 40, y * 40, 120, 120, "wolf.png", tileSize * 2, maps, projectiles, 3));
+            }
         return enemies;
     }
 

@@ -7,15 +7,12 @@ import java.util.ArrayList;
 public class PickUpItem extends TileShape {
 
     private EnemyHandler enemies;
-    private ProjectileHandler  projectileHandler;
+    private ProjectileHandler projectileHandler;
 
     public PickUpItem(int xPos, int yPos, String image, EnemyHandler enemies) {
-        super(xPos, yPos, image, true);
+        super(xPos, yPos, 40, 40, image, true);
         this.enemies = enemies;
     }
-
-
-
 
 
 }

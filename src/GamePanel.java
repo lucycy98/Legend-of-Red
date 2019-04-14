@@ -19,7 +19,7 @@ public class GamePanel extends JPanel implements KeyListener {
         maps = new MapHandler();
         //projectiles = new ProjectileHandler(maps);
         enemies = new EnemyHandler(4, maps, projectiles);
-        player = new Protagonist(40, 40, "player.jpg", tileSize, maps, projectiles, enemies);
+        player = new Protagonist(40, 40, 40, 40, "player.jpg", tileSize, maps, projectiles, enemies);
         enemies.addPlayer(player);
         weapons = new WeaponHandler(maps, projectiles, player, enemies);
         //dagger = new Dagger(player, 40, 40, "dagger.jpg", false);

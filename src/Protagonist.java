@@ -23,8 +23,8 @@ public class Protagonist extends Being{
     Boolean pressLeft = false;
     Boolean pressRight = false;
 
-    public Protagonist(int xPos, int yPos, String image, int tile, MapHandler maps, ProjectileHandler ph, EnemyHandler enemies) {
-        super(xPos, yPos, image, ph);
+    public Protagonist(int xPos, int yPos, int width, int height, String image, int tile, MapHandler maps, ProjectileHandler ph, EnemyHandler enemies) {
+        super(xPos, yPos, width, height, image, ph);
         this.tileSize = tile;
         this.maps = maps;
         this.enemies = enemies;
