@@ -15,30 +15,41 @@ public class EnemyHandler {
     private int tileSize;
     private MapHandler maps;
     private Dagger dagger;
+    protected Protagonist player;
 
     public EnemyHandler(int tileSize, MapHandler maps, ProjectileHandler ph) {
         enemies = new HashMap<>();
         this.maps = maps;
         this.projectiles = ph;
         this.tileSize = tileSize;
-        int initialLevel = 1;
+        int initialLevel = 0;
         this.currentEnemies = createEnemies(initialLevel);
         enemies.put(initialLevel, currentEnemies);
     }
 
+    public void addPlayer(Protagonist player){
+        this.player=player;
+    }
+
     public ArrayList<Enemy> createEnemies(int level){
         ArrayList<Enemy> enemies = new ArrayList<>();
-        if (level == 1){
-            for (int i = 0; i < 4; i++){
+        if (level == 0){
+            for (int i = 0; i < 6; i++){
                 int x = ThreadLocalRandom.current().nextInt(1, 30);
                 int y = ThreadLocalRandom.current().nextInt(1, 22);
-                enemies.add(new Enemy(x*40, y*40, "wolf.png", tileSize, maps, projectiles));
+                enemies.add(new Enemy(x*40, y*40, "wolf.png", tileSize, maps, projectiles, 0));
             }
-        } else if (level == 2){
-            for (int i = 0; i < 5; i++) {
+        } else if (level == 1){
+            for (int i = 0; i < 10; i++) {
                 int x = ThreadLocalRandom.current().nextInt(1, 30);
                 int y = ThreadLocalRandom.current().nextInt(1, 22);
-                enemies.add(new Enemy(x * 40, y * 40, "wolf.png", tileSize*2, maps, projectiles));
+                enemies.add(new Enemy(x * 40, y * 40, "wolf.png", tileSize*2, maps, projectiles,1));
+            }
+        } else{
+            for (int i = 0; i < 6; i++) {
+                int x = ThreadLocalRandom.current().nextInt(1, 30);
+                int y = ThreadLocalRandom.current().nextInt(1, 22);
+                enemies.add(new Enemy(x * 40, y * 40, "wolf.png", tileSize * 2, maps, projectiles, 2));
             }
         }
         return enemies;
@@ -52,7 +63,15 @@ public class EnemyHandler {
     public void move(){
         for (int i = 0; i < currentEnemies.size(); i++) {
             Enemy enemy = currentEnemies.get(i);
-            enemy.randomMovement();
+            if (enemy.getLevel() == 0){
+                enemy.move();
+            }
+            else if (enemy.getLevel() == 1){
+                enemy.randomMovement();
+            }
+            else {
+                enemy.losTracking(player);
+            }
         }
     }
 

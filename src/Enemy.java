@@ -17,8 +17,9 @@ public class Enemy extends Being {
     private Boolean isAlive = true;
     private MapHandler maps;
     private int timeLeft;
+    private int level;
 
-    public Enemy(int xPos, int yPos, String image, int tile, MapHandler maps, ProjectileHandler ph) {
+    public Enemy(int xPos, int yPos, String image, int tile, MapHandler maps, ProjectileHandler ph, int level) {
         super(xPos, yPos, image, ph);
         this.tileSize = tile;
         this.maps = maps;
@@ -27,6 +28,11 @@ public class Enemy extends Being {
         dx = tileSize / 2;
         rx = tileSize / 2;
         timeLeft = 0;
+        this.level=level;
+    }
+
+    public int getLevel() {
+        return level;
     }
 
     public Direction getDir() {
@@ -72,7 +78,7 @@ public class Enemy extends Being {
         int currentX = getX();
         int currentY = getY();
 
-        int countDown = ThreadLocalRandom.current().nextInt(40, 50);
+        int countDown = 50;
         int randX = ThreadLocalRandom.current().nextInt(-2, 2);
         int randY = ThreadLocalRandom.current().nextInt(-1, 1);
 
@@ -91,4 +97,25 @@ public class Enemy extends Being {
 
     }
 
+    //line of sight tracking movement
+    public void losTracking(Protagonist player) {
+        int currentX = getX();
+        int currentY = getY();
+
+        int playerX = player.getX();
+        int playerY = player.getY();
+
+        int distX = playerX - currentX;
+        int distY = playerY - currentY;
+
+        int scale = Math.max(Math.abs(distX), Math.abs(distY));
+
+        int dx = (distX / scale);
+        int dy = (distY / scale);
+
+        if (!checkCollision(maps.getCurrentObstacles())) {
+            setX(currentX + dx);
+            setY(currentY + dy);
+        }
+    }
 }
