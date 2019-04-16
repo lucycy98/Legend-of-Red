@@ -18,8 +18,9 @@ public class Enemy extends Being {
     private MapHandler maps;
     private int timeLeft;
     private int level;
+    public boolean canRangeAttack;
 
-    public Enemy(int xPos, int yPos, int width, int height, String image, int tile, MapHandler maps, ProjectileHandler ph, int level) {
+    public Enemy(int xPos, int yPos, int width, int height, String image, int tile, MapHandler maps, ProjectileHandler ph, int level, boolean canRangeAttack) {
         super(xPos, yPos, width, height, image, ph);
         this.tileSize = tile;
         this.maps = maps;
@@ -29,6 +30,7 @@ public class Enemy extends Being {
         rx = tileSize / 2;
         timeLeft = 0;
         this.level=level;
+        this.canRangeAttack = canRangeAttack;
     }
 
     public int getLevel() {
@@ -114,13 +116,15 @@ public class Enemy extends Being {
         int dy;
 
         if (scale != 0){
-             dx = (distX / scale);
-             dy = (distY / scale);
+            dx = (distX / scale);
+            dy = (distY / scale);
         }
         else{
             dx = 0;
             dy = 0;
         }
+        System.out.println(dx);
+        System.out.println(dy);
 
         if (!checkCollision(maps.getCurrentObstacles())) {
             setX(currentX + dx);

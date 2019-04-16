@@ -17,6 +17,7 @@ public class EnemyHandler {
     private Dagger dagger;
     protected Protagonist player;
 
+
     public EnemyHandler(int tileSize, MapHandler maps, ProjectileHandler ph) {
         enemies = new HashMap<>();
         this.maps = maps;
@@ -27,79 +28,89 @@ public class EnemyHandler {
         enemies.put(initialLevel, currentEnemies);
     }
 
-    public void addPlayer(Protagonist player){
-        this.player=player;
+    public void addPlayer(Protagonist player) {
+        this.player = player;
     }
-
-    public ArrayList<Enemy> createEnemies(int level){
+//    public void addWeapon(){
+//    }
+    public ArrayList<Enemy> createEnemies(int level) {
         ArrayList<Enemy> enemies = new ArrayList<>();
-        if (level == 0){
-            for (int i = 0; i < 6; i++){
-                int x = ThreadLocalRandom.current().nextInt(1, 30);
-                int y = ThreadLocalRandom.current().nextInt(1, 22);
-                enemies.add(new Enemy(x*40, y*40, 40, 40, "wolf.png", tileSize, maps, projectiles, 0));
-            }
-        } else if (level == 1){
+        if (level == 0) {
             for (int i = 0; i < 10; i++) {
                 int x = ThreadLocalRandom.current().nextInt(1, 30);
                 int y = ThreadLocalRandom.current().nextInt(1, 22);
-                enemies.add(new Enemy(x * 40, y * 40, 40, 40,"wolf.png", tileSize*2, maps, projectiles,1));
+                enemies.add(new Enemy(x * 40, y * 40, 40, 40, "wolf.png", tileSize, maps, projectiles, 0, false));
             }
-        } else if (level == 2){
-            for (int i = 0; i < 6; i++) {
+        } else if (level == 1) {
+            for (int i = 0; i < 10; i++) {
                 int x = ThreadLocalRandom.current().nextInt(1, 30);
                 int y = ThreadLocalRandom.current().nextInt(1, 22);
-                enemies.add(new Enemy(x * 40, y * 40, 40, 40,"wolf.png", tileSize * 2, maps, projectiles, 2));
+                enemies.add(new Enemy(x * 40, y * 40, 40, 40, "wolf.png", tileSize * 2, maps, projectiles, 1, false));
+            }
+        } else if (level == 2) {
+            for (int i = 0; i < 5; i++) {
+                int x = ThreadLocalRandom.current().nextInt(1, 30);
+                int y = ThreadLocalRandom.current().nextInt(1, 22);
+                enemies.add(new Enemy(x * 40, y * 40, 40, 40, "wolf.png", tileSize * 2, maps, projectiles, 2, false));
             }
         } else {
             int x = ThreadLocalRandom.current().nextInt(1, 30);
             int y = ThreadLocalRandom.current().nextInt(1, 22);
-            enemies.add(new Enemy(x * 40, y * 40, 120, 120, "wolf.png", tileSize * 2, maps, projectiles, 3));
-            }
+            enemies.add(new Enemy(x * 40, y * 40, 120, 120, "wolf.png", tileSize * 2, maps, projectiles, 3, true));
+        }
         return enemies;
     }
 
-    public void setNextLevel(){
+    public void setNextLevel() {
         currentEnemies = createEnemies(maps.getCurrentLevel());
         enemies.put(maps.getCurrentLevel(), currentEnemies);
     }
 
-    public void move(){
+    public void move() {
         for (int i = 0; i < currentEnemies.size(); i++) {
             Enemy enemy = currentEnemies.get(i);
-            if (enemy.getLevel() == 0){
-                enemy.move();
-            }
-            else if (enemy.getLevel() == 1){
-                enemy.randomMovement();
-            }
-            else {
-                enemy.losTracking(player);
+            if (!player.checkEnemy(enemy)) {
+                if (enemy.getLevel() == 0) {
+                    enemy.move();
+                } else if (enemy.getLevel() == 1) {
+                    enemy.randomMovement();
+                } else {
+                    enemy.losTracking(player);
+                }
             }
         }
     }
 
-    public void paint(Graphics2D win){
+//    public void attack(){
+//        for (int i = 0; i < currentEnemies.size(); i++) {
+//            Enemy enemy = currentEnemies.get(i);
+//            if (enemy.canRangeAttack) {
+//
+//            }
+//        }
+//    }
+
+    public void paint(Graphics2D win) {
         move();
-        for (Enemy enemy : currentEnemies){
+        for (Enemy enemy : currentEnemies) {
             enemy.paint(win);
         }
     }
 
-    public void damageEnemy(Enemy enemy){
+    public void damageEnemy(Enemy enemy) {
         enemy.damageHealth();
-        if(!enemy.getIsAlive()){
+        if (!enemy.getIsAlive()) {
             //dead
             currentEnemies.remove(enemy); //todo update the hashmap!!!
         }
 
     }
 
-    public ArrayList<Enemy> getCurrentEnemies(){
+    public ArrayList<Enemy> getCurrentEnemies() {
         return currentEnemies;
     }
 
-    public ArrayList<Enemy> getEnemies(int level){
+    public ArrayList<Enemy> getEnemies(int level) {
         return enemies.get(level);
     }
 

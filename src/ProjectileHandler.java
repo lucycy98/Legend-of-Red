@@ -7,6 +7,7 @@ public class ProjectileHandler implements Weapon {
 
     private final MapHandler maps;
     private ArrayList<Projectile> projectiles;
+    private ArrayList<Projectile> enemyProjectiles;
     private Protagonist player;
     Timer velocity_timer;
     private int projectileSpeed = 4;
@@ -17,6 +18,7 @@ public class ProjectileHandler implements Weapon {
         this.maps = maps;
         this.player = player;
         projectiles = new ArrayList<>();
+        enemyProjectiles = new ArrayList<>();
         this.enemies = enemies;
         this.velocity_timer = new Timer(1000/300, (new ActionListener() {
             @Override
@@ -36,6 +38,10 @@ public class ProjectileHandler implements Weapon {
                 projectiles.remove(proj);
             }
         }
+        for (int i = 0; i < enemyProjectiles.size(); i++) {
+            Projectile eproj = enemyProjectiles.get(i);
+            eproj.move();
+        }
     }
 
     @Override
@@ -47,21 +53,50 @@ public class ProjectileHandler implements Weapon {
         projectiles.add(projectile);
     }
 
-//    public void bossAttack() {
-//        Enemy boss = enemies.getCurrentEnemies().get(0);
-//        int playerX = player.getX();
-//        int playerY = player.getY();
-//
-//        int bossX = boss.getX();
-//        int bossY = boss.getY();
-////        Projectile projectile = new Projectile(dir, xPos, yPos, projectileSpeed, maps);
-////        projectiles.add(projectile);
-//    }
+    @Override
+    public void enemyRangeAttack(Enemy enemy) {
+        int distX = player.getX() - enemy.getX();
+        int distY = player.getY() - enemy.getY();
+        Direction dir =  null;
+//        double angle = Math.atan2((double)dy, (double)dx);
+        int scale = Math.max(Math.abs(distX), Math.abs(distY));
+
+        int dx;
+        int dy;
+
+        if (scale != 0){
+            dx = (distX / scale);
+            dy = (distY / scale);
+        }
+        else{
+            dx = 0;
+            dy = 0;
+        }
+
+        if (dx == 1 & dy == 0){
+            dir = Direction.EAST;
+        } else if (dx == 0 & dy == -1){
+            dir = Direction.NORTH;
+        } else if (dx == -1 & dy == 0){
+            dir = Direction.WEST;
+        } else if (dx == 0 & dy == 1){
+            dir = Direction.SOUTH;
+        }
+
+        if (dir != null){
+            Projectile projectile = new Projectile(dir, enemy.getX(), enemy.getY(), projectileSpeed, maps);
+            enemyProjectiles.add(projectile);
+        }
+
+    }
 
     @Override
     public void paint(Graphics2D g) {
         for (Projectile proj : projectiles){
             proj.paint(g);
+        }
+        for (Projectile eproj : enemyProjectiles){
+            eproj.paint(g);
         }
     }
 

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 /**
  * keep incrementing x, y until key release OR another arrow is pressed.
  */
-public class Protagonist extends Being{
+public class Protagonist extends Being {
 
     private EnemyHandler enemies;
     // co-ordinates of player
@@ -22,12 +22,14 @@ public class Protagonist extends Being{
     Boolean pressDown = false;
     Boolean pressLeft = false;
     Boolean pressRight = false;
+    int health;
 
     public Protagonist(int xPos, int yPos, int width, int height, String image, int tile, MapHandler maps, ProjectileHandler ph, EnemyHandler enemies) {
         super(xPos, yPos, width, height, image, ph);
         this.tileSize = tile;
         this.maps = maps;
         this.enemies = enemies;
+        health = 100;
     }
 
     public void checkPortal() {
@@ -59,6 +61,18 @@ public class Protagonist extends Being{
         setY(currentY + dy);
         checkCollision(maps.getCurrentObstacles());
         checkPortal();
+    }
+
+    public boolean checkEnemy(Enemy enemy) {
+        Rectangle playerRec = this.getBounds();
+        Rectangle obstacleRec = enemy.getBounds();
+
+        if (playerRec.intersects(obstacleRec)) {
+            health -= 10;
+            System.out.println(health);
+            return true;
+        }
+        return false;
     }
 
     public void face() {
@@ -115,7 +129,7 @@ public class Protagonist extends Being{
         }
     }
 
-    public void damageHealth(){
+    public void damageHealth() {
         System.out.println("bullet hit player");
     }
 
