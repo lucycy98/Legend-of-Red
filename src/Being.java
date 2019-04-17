@@ -14,6 +14,14 @@ public class Being extends TileShape {
         this.projectileHandler = ph;
     }
 
+    public double getDistance(Being otherBeing){
+        int dx = this.getX() - otherBeing.getX();
+        int dy = this.getY() - otherBeing.getY();
+
+        double distance = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
+        return distance;
+    }
+
     public boolean checkCollision(ArrayList<TileShape> obstacles) {
 
         Rectangle playerRec = this.getBounds();

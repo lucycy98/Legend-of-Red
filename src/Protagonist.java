@@ -69,7 +69,6 @@ public class Protagonist extends Being {
 
         if (playerRec.intersects(obstacleRec)) {
             health -= 10;
-            System.out.println(health);
             return true;
         }
         return false;

@@ -119,7 +119,7 @@ public class ProjectileHandler implements Weapon {
                         enemies.damageEnemy(es.get(j));
                     } else { //todo CUPIDS BOW
 
-
+                        es.get(j).becomeFriendly();
 
 
                     }

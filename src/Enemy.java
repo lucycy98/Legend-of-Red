@@ -19,6 +19,7 @@ public class Enemy extends Being {
     private int timeLeft;
     private int level;
     public boolean canRangeAttack;
+    public boolean friendly;
 
     public Enemy(int xPos, int yPos, int width, int height, String image, int tile, MapHandler maps, ProjectileHandler ph, int level, boolean canRangeAttack) {
         super(xPos, yPos, width, height, image, ph);
@@ -31,6 +32,7 @@ public class Enemy extends Being {
         timeLeft = 0;
         this.level=level;
         this.canRangeAttack = canRangeAttack;
+        friendly = false;
     }
 
     public int getLevel() {
@@ -58,6 +60,10 @@ public class Enemy extends Being {
 
     public Boolean getIsAlive(){
         return isAlive;
+    }
+
+    public void becomeFriendly(){
+        friendly = true;
     }
 
 
@@ -100,12 +106,9 @@ public class Enemy extends Being {
     }
 
     //line of sight tracking movement
-    public void losTracking(Protagonist player) {
+    public void losTracking(int playerX, int playerY) {
         int currentX = getX();
         int currentY = getY();
-
-        int playerX = player.getX();
-        int playerY = player.getY();
 
         int distX = playerX - currentX;
         int distY = playerY - currentY;
@@ -123,8 +126,6 @@ public class Enemy extends Being {
             dx = 0;
             dy = 0;
         }
-        System.out.println(dx);
-        System.out.println(dy);
 
         if (!checkCollision(maps.getCurrentObstacles())) {
             setX(currentX + dx);

@@ -34,7 +34,7 @@ public class EnemyHandler {
         this.player = player;
     }
 
-    public void addWeaponHandler(WeaponHandler weapon){
+    public void addWeaponHandler(WeaponHandler weapon) {
         item.addWeaponHandler(weapon);
     }
 //    public void addWeapon(){
@@ -42,9 +42,9 @@ public class EnemyHandler {
 
     public ArrayList<Enemy> createEnemies(int level) {
         ArrayList<Enemy> enemies = new ArrayList<>();
-        int[] enemiesPerLevel = {10,10,5,1};
+        int[] enemiesPerLevel = {10, 10, 5, 1};
 
-        if (level < 3){
+        if (level < 3) {
             for (int i = 0; i < enemiesPerLevel[level]; i++) {
                 int x = ThreadLocalRandom.current().nextInt(1, 30);
                 int y = ThreadLocalRandom.current().nextInt(1, 22);
@@ -65,16 +65,38 @@ public class EnemyHandler {
         enemies.put(maps.getCurrentLevel(), currentEnemies);
     }
 
+    public Enemy findClosestEnemy(Being subject, ArrayList<Enemy> enemies){
+        double shortestDistance = 999;
+        Enemy closestEnemy = enemies.get(0);
+        for (Enemy enemy : enemies){
+            double dist = Math.abs(subject.getDistance(enemy));
+            shortestDistance = (dist < shortestDistance & dist != 0) ? dist : shortestDistance;
+            closestEnemy = enemy;
+        }
+        return closestEnemy;
+    }
+
     public void move() {
         for (int i = 0; i < currentEnemies.size(); i++) {
             Enemy enemy = currentEnemies.get(i);
             if (!player.checkEnemy(enemy)) {
-                if (enemy.getLevel() == 0) {
-                    enemy.move();
-                } else if (enemy.getLevel() == 1) {
-                    enemy.randomMovement();
-                } else {
-                    enemy.losTracking(player);
+
+                if (enemy.friendly){
+                    Enemy closest = findClosestEnemy(enemy, currentEnemies);
+                    enemy.losTracking(closest.getX(), closest.getY());
+                    if (enemy.getBounds().intersects(closest.getBounds())){
+                        enemy.damageHealth();
+                        closest.damageHealth();
+                    }
+                }
+                else {
+                    if (enemy.getLevel() == 0) {
+                        enemy.move();
+                    } else if (enemy.getLevel() == 1) {
+                        enemy.randomMovement();
+                    } else {
+                        enemy.losTracking(player.getX(), player.getY());
+                    }
                 }
             }
         }
