@@ -73,6 +73,9 @@ public class WeaponHandler {
 
     public void attack(){
         currentWeapon.attack();
+        if (currentWeapon.getItems() == Items.CUPIDBOW){
+            removeWeapon(Items.CUPIDBOW);
+        }
     }
 
     public void enemyAttack(){

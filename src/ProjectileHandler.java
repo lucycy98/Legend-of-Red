@@ -108,8 +108,7 @@ public class ProjectileHandler implements Weapon {
 
     @Override
     public void checkCollision() {
-        for (int i = 0; i < projectiles.size(); i++){
-            Projectile projectile = projectiles.get(i);
+        for (Projectile projectile : projectiles){
             Rectangle projRec = projectile.getBounds();
             ArrayList<Enemy> es = enemies.getCurrentEnemies();
             for (int j = 0; j < es.size(); j++){
@@ -117,17 +116,35 @@ public class ProjectileHandler implements Weapon {
                 if (projRec.intersects(enemyRec)) {
                     if (item == Items.PROJECTILE){
                         enemies.damageEnemy(es.get(j));
-                    } else { //todo CUPIDS BOW
-
+                    } else {
                         es.get(j).becomeFriendly();
-
-
                     }
                     projectile.setIsRenderable(false);
-                    projectiles.remove(i);
+                    projectiles.remove(projectile);
+                    return;
                 }
             }
         }
     }
+
+//    @Override
+//    public void checkCollision() {
+//        for (Projectile projectile : projectiles){
+//            Rectangle projRec = projectile.getBounds();
+//            ArrayList<Enemy> currentEnemies = enemies.getCurrentEnemies();
+//            for (Enemy enemy : currentEnemies){
+//                Rectangle enemyRec = enemy.getBounds();
+//                if (projRec.intersects(enemyRec)) {
+//                    if (item == Items.PROJECTILE){
+//                        enemies.damageEnemy(enemy);
+//                    } else {
+//                        enemy.becomeFriendly();
+//                    }
+//                    projectile.setIsRenderable(false);
+//                    projectiles.remove(projectile);
+//                }
+//            }
+//        }
+//    }
 
 }
