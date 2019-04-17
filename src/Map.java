@@ -4,28 +4,32 @@ import java.util.Random;
 
 public class Map {
 
-    TileShape[][] _map = new TileShape[32][24];
+    int xTiles = 17;
+    int yTiles = 12;
+    TileShape[][] _map = new TileShape[xTiles][yTiles];
     ArrayList<TileShape> _obstacles = new ArrayList<TileShape>();
     ArrayList<TileShape> _portals = new ArrayList<TileShape>();
-    int tileSize = 40;
+    int tileSize = 60;
+
+
 
     public Map(int num_obs) {
-        for (int i = 0; i < 32; i++) {
-            for (int j = 0; j < 24; j++) {
-                if (i == 0 | i == 31 | j == 0 | j == 23) {
-                    TileShape tile = new TileShape(i * tileSize, j * tileSize, 40, 40, "tree.png", true);
+        for (int i = 0; i < xTiles; i++) {
+            for (int j = 0; j < yTiles; j++) {
+                if (i == 0 | i == xTiles -1 | j == 0 | j == yTiles-1) {
+                    TileShape tile = new TileShape(i * tileSize, j * tileSize, tileSize, tileSize, "tree.png", true);
                     _obstacles.add(tile);
                     _map[i][j] = tile;
                 } else {
-                    _map[i][j] = new TileShape(i * tileSize, j * tileSize, 40, 40, "grass.jpg", true);
+                    _map[i][j] = new TileShape(i * tileSize, j * tileSize, tileSize, tileSize, "grass.jpg", true);
                 }
             }
         }
 
         for (int k = 0; k < num_obs; k++) {
-            int x = new Random().nextInt(32);
-            int y = new Random().nextInt(24);
-            TileShape tile = new TileShape(x * tileSize, y * tileSize, 40, 40, "tree.png", true);
+            int x = new Random().nextInt(xTiles);
+            int y = new Random().nextInt(yTiles);
+            TileShape tile = new TileShape(x * tileSize, y * tileSize, tileSize, tileSize, "tree.png", true);
             _obstacles.add(tile);
             _map[x][y] = tile;
         }
@@ -33,14 +37,14 @@ public class Map {
 
     public void addPortal(){
         System.out.println("portal added");
-        TileShape portal = new TileShape(30 * tileSize, 11 * tileSize, 40, 40, "portal.jpg", true);
+        TileShape portal = new TileShape((xTiles - 2) * tileSize,yTiles/2 * tileSize, tileSize, tileSize, "portal.jpg", true);
         _portals.add(portal);
-        _map[30][11] = portal;
+        _map[xTiles-2][yTiles/2] = portal;
     }
 
     public void paint(Graphics g) {
-        for (int i = 0; i < 32; i++) {
-            for (int j = 0; j < 24; j++) {
+        for (int i = 0; i < xTiles; i++) {
+            for (int j = 0; j < yTiles; j++) {
                 _map[i][j].renderShape(g);
             }
         }

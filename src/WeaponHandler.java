@@ -14,13 +14,13 @@ public class WeaponHandler {
     Timer velocity_timer;
     EnemyHandler enemies;
     Protagonist player;
-    //private Weapon current;
+
 
     // Constructor initialises array of bullets
     public WeaponHandler(MapHandler maps, ProjectileHandler projectiles, Protagonist player, EnemyHandler enemies) {
         this.maps = maps;
         availableWeapons = new ArrayList<>();
-        Weapon dagger = new Dagger(player, 40, 40, "dagger.jpg", false, enemies);
+        Weapon dagger = new Dagger(player, 60, 60, "dagger.jpg", false, enemies);
         availableWeapons.add(dagger);
         currentWeapon = dagger;
         //otherWeapon = new ProjectileHandler(maps, player, enemies);

@@ -22,13 +22,13 @@ public class Enemy extends Being {
     public boolean friendly;
 
     public Enemy(int xPos, int yPos, int width, int height, String image, int tile, MapHandler maps, ProjectileHandler ph, int level, boolean canRangeAttack) {
-        super(xPos, yPos, width, height, image, ph);
+        super(xPos, yPos, width, height, 6, image, ph);
         this.tileSize = tile;
         this.maps = maps;
-        dy = tileSize / 4;
-        ry = tileSize / 4;
-        dx = tileSize / 2;
-        rx = tileSize / 2;
+        dy = tileSize / 8;
+        ry = tileSize / 8;
+        dx = tileSize / 6;
+        rx = tileSize / 6;
         timeLeft = 0;
         this.level=level;
         this.canRangeAttack = canRangeAttack;
@@ -65,7 +65,6 @@ public class Enemy extends Being {
     public void becomeFriendly(){
         friendly = true;
     }
-
 
     public void move() {
         int currentX = getX();

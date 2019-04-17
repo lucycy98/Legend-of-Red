@@ -7,6 +7,8 @@ public class MapHandler {
 
     HashMap<Integer, Map> maps;
     private int currentLevel;
+    int xTiles = 17;
+    int yTiles = 12;
 
     // Constructor initialises array of bullets
     public MapHandler() {
@@ -21,6 +23,14 @@ public class MapHandler {
     public int setNextLevel(){
         currentLevel++;
         return currentLevel;
+    }
+
+    public int getxTiles(){
+        return xTiles;
+    }
+
+    public int getyTiles(){
+        return yTiles;
     }
 
     public void addPortal(){ //when key is found

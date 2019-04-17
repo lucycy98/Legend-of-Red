@@ -8,10 +8,12 @@ public class Being extends TileShape {
 
     private ProjectileHandler  projectileHandler;
     private Dagger dagger;
+    private int speed;
 
-    public Being(int xPos, int yPos, int width, int height, String image, ProjectileHandler ph) {
+    public Being(int xPos, int yPos, int width, int height, int speed, String image, ProjectileHandler ph) {
         super(xPos, yPos, width, height, image, true);
         this.projectileHandler = ph;
+        this.speed = speed;
     }
 
     public double getDistance(Being otherBeing){
@@ -31,19 +33,19 @@ public class Being extends TileShape {
 
             if (playerRec.intersects(obstacleRec)) {
 
-                if (this.getX() - 6 < obstacle.getX() - this.getWidth()) {//intersects left
+                if (this.getX() - speed - 2 < obstacle.getX() - this.getWidth()) {//intersects left
                     this.setX(obstacle.getX() - this.getWidth());
                 }
 
-                if (this.getX() + 6 > obstacle.getX() + obstacle.getWidth()) { //intersects right
+                if (this.getX() + speed + 2 > obstacle.getX() + obstacle.getWidth()) { //intersects right
                     this.setX(obstacle.getX() + obstacle.getWidth());
                 }
 
-                if (this.getY() - 6 < obstacle.getY() - this.getHeight()) { //intersect bottom
+                if (this.getY() - speed - 2 < obstacle.getY() - this.getHeight()) { //intersect bottom
                     this.setY(obstacle.getY() - this.getHeight());
                 }
 
-                if (this.getY() + 6 > obstacle.getY() + obstacle.getHeight()) { //intersects top
+                if (this.getY() + speed + 2 > obstacle.getY() + obstacle.getHeight()) { //intersects top
                     this.setY(obstacle.getY() + obstacle.getHeight());
                 }
 

@@ -23,9 +23,10 @@ public class Protagonist extends Being {
     Boolean pressLeft = false;
     Boolean pressRight = false;
     int health;
+    int speed = 6;
 
     public Protagonist(int xPos, int yPos, int width, int height, String image, int tile, MapHandler maps, ProjectileHandler ph, EnemyHandler enemies) {
-        super(xPos, yPos, width, height, image, ph);
+        super(xPos, yPos, width, height, 6, image, ph);
         this.tileSize = tile;
         this.maps = maps;
         this.enemies = enemies;
@@ -110,9 +111,9 @@ public class Protagonist extends Being {
         if (pressUp && pressDown) {
             dy = 0;
         } else if (pressUp) {
-            dy = -tileSize;
+            dy = -speed;
         } else if (pressDown) {
-            dy = tileSize;
+            dy = speed;
         } else {
             dy = 0;
         }
@@ -120,9 +121,9 @@ public class Protagonist extends Being {
         if (pressRight && pressLeft) {
             dx = 0;
         } else if (pressLeft) {
-            dx = -tileSize;
+            dx = -speed;
         } else if (pressRight) {
-            dx = tileSize;
+            dx = speed;
         } else {
             dx = 0;
         }

@@ -9,7 +9,8 @@ public class GamePanel extends JPanel implements KeyListener {
     JPanel panel = this;
     ProjectileHandler projectiles;
     Protagonist player;
-    int tileSize = 4;
+    int speed = 8;
+    int tileSize = 60;
     EnemyHandler enemies;
     MapHandler maps;
     WeaponHandler weapons;
@@ -20,8 +21,8 @@ public class GamePanel extends JPanel implements KeyListener {
         maps = new MapHandler();
         //projectiles = new ProjectileHandler(maps);
         //pickup = new PickUpItemHandler(maps);
-        enemies = new EnemyHandler(4, maps, projectiles);
-        player = new Protagonist(40, 40, 40, 40, "player.jpg", tileSize, maps, projectiles, enemies);
+        enemies = new EnemyHandler(tileSize, maps, projectiles);
+        player = new Protagonist(tileSize, tileSize, tileSize, tileSize, "player.jpg", tileSize, maps, projectiles, enemies);
         enemies.addPlayer(player);
         //pickup.addPlayer(player);
         weapons = new WeaponHandler(maps, projectiles, player, enemies);
@@ -46,21 +47,20 @@ public class GamePanel extends JPanel implements KeyListener {
 
     public static void main(String[] args) {
 
-        JFrame mainFrame = new JFrame("Game 1.1");
-        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainFrame.setBounds(10, 10, 1280, 960);
-        mainFrame.setLayout(new BorderLayout());
+        JFrame gameWindow = new JFrame("Game 1.1");
+        gameWindow.setSize(1030, 790);
+        //mainFrame.setLayout(new BorderLayout());
+        gameWindow.setVisible(true);
+        gameWindow.setResizable(false);
+        gameWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        JPanel mainPanel = new JPanel();
-        mainPanel.setBackground(Color.WHITE);
+        GamePanel playScreen;
+        playScreen = new GamePanel();
+        playScreen.setBackground(Color.WHITE);
+        gameWindow.add(playScreen);
+        gameWindow.validate();
+        playScreen.requestFocus();
 
-        GamePanel paintPanel = new GamePanel();
-
-        mainFrame.add(mainPanel, BorderLayout.PAGE_START);
-        mainFrame.add(paintPanel, BorderLayout.CENTER);
-        mainFrame.setResizable(true);
-
-        mainFrame.setVisible(true);
     }
 
     @Override

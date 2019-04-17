@@ -39,7 +39,7 @@ public class TileShape {
                 image = "cupid.png";
                 break;
             case WOLFSKIN:
-                image = "cloack.png";
+                image = "cloak.png";
                 break;
             default:
                 image = "key.png";
