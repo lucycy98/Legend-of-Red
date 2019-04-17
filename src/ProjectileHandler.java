@@ -115,11 +115,19 @@ public class ProjectileHandler implements Weapon {
             for (int j = 0; j < es.size(); j++){
                 Rectangle enemyRec = es.get(j).getBounds();
                 if (projRec.intersects(enemyRec)) {
-                    enemies.damageEnemy(es.get(j));
+                    if (item == Items.PROJECTILE){
+                        enemies.damageEnemy(es.get(j));
+                    } else { //todo CUPIDS BOW
+
+
+
+
+                    }
                     projectile.setIsRenderable(false);
                     projectiles.remove(i);
                 }
             }
         }
     }
+
 }
