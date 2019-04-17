@@ -14,11 +14,12 @@ public class EnemyHandler {
     private ArrayList<Enemy> currentEnemies;
     private int tileSize;
     private MapHandler maps;
-    private Dagger dagger;
     protected Protagonist player;
+    private PickUpItemHandler item;
 
 
     public EnemyHandler(int tileSize, MapHandler maps, ProjectileHandler ph) {
+        item = new PickUpItemHandler(maps);
         enemies = new HashMap<>();
         this.maps = maps;
         this.projectiles = ph;
@@ -29,35 +30,29 @@ public class EnemyHandler {
     }
 
     public void addPlayer(Protagonist player) {
+        item.player = player;
         this.player = player;
     }
 //    public void addWeapon(){
 //    }
+
     public ArrayList<Enemy> createEnemies(int level) {
         ArrayList<Enemy> enemies = new ArrayList<>();
-        if (level == 0) {
-            for (int i = 0; i < 10; i++) {
+        int[] enemiesPerLevel = {10,10,5,1};
+
+        if (level < 3){
+            for (int i = 0; i < enemiesPerLevel[level]; i++) {
                 int x = ThreadLocalRandom.current().nextInt(1, 30);
                 int y = ThreadLocalRandom.current().nextInt(1, 22);
-                enemies.add(new Enemy(x * 40, y * 40, 40, 40, "wolf.png", tileSize, maps, projectiles, 0, false));
+                enemies.add(new Enemy(x * 40, y * 40, 40, 40, "wolf.png", tileSize, maps, projectiles, level, false));
             }
-        } else if (level == 1) {
-            for (int i = 0; i < 10; i++) {
-                int x = ThreadLocalRandom.current().nextInt(1, 30);
-                int y = ThreadLocalRandom.current().nextInt(1, 22);
-                enemies.add(new Enemy(x * 40, y * 40, 40, 40, "wolf.png", tileSize * 2, maps, projectiles, 1, false));
-            }
-        } else if (level == 2) {
-            for (int i = 0; i < 5; i++) {
-                int x = ThreadLocalRandom.current().nextInt(1, 30);
-                int y = ThreadLocalRandom.current().nextInt(1, 22);
-                enemies.add(new Enemy(x * 40, y * 40, 40, 40, "wolf.png", tileSize * 2, maps, projectiles, 2, false));
-            }
-        } else {
+        } else { //boss level
             int x = ThreadLocalRandom.current().nextInt(1, 30);
             int y = ThreadLocalRandom.current().nextInt(1, 22);
-            enemies.add(new Enemy(x * 40, y * 40, 120, 120, "wolf.png", tileSize * 2, maps, projectiles, 3, true));
+            enemies.add(new Enemy(x * 40, y * 40, 120, 120, "wolf.png", tileSize * 2, maps, projectiles, level, true));
         }
+        System.out.println("level created " + level);
+        item.addNumberOfEnemies(level, enemiesPerLevel[level]);
         return enemies;
     }
 
@@ -95,15 +90,16 @@ public class EnemyHandler {
         for (Enemy enemy : currentEnemies) {
             enemy.paint(win);
         }
+        item.paint(win);
     }
 
     public void damageEnemy(Enemy enemy) {
         enemy.damageHealth();
         if (!enemy.getIsAlive()) {
-            //dead
-            currentEnemies.remove(enemy); //todo update the hashmap!!!
+            System.out.println("damage enemy");
+            item.addEnemiesKilled(enemy.getLevel(), enemy.getX(), enemy.getY());
+            currentEnemies.remove(enemy); //todo update the hashmap
         }
-
     }
 
     public ArrayList<Enemy> getCurrentEnemies() {

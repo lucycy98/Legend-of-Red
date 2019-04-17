@@ -13,16 +13,18 @@ public class GamePanel extends JPanel implements KeyListener {
     EnemyHandler enemies;
     MapHandler maps;
     WeaponHandler weapons;
+    //PickUpItemHandler pickup;
 
     // gameScreen Constructor
     public GamePanel() {
         maps = new MapHandler();
         //projectiles = new ProjectileHandler(maps);
+        //pickup = new PickUpItemHandler(maps);
         enemies = new EnemyHandler(4, maps, projectiles);
         player = new Protagonist(40, 40, 40, 40, "player.jpg", tileSize, maps, projectiles, enemies);
         enemies.addPlayer(player);
+        //pickup.addPlayer(player);
         weapons = new WeaponHandler(maps, projectiles, player, enemies);
-        //dagger = new Dagger(player, 40, 40, "dagger.jpg", false);
         this.addKeyListener(this);
         this.setFocusable(true);
         this.requestFocus();
@@ -37,6 +39,7 @@ public class GamePanel extends JPanel implements KeyListener {
         player.paint(window);
         enemies.paint(window);
         weapons.paint(window);
+        //pickup.paint(window);
         repaint();
     }
 

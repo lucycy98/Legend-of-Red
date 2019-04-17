@@ -29,7 +29,10 @@ public class Map {
             _obstacles.add(tile);
             _map[x][y] = tile;
         }
+    }
 
+    public void addPortal(){
+        System.out.println("portal added");
         TileShape portal = new TileShape(30 * tileSize, 11 * tileSize, 40, 40, "portal.jpg", true);
         _portals.add(portal);
         _map[30][11] = portal;

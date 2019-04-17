@@ -7,7 +7,6 @@ import java.util.ArrayList;
 public class WeaponHandler {
 
     private final MapHandler maps;
-    private ProjectileHandler projectiles;
     private Weapon currentWeapon;
     private Weapon otherWeapon;
     private Weapon bossWeapon;
@@ -17,7 +16,6 @@ public class WeaponHandler {
     // Constructor initialises array of bullets
     public WeaponHandler(MapHandler maps, ProjectileHandler projectiles, Protagonist player, EnemyHandler enemies) {
         this.maps = maps;
-        this.projectiles = projectiles;
         currentWeapon = new Dagger(player, 40, 40, "dagger.jpg", false, enemies);
         otherWeapon = new ProjectileHandler(maps, player, enemies);
         bossWeapon = new ProjectileHandler(maps, player, enemies);
@@ -40,8 +38,8 @@ public class WeaponHandler {
 
     public void attack(){
         currentWeapon.attack();
-
     }
+
     public void enemyAttack(){
         for (int i = 0; i < enemies.getCurrentEnemies().size(); i++) {
             Enemy enemy = enemies.getCurrentEnemies().get(i);

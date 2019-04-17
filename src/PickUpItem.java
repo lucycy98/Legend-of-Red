@@ -1,18 +1,36 @@
 import java.awt.*;
-import java.util.ArrayList;
 
-/**
- * this class represents a tile shape with an image e.g hedge, enemy etc
- */
-public class PickUpItem extends TileShape {
+public class PickUpItem extends TileShape{
 
-    private EnemyHandler enemies;
-    private ProjectileHandler projectileHandler;
+    private Protagonist player;
+    int x;
+    int y;
+    Items item;
+    MapHandler map;
 
-    public PickUpItem(int xPos, int yPos, String image, EnemyHandler enemies) {
-        super(xPos, yPos, 40, 40, image, true);
-        this.enemies = enemies;
+    public PickUpItem(Protagonist player, int x, int y, Items item, MapHandler map) {
+        super(x,y, 40, 40, item,true);
+        this.player = player;
+        this.item = item;
+        this.map = map;
     }
+
+    public void collectItem(){
+        switch(item){
+            case KEY:
+                map.addPortal();
+                break;
+            default:
+        }
+        setIsRenderable(false);
+    }
+
+    public void paint(Graphics2D win){
+        this.renderShape(win);
+    }
+
+
+
 
 
 }

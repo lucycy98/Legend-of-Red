@@ -23,6 +23,10 @@ public class MapHandler {
         return currentLevel;
     }
 
+    public void addPortal(){ //when key is found
+        maps.get(currentLevel).addPortal();
+    }
+
     public int getCurrentLevel(){
         return currentLevel;
     }

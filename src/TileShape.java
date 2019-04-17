@@ -21,6 +21,32 @@ public class TileShape {
         tileImg = ImageHandler.getImage(img);
     }
 
+    public TileShape(int x, int y, int width, int height, Items item, Boolean r){
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.isRenderable = r;
+        String image;
+        switch (item){
+            case KEY:
+                image = "key.png";
+                break;
+            case PROJECTILE:
+                image = "bow.png";
+                break;
+            case CUPIDBOW:
+                image = "cupid.png";
+                break;
+            case WOLFSKIN:
+                image = "cloack.png";
+                break;
+            default:
+                image = "key.png";
+        }
+        tileImg = ImageHandler.getImage(image);
+    }
+
     public Rectangle getBounds() {
         return new Rectangle(x, y, width, height);
     }
