@@ -25,6 +25,7 @@ public class GamePanel extends JPanel implements KeyListener {
         enemies.addPlayer(player);
         //pickup.addPlayer(player);
         weapons = new WeaponHandler(maps, projectiles, player, enemies);
+        enemies.addWeaponHandler(weapons);
         this.addKeyListener(this);
         this.setFocusable(true);
         this.requestFocus();

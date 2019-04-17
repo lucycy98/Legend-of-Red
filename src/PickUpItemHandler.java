@@ -19,6 +19,7 @@ public class PickUpItemHandler {
     private ArrayList<Items> levelPickUps = new ArrayList<>(Arrays.asList(Items.PROJECTILE, Items.CUPIDBOW, Items.WOLFSKIN, Items.HEALTH));
     private int currentPickUps;
     private HashMap<Integer, ArrayList> pickupIndices = new HashMap<>();
+    private WeaponHandler weapon;
 
     Protagonist player;
 
@@ -35,6 +36,10 @@ public class PickUpItemHandler {
             }
         }));
         velocity_timer.start();
+    }
+
+    public void addWeaponHandler(WeaponHandler weapon){
+        this.weapon = weapon;
     }
 
     /**
@@ -119,7 +124,12 @@ public class PickUpItemHandler {
     }
 
     private void createItem(int x, int y, Items item){
-        PickUpItem pickup = new PickUpItem(player, x, y, item, maps);
+        PickUpItem pickup;
+        if (weapon == null) {
+            pickup = new PickUpItem(player, x, y, item, maps);
+        } else {
+            pickup = new PickUpItem(player, x, y, item, maps, weapon);
+        }
         itemsList.add(pickup);
     }
 

@@ -10,6 +10,7 @@ public class Dagger extends TileShape implements Weapon {
     private Direction direction;
     private Protagonist player;
     private EnemyHandler enemies;
+    private Items item = Items.DAGGER;
 
     public Dagger (Protagonist player, int x, int y, String img, Boolean r, EnemyHandler enemies) {
         super(x,y, 40, 40, img,false);
@@ -19,6 +20,11 @@ public class Dagger extends TileShape implements Weapon {
 
     public Rectangle getBounds() {
         return new Rectangle(currentXPos, currentYPos, 40, 40);
+    }
+
+    @Override
+    public Items getItems(){
+        return item;
     }
 
     @Override

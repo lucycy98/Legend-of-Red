@@ -33,6 +33,10 @@ public class EnemyHandler {
         item.player = player;
         this.player = player;
     }
+
+    public void addWeaponHandler(WeaponHandler weapon){
+        item.addWeaponHandler(weapon);
+    }
 //    public void addWeapon(){
 //    }
 

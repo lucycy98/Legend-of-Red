@@ -12,9 +12,11 @@ public class ProjectileHandler implements Weapon {
     Timer velocity_timer;
     private int projectileSpeed = 4;
     private EnemyHandler enemies;
+    private Items item;
 
     // Constructor initialises array of bullets
-    public ProjectileHandler(MapHandler maps, Protagonist player, EnemyHandler enemies) {
+    public ProjectileHandler(MapHandler maps, Protagonist player, EnemyHandler enemies, Items item) {
+        this.item = item;
         this.maps = maps;
         this.player = player;
         projectiles = new ArrayList<>();
@@ -27,6 +29,11 @@ public class ProjectileHandler implements Weapon {
             }
         }));
         velocity_timer.start();
+    }
+
+    @Override
+    public Items getItems(){
+        return item;
     }
 
     public void move(){
@@ -87,7 +94,6 @@ public class ProjectileHandler implements Weapon {
             Projectile projectile = new Projectile(dir, enemy.getX(), enemy.getY(), projectileSpeed, maps);
             enemyProjectiles.add(projectile);
         }
-
     }
 
     @Override
@@ -102,14 +108,16 @@ public class ProjectileHandler implements Weapon {
 
     @Override
     public void checkCollision() {
-        for (Projectile projectile: projectiles){
+        for (int i = 0; i < projectiles.size(); i++){
+            Projectile projectile = projectiles.get(i);
             Rectangle projRec = projectile.getBounds();
             ArrayList<Enemy> es = enemies.getCurrentEnemies();
-            for (int i = 0; i < es.size(); i++){
-
-                Rectangle enemyRec = es.get(i).getBounds();
+            for (int j = 0; j < es.size(); j++){
+                Rectangle enemyRec = es.get(j).getBounds();
                 if (projRec.intersects(enemyRec)) {
-                    enemies.damageEnemy(es.get(i));
+                    enemies.damageEnemy(es.get(j));
+                    projectile.setIsRenderable(false);
+                    projectiles.remove(i);
                 }
             }
         }

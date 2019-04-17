@@ -10,16 +10,23 @@ public class WeaponHandler {
     private Weapon currentWeapon;
     private Weapon otherWeapon;
     private Weapon bossWeapon;
+    private ArrayList<Weapon> availableWeapons;
     Timer velocity_timer;
     EnemyHandler enemies;
+    Protagonist player;
+    //private Weapon current;
 
     // Constructor initialises array of bullets
     public WeaponHandler(MapHandler maps, ProjectileHandler projectiles, Protagonist player, EnemyHandler enemies) {
         this.maps = maps;
-        currentWeapon = new Dagger(player, 40, 40, "dagger.jpg", false, enemies);
-        otherWeapon = new ProjectileHandler(maps, player, enemies);
-        bossWeapon = new ProjectileHandler(maps, player, enemies);
+        availableWeapons = new ArrayList<>();
+        Weapon dagger = new Dagger(player, 40, 40, "dagger.jpg", false, enemies);
+        availableWeapons.add(dagger);
+        currentWeapon = dagger;
+        //otherWeapon = new ProjectileHandler(maps, player, enemies);
+        bossWeapon = new ProjectileHandler(maps, player, enemies, Items.PROJECTILE);
         this.enemies = enemies;
+        this.player = player;
 
         this.velocity_timer = new Timer(1000/300, (new ActionListener() {
             @Override
@@ -28,6 +35,34 @@ public class WeaponHandler {
             }
         }));
         velocity_timer.start();
+    }
+
+    public void addWeapon(Items item){
+        Weapon weapon;
+        switch(item){
+            case PROJECTILE:
+                weapon = new ProjectileHandler(maps, player, enemies, Items.PROJECTILE);
+                break;
+            case CUPIDBOW:
+                weapon = new ProjectileHandler(maps, player, enemies, Items.CUPIDBOW);
+                break;
+                default:
+                    weapon = null;
+        }
+        if (weapon != null){
+            availableWeapons.add(weapon);
+        }
+    }
+
+    public void removeWeapon(Items items){
+        for (int i = 0; i < availableWeapons.size(); i++){
+            Weapon weapon = availableWeapons.get(i);
+            Items currentItem = weapon.getItems();
+            if (currentItem == items){
+                availableWeapons.remove(i);
+                weapon = null; //get rid of it
+            }
+        }
     }
 
     public void paint(Graphics2D win){
@@ -54,9 +89,13 @@ public class WeaponHandler {
     }
 
     public void changeWeapon(){
-        Weapon temp = currentWeapon;
-        currentWeapon = otherWeapon;
-        otherWeapon = temp;
+        int index = availableWeapons.indexOf(currentWeapon);
+
+        if (index + 1 < availableWeapons.size()){
+            currentWeapon = availableWeapons.get(index + 1);
+        } else {
+            currentWeapon = availableWeapons.get(0);
+        }
     }
 
 }
