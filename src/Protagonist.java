@@ -25,6 +25,7 @@ public class Protagonist extends Being {
     int health;
     int speed = 1;
     int buffer = 50;
+    boolean beingAttacked;
 
 
     public Protagonist(int xPos, int yPos, int width, int height, String image, int tile, MapHandler maps, ProjectileHandler ph, EnemyHandler enemies) {
@@ -32,7 +33,8 @@ public class Protagonist extends Being {
         this.tileSize = tile;
         this.maps = maps;
         this.enemies = enemies;
-        health = 100;
+        health = 99;
+        beingAttacked = false;
     }
 
     public void checkPortal() {
@@ -41,7 +43,7 @@ public class Protagonist extends Being {
             Rectangle portalRec = portal.getBounds();
             if (playerRec.intersects(portalRec)) {
                 maps.setNextLevel();
-                enemies.setNextLevel();
+                enemies.setEnemy();
                 this.setX(tileSize + buffer);
                 this.setY(tileSize + buffer);
             }
@@ -50,14 +52,14 @@ public class Protagonist extends Being {
             Rectangle portalRec = portal.getBounds();
             if (playerRec.intersects(portalRec)) {
                 maps.setPreviousLevel();
-                enemies.setPreviousLevel();
+                enemies.setEnemy();
                 this.setX(tileSize + buffer);
                 this.setY(tileSize + buffer);
             }
         }
     }
 
-    public int getHealth(){
+    public int getHealth() {
         return health;
     }
 
@@ -84,8 +86,13 @@ public class Protagonist extends Being {
         Rectangle obstacleRec = enemy.getBounds();
 
         if (playerRec.intersects(obstacleRec)) {
-            health -= 10;
+            if (!enemy.attackStatus) {
+                health -= 10;
+                enemy.attackStatus = true;
+            }
             return true;
+        } else {
+            enemy.attackStatus = false;
         }
         return false;
     }

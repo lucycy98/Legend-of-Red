@@ -24,9 +24,12 @@ public class EnemyHandler {
         this.maps = maps;
         this.projectiles = ph;
         this.tileSize = tileSize;
-        int initialLevel = 0;
-        this.currentEnemies = createEnemies(initialLevel);
-        enemies.put(initialLevel, currentEnemies);
+
+        for (int i = 0; i < 4; i++) {
+            ArrayList<Enemy> enemy = createEnemies(i);
+            enemies.put(i, enemy);
+        }
+        this.currentEnemies = enemies.get(maps.getCurrentLevel());
     }
 
     public void addPlayer(Protagonist player) {
@@ -68,12 +71,7 @@ public class EnemyHandler {
         return enemies;
     }
 
-    public void setNextLevel() {
-        currentEnemies = createEnemies(maps.getCurrentLevel());
-        enemies.put(maps.getCurrentLevel(), currentEnemies);
-    }
-
-    public void setPreviousLevel() {
+    public void setEnemy() {
         currentEnemies = enemies.get(maps.getCurrentLevel());
     }
 

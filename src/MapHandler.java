@@ -15,7 +15,7 @@ public class MapHandler {
         maps = new HashMap<>();
         for (int i = 0; i < 3; i++) {
             Map map = new Map(20);
-            if (i!=0){
+            if (i != 0) {
                 map.addBackwardsPortal();
             }
             maps.put(i, map);

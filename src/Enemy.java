@@ -20,6 +20,7 @@ public class Enemy extends Being {
     private int level;
     public boolean canRangeAttack;
     public boolean friendly;
+    public boolean attackStatus;
 
     public Enemy(int xPos, int yPos, int width, int height, String image, int tile, MapHandler maps, ProjectileHandler ph, int level, boolean canRangeAttack) {
         super(xPos, yPos, width, height, 1, image, ph);
@@ -33,6 +34,7 @@ public class Enemy extends Being {
         this.level = level;
         this.canRangeAttack = canRangeAttack;
         friendly = false;
+        attackStatus = false;
     }
 
     public int getLevel() {

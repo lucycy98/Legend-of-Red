@@ -12,8 +12,8 @@ public class Dagger extends TileShape implements Weapon {
     private EnemyHandler enemies;
     private Items item = Items.DAGGER;
 
-    public Dagger (Protagonist player, int x, int y, String img, Boolean r, EnemyHandler enemies) {
-        super(x,y, 60, 60, img,false);
+    public Dagger(Protagonist player, int x, int y, String img, Boolean r, EnemyHandler enemies) {
+        super(x, y, 60, 60, img, false);
         this.player = player;
         this.enemies = enemies;
     }
@@ -23,7 +23,7 @@ public class Dagger extends TileShape implements Weapon {
     }
 
     @Override
-    public Items getItems(){
+    public Items getItems() {
         return item;
     }
 
@@ -44,12 +44,12 @@ public class Dagger extends TileShape implements Weapon {
     }
 
     @Override
-    public void enemyRangeAttack(Enemy enemy){
+    public void enemyRangeAttack(Enemy enemy) {
 
     }
 
     @Override
-    public void paint(Graphics2D win){
+    public void paint(Graphics2D win) {
         this.renderShape(win);
         showDagger();
     }
@@ -68,11 +68,11 @@ public class Dagger extends TileShape implements Weapon {
         }
     }
 
-    private void showDagger(){
+    private void showDagger() {
         direction = player.getDir();
         int xPos = player.getX();
         int yPos = player.getY();
-        switch(direction){
+        switch (direction) {
             case NORTH:
                 this.changeImage("daggerNorth.png");
                 currentXPos = xPos;
