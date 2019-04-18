@@ -14,14 +14,25 @@ public class MapHandler {
     public MapHandler() {
         maps = new HashMap<>();
         for (int i = 0; i < 3; i++) {
-            maps.put(i, new Map(50));
+            Map map = new Map(20);
+            if (i!=0){
+                map.addBackwardsPortal();
+            }
+            maps.put(i, map);
         }
-        maps.put(3, new Map(0));
+        Map map = new Map(0);
+        map.addBackwardsPortal();
+        maps.put(3, map);
         currentLevel = 0;
     }
 
     public int setNextLevel() {
         currentLevel++;
+        return currentLevel;
+    }
+
+    public int setPreviousLevel() {
+        currentLevel--;
         return currentLevel;
     }
 
@@ -34,7 +45,7 @@ public class MapHandler {
     }
 
     public void addPortal() { //when key is found
-        maps.get(currentLevel).addPortal();
+        maps.get(currentLevel).addForwardsPortal();
     }
 
     public int getCurrentLevel() {
@@ -45,8 +56,12 @@ public class MapHandler {
         return maps.get(currentLevel).getObstacles();
     }
 
-    public ArrayList<TileShape> getCurrentPortal() {
-        return maps.get(currentLevel).getPortals();
+    public ArrayList<TileShape> getCurrentForwardPortal() {
+        return maps.get(currentLevel).getForwardPortals();
+    }
+
+    public ArrayList<TileShape> getCurrentBackwardPortal() {
+        return maps.get(currentLevel).getBackwardPortals();
     }
 
     public void paint(Graphics win) {

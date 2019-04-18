@@ -1,6 +1,6 @@
 import java.awt.*;
 
-public class PickUpItem extends TileShape{
+public class PickUpItem extends TileShape {
 
     private Protagonist player;
     int x;
@@ -10,7 +10,7 @@ public class PickUpItem extends TileShape{
     private WeaponHandler weapon;
 
     public PickUpItem(Protagonist player, int x, int y, Items item, MapHandler map, WeaponHandler weapon) {
-        super(x,y, 40, 40, item,true);
+        super(x, y, 40, 40, item, true);
         this.player = player;
         this.item = item;
         this.map = map;
@@ -18,14 +18,14 @@ public class PickUpItem extends TileShape{
     }
 
     public PickUpItem(Protagonist player, int x, int y, Items item, MapHandler map) {
-        super(x,y, 40, 40, item,true);
+        super(x, y, 40, 40, item, true);
         this.player = player;
         this.item = item;
         this.map = map;
     }
 
-    public void collectItem(){
-        switch(item){
+    public void collectItem() {
+        switch (item) {
             case KEY:
                 map.addPortal();
                 break;
@@ -42,7 +42,7 @@ public class PickUpItem extends TileShape{
         setIsRenderable(false);
     }
 
-    public void paint(Graphics2D win){
+    public void paint(Graphics2D win) {
         this.renderShape(win);
     }
 

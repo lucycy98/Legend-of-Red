@@ -37,8 +37,6 @@ public class EnemyHandler {
     public void addWeaponHandler(WeaponHandler weapon) {
         item.addWeaponHandler(weapon);
     }
-//    public void addWeapon(){
-//    }
 
     public ArrayList<Enemy> createEnemies(int level) {
         ArrayList<Enemy> enemies = new ArrayList<>();
@@ -73,6 +71,10 @@ public class EnemyHandler {
     public void setNextLevel() {
         currentEnemies = createEnemies(maps.getCurrentLevel());
         enemies.put(maps.getCurrentLevel(), currentEnemies);
+    }
+
+    public void setPreviousLevel() {
+        currentEnemies = enemies.get(maps.getCurrentLevel());
     }
 
     public Enemy findClosestEnemy(Being subject, ArrayList<Enemy> enemies) {

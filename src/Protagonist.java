@@ -37,13 +37,22 @@ public class Protagonist extends Being {
 
     public void checkPortal() {
         Rectangle playerRec = this.getBounds();
-        for (TileShape portal : maps.getCurrentPortal()) {
+        for (TileShape portal : maps.getCurrentForwardPortal()) {
             Rectangle portalRec = portal.getBounds();
             if (playerRec.intersects(portalRec)) {
                 maps.setNextLevel();
                 enemies.setNextLevel();
-                this.setX(40);
-                this.setY(40 + buffer);
+                this.setX(tileSize + buffer);
+                this.setY(tileSize + buffer);
+            }
+        }
+        for (TileShape portal : maps.getCurrentBackwardPortal()) {
+            Rectangle portalRec = portal.getBounds();
+            if (playerRec.intersects(portalRec)) {
+                maps.setPreviousLevel();
+                enemies.setPreviousLevel();
+                this.setX(tileSize + buffer);
+                this.setY(tileSize + buffer);
             }
         }
     }

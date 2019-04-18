@@ -7,10 +7,10 @@ public class Map {
     int xTiles = 17;
     int yTiles = 12;
     TileShape[][] _map = new TileShape[xTiles][yTiles];
-    //    TileShape[][] _grass = new TileShape[xTiles][yTiles];
-    ArrayList<TileShape> _grass = new ArrayList<TileShape>();
-    ArrayList<TileShape> _obstacles = new ArrayList<TileShape>();
-    ArrayList<TileShape> _portals = new ArrayList<TileShape>();
+    ArrayList<TileShape> _grass = new ArrayList<>();
+    ArrayList<TileShape> _obstacles = new ArrayList<>();
+    ArrayList<TileShape> _bportals = new ArrayList<>();
+    ArrayList<TileShape> _fportals = new ArrayList<>();
     int tileSize = 60;
 
 
@@ -22,11 +22,9 @@ public class Map {
                     _obstacles.add(tree);
                     _map[i][j] = tree;
                 }
-//                else{
                 TileShape grass = new TileShape(i * tileSize, j * tileSize, tileSize, tileSize, "grass.jpg", true);
                 _grass.add(grass);
                 _map[i][j] = grass;
-//                }
 
             }
         }
@@ -40,28 +38,34 @@ public class Map {
             } else {
                 k--;
             }
-//            _map[x][y] = tile;
         }
     }
 
-    public void addPortal() {
-        System.out.println("portal added");
+    public void addForwardsPortal() {
+        System.out.println("forwards portal added");
         TileShape portal = new TileShape((xTiles - 2) * tileSize, yTiles / 2 * tileSize, tileSize, tileSize, "portal.png", true);
-        _portals.add(portal);
-//        _map[xTiles-2][yTiles/2] = portal;
+        _fportals.add(portal);
+    }
+
+    public void addBackwardsPortal() {
+        System.out.println("backwards portal added");
+        TileShape portal = new TileShape(tileSize, yTiles / 2 * tileSize, tileSize, tileSize, "portal.png", true);
+        _bportals.add(portal);
     }
 
     public void paint(Graphics g) {
         for (int i = 0; i < xTiles; i++) {
             for (int j = 0; j < yTiles; j++) {
                 _map[i][j].renderShape(g);
-//                _grass[i][j].renderShape(g);
             }
         }
         for (TileShape obs : _obstacles) {
             obs.renderShape(g);
         }
-        for (TileShape portal : _portals) {
+        for (TileShape portal : _fportals) {
+            portal.renderShape(g);
+        }
+        for (TileShape portal : _bportals) {
             portal.renderShape(g);
         }
 
@@ -75,7 +79,11 @@ public class Map {
         this._obstacles = _obstacles;
     }
 
-    public ArrayList<TileShape> getPortals() {
-        return _portals;
+    public ArrayList<TileShape> getForwardPortals() {
+        return _fportals;
+    }
+
+    public ArrayList<TileShape> getBackwardPortals() {
+        return _bportals;
     }
 }
