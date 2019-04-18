@@ -46,14 +46,24 @@ public class EnemyHandler {
 
         if (level < 3) {
             for (int i = 0; i < enemiesPerLevel[level]; i++) {
-                int x = ThreadLocalRandom.current().nextInt(1, maps.getxTiles()-1);
-                int y = ThreadLocalRandom.current().nextInt(1, maps.getyTiles()-1);
-                enemies.add(new Enemy(x * tileSize, y * tileSize, tileSize, tileSize, "wolf.png", tileSize, maps, projectiles, level, false));
+                int x = ThreadLocalRandom.current().nextInt(1, maps.getxTiles() - 1);
+                int y = ThreadLocalRandom.current().nextInt(1, maps.getyTiles() - 1);
+                boolean overlap = false;
+                for (TileShape obs : maps.maps.get(level).getObstacles()) {
+                    if (obs.getX() / tileSize == x && obs.getY() / tileSize == y) {
+                        overlap = true;
+                    }
+                }
+                if (!overlap) {
+                    enemies.add(new Enemy(x * tileSize, y * tileSize, tileSize, tileSize, "wolf.png", tileSize, maps, projectiles, level, false));
+                } else {
+                    i--;
+                }
             }
         } else { //boss level
-            int x = ThreadLocalRandom.current().nextInt(1, maps.getxTiles()-1);
-            int y = ThreadLocalRandom.current().nextInt(1, maps.getyTiles()-1);
-            enemies.add(new Enemy(x * tileSize, y * tileSize, tileSize*2, tileSize*2, "wolf.png", tileSize * 2, maps, projectiles, level, true));
+            int x = ThreadLocalRandom.current().nextInt(1, maps.getxTiles() - 1);
+            int y = ThreadLocalRandom.current().nextInt(1, maps.getyTiles() - 1);
+            enemies.add(new Enemy(x * tileSize, y * tileSize, tileSize * 2, tileSize * 2, "wolf.png", tileSize * 2, maps, projectiles, level, true));
         }
         System.out.println("level created " + level);
         item.addNumberOfEnemies(level, enemiesPerLevel[level]);
@@ -65,10 +75,10 @@ public class EnemyHandler {
         enemies.put(maps.getCurrentLevel(), currentEnemies);
     }
 
-    public Enemy findClosestEnemy(Being subject, ArrayList<Enemy> enemies){
+    public Enemy findClosestEnemy(Being subject, ArrayList<Enemy> enemies) {
         double shortestDistance = 999;
         Enemy closestEnemy = enemies.get(0);
-        for (Enemy enemy : enemies){
+        for (Enemy enemy : enemies) {
             double dist = Math.abs(subject.getDistance(enemy));
             shortestDistance = (dist < shortestDistance & dist != 0) ? dist : shortestDistance;
             closestEnemy = enemy;
@@ -81,15 +91,14 @@ public class EnemyHandler {
             Enemy enemy = currentEnemies.get(i);
             if (!player.checkEnemy(enemy)) {
 
-                if (enemy.friendly){
+                if (enemy.friendly) {
                     Enemy closest = findClosestEnemy(enemy, currentEnemies);
                     enemy.losTracking(closest.getX(), closest.getY());
-                    if (enemy.getBounds().intersects(closest.getBounds())){
+                    if (enemy.getBounds().intersects(closest.getBounds())) {
                         enemy.damageHealth();
                         closest.damageHealth();
                     }
-                }
-                else {
+                } else {
                     if (enemy.getLevel() == 0) {
                         enemy.move();
                     } else if (enemy.getLevel() == 1) {

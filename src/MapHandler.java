@@ -13,35 +13,35 @@ public class MapHandler {
     // Constructor initialises array of bullets
     public MapHandler() {
         maps = new HashMap<>();
-        for (int i = 0; i < 3; i++){
-            maps.put(i, new Map(20));
+        for (int i = 0; i < 3; i++) {
+            maps.put(i, new Map(50));
         }
         maps.put(3, new Map(0));
         currentLevel = 0;
     }
 
-    public int setNextLevel(){
+    public int setNextLevel() {
         currentLevel++;
         return currentLevel;
     }
 
-    public int getxTiles(){
+    public int getxTiles() {
         return xTiles;
     }
 
-    public int getyTiles(){
+    public int getyTiles() {
         return yTiles;
     }
 
-    public void addPortal(){ //when key is found
+    public void addPortal() { //when key is found
         maps.get(currentLevel).addPortal();
     }
 
-    public int getCurrentLevel(){
+    public int getCurrentLevel() {
         return currentLevel;
     }
 
-    public ArrayList<TileShape> getCurrentObstacles(){
+    public ArrayList<TileShape> getCurrentObstacles() {
         return maps.get(currentLevel).getObstacles();
     }
 
@@ -49,7 +49,7 @@ public class MapHandler {
         return maps.get(currentLevel).getPortals();
     }
 
-    public void paint(Graphics win){
+    public void paint(Graphics win) {
         maps.get(currentLevel).paint(win);
     }
 }

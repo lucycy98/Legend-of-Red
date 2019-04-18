@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+
 public class ProjectileHandler implements Weapon {
 
     private final MapHandler maps;
@@ -22,7 +23,7 @@ public class ProjectileHandler implements Weapon {
         projectiles = new ArrayList<>();
         enemyProjectiles = new ArrayList<>();
         this.enemies = enemies;
-        this.velocity_timer = new Timer(1000/300, (new ActionListener() {
+        this.velocity_timer = new Timer(1000 / 300, (new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 move();
@@ -32,15 +33,15 @@ public class ProjectileHandler implements Weapon {
     }
 
     @Override
-    public Items getItems(){
+    public Items getItems() {
         return item;
     }
 
-    public void move(){
+    public void move() {
         for (int i = 0; i < projectiles.size(); i++) {
             Projectile proj = projectiles.get(i);
             proj.move();
-            if (proj.checkCollision()){
+            if (proj.checkCollision()) {
                 proj.setIsRenderable(false);
                 projectiles.remove(proj);
             }
@@ -59,29 +60,34 @@ public class ProjectileHandler implements Weapon {
         String image;
         int w;
         int h;
-        switch(dir){
+        switch (dir) {
             case NORTH:
                 image = "arrowNorth.png";
-                w = 20; h = 50;
+                w = 20;
+                h = 50;
                 break;
             case SOUTH:
                 image = "arrowSouth.png";
-                w = 20; h = 50;
+                w = 20;
+                h = 50;
                 break;
             case EAST:
                 image = "arrowEast.png";
-                w = 50; h = 20;
+                w = 50;
+                h = 20;
                 break;
             case WEST:
                 image = "arrowWest.png";
-                w = 50; h = 20;
+                w = 50;
+                h = 20;
                 break;
             default:
                 image = "arrowNorth.png";
-                w = 20; h = 50;
+                w = 20;
+                h = 50;
         }
         //Projectile projectile = new Projectile(dir, xPos, yPos, projectileSpeed, maps);
-        Projectile projectile = new Projectile( dir,xPos,yPos, projectileSpeed,maps, image, w, h);
+        Projectile projectile = new Projectile(dir, xPos, yPos, projectileSpeed, maps, image, w, h);
         projectiles.add(projectile);
     }
 
@@ -89,33 +95,32 @@ public class ProjectileHandler implements Weapon {
     public void enemyRangeAttack(Enemy enemy) {
         int distX = player.getX() - enemy.getX();
         int distY = player.getY() - enemy.getY();
-        Direction dir =  null;
+        Direction dir = null;
 //        double angle = Math.atan2((double)dy, (double)dx);
         int scale = Math.max(Math.abs(distX), Math.abs(distY));
 
         int dx;
         int dy;
 
-        if (scale != 0){
+        if (scale != 0) {
             dx = (distX / scale);
             dy = (distY / scale);
-        }
-        else{
+        } else {
             dx = 0;
             dy = 0;
         }
 
-        if (dx == 1 & dy == 0){
+        if (dx == 1 & dy == 0) {
             dir = Direction.EAST;
-        } else if (dx == 0 & dy == -1){
+        } else if (dx == 0 & dy == -1) {
             dir = Direction.NORTH;
-        } else if (dx == -1 & dy == 0){
+        } else if (dx == -1 & dy == 0) {
             dir = Direction.WEST;
-        } else if (dx == 0 & dy == 1){
+        } else if (dx == 0 & dy == 1) {
             dir = Direction.SOUTH;
         }
 
-        if (dir != null){
+        if (dir != null) {
             Projectile projectile = new Projectile(dir, enemy.getX(), enemy.getY(), projectileSpeed, maps);
             enemyProjectiles.add(projectile);
         }
@@ -123,24 +128,24 @@ public class ProjectileHandler implements Weapon {
 
     @Override
     public void paint(Graphics2D g) {
-        for (Projectile proj : projectiles){
+        for (Projectile proj : projectiles) {
             proj.paint(g);
         }
-        for (Projectile eproj : enemyProjectiles){
+        for (Projectile eproj : enemyProjectiles) {
             eproj.paint(g);
         }
     }
 
     @Override
     public void checkCollision() {
-        for (int i = 0; i < projectiles.size(); i++){
+        for (int i = 0; i < projectiles.size(); i++) {
             Projectile projectile = projectiles.get(i);
             Rectangle projRec = projectile.getBounds();
             ArrayList<Enemy> es = enemies.getCurrentEnemies();
-            for (int j = 0; j < es.size(); j++){
+            for (int j = 0; j < es.size(); j++) {
                 Rectangle enemyRec = es.get(j).getBounds();
                 if (projRec.intersects(enemyRec)) {
-                    if (item == Items.PROJECTILE){
+                    if (item == Items.PROJECTILE) {
                         enemies.damageEnemy(es.get(j));
                     } else {
                         es.get(j).becomeFriendly();

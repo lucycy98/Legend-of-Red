@@ -6,7 +6,7 @@ import java.util.ArrayList;
  */
 public class Being extends TileShape {
 
-    private ProjectileHandler  projectileHandler;
+    private ProjectileHandler projectileHandler;
     private int speed;
 
     public Being(int xPos, int yPos, int width, int height, int speed, String image, ProjectileHandler ph) {
@@ -15,7 +15,7 @@ public class Being extends TileShape {
         this.speed = speed;
     }
 
-    public double getDistance(Being otherBeing){
+    public double getDistance(Being otherBeing) {
         int dx = this.getX() - otherBeing.getX();
         int dy = this.getY() - otherBeing.getY();
 
@@ -25,6 +25,7 @@ public class Being extends TileShape {
 
     /**
      * checks collision and doesnt allow moving into the obstacle.
+     *
      * @param obstacles
      */
     public boolean checkCollision(ArrayList<TileShape> obstacles) {
@@ -36,19 +37,19 @@ public class Being extends TileShape {
 
             if (playerRec.intersects(obstacleRec)) {
 
-                if (this.getX() - 6 < obstacle.getX() - this.getWidth()) {//intersects left
+                if (this.getX() - 10 < obstacle.getX() - this.getWidth()) {//intersects left
                     this.setX(obstacle.getX() - this.getWidth());
                 }
 
-                if (this.getX() + 6 > obstacle.getX() + obstacle.getWidth()) { //intersects right
+                if (this.getX() + 10 > obstacle.getX() + obstacle.getWidth()) { //intersects right
                     this.setX(obstacle.getX() + obstacle.getWidth());
                 }
 
-                if (this.getY() - 6 < obstacle.getY() - this.getHeight()) { //intersect bottom
+                if (this.getY() - 10 < obstacle.getY() - this.getHeight()) { //intersect bottom
                     this.setY(obstacle.getY() - this.getHeight());
                 }
 
-                if (this.getY() + 6 > obstacle.getY() + obstacle.getHeight()) { //intersects top
+                if (this.getY() + 10 > obstacle.getY() + obstacle.getHeight()) { //intersects top
                     this.setY(obstacle.getY() + obstacle.getHeight());
                 }
 

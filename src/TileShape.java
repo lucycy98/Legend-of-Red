@@ -13,7 +13,7 @@ public class TileShape {
     private Boolean isRenderable;
     int buffer = 50;
 
-    public TileShape(){
+    public TileShape() {
 
     }
 
@@ -26,14 +26,14 @@ public class TileShape {
         tileImg = ImageHandler.getImage(img);
     }
 
-    public TileShape(int x, int y, int width, int height, Items item, Boolean r){
+    public TileShape(int x, int y, int width, int height, Items item, Boolean r) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         this.isRenderable = r;
         String image;
-        switch (item){
+        switch (item) {
             case KEY:
                 image = "key.png";
                 break;
@@ -56,7 +56,7 @@ public class TileShape {
         return new Rectangle(x, y, width, height);
     }
 
-    public void changeImage(String img){
+    public void changeImage(String img) {
         tileImg = ImageHandler.getImage(img);
     }
 

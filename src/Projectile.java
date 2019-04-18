@@ -21,7 +21,7 @@ public class Projectile extends TileShape {
     }
 
     public Projectile(Direction dir, int xPos, int yPos, int tileSize, MapHandler maps, String image, int w, int h) {
-        super(xPos,yPos, w, h, image,true);
+        super(xPos, yPos, w, h, image, true);
         setVelocity(dir, tileSize);
         direction = dir;
         currentXPos = xPos;
@@ -83,8 +83,8 @@ public class Projectile extends TileShape {
         }
 
         if (isImage) {
-            this.setX(this.getX()+dx);
-            this.setY(this.getY()+dy);
+            this.setX(this.getX() + dx);
+            this.setY(this.getY() + dy);
         } else {
             currentXPos += dx;
             currentYPos += dy;
@@ -94,7 +94,7 @@ public class Projectile extends TileShape {
 
     public boolean checkCollision() {
         Rectangle bulletRec = this.getBounds();
-        for (TileShape obstacle : maps.getCurrentObstacles()){
+        for (TileShape obstacle : maps.getCurrentObstacles()) {
             Rectangle obstacleRec = obstacle.getBounds();
             if (bulletRec.intersects(obstacleRec)) {
                 return true;
@@ -103,7 +103,7 @@ public class Projectile extends TileShape {
         return false;
     }
 
-    public void setIsRenderable(Boolean bool){
+    public void setIsRenderable(Boolean bool) {
         isRenderable = bool;
     }
 

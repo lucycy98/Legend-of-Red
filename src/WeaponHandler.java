@@ -33,7 +33,7 @@ public class WeaponHandler {
         this.enemies = enemies;
         this.player = player;
 
-        this.velocity_timer = new Timer(1000/300, (new ActionListener() {
+        this.velocity_timer = new Timer(1000 / 300, (new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 checkCollision();
@@ -42,49 +42,49 @@ public class WeaponHandler {
         velocity_timer.start();
     }
 
-    public void addWeapon(Items item){
+    public void addWeapon(Items item) {
         Weapon weapon;
-        switch(item){
+        switch (item) {
             case PROJECTILE:
                 weapon = new ProjectileHandler(maps, player, enemies, Items.PROJECTILE);
                 break;
             case CUPIDBOW:
                 weapon = new ProjectileHandler(maps, player, enemies, Items.CUPIDBOW);
                 break;
-                default:
-                    weapon = null;
+            default:
+                weapon = null;
         }
-        if (weapon != null){
+        if (weapon != null) {
             availableWeapons.add(weapon);
         }
     }
 
-    public void removeWeapon(Items items){
-        for (int i = 0; i < availableWeapons.size(); i++){
+    public void removeWeapon(Items items) {
+        for (int i = 0; i < availableWeapons.size(); i++) {
             Weapon weapon = availableWeapons.get(i);
             Items currentItem = weapon.getItems();
-            if (currentItem == items){
+            if (currentItem == items) {
                 availableWeapons.remove(i);
                 weapon = null; //get rid of it
             }
         }
     }
 
-    public void paint(Graphics2D win){
+    public void paint(Graphics2D win) {
         enemyAttack();
         currentWeapon.paint(win);
         bossWeapon.paint(win);
         icons.get(currentItem).renderShape(win);
     }
 
-    public void attack(){
+    public void attack() {
         currentWeapon.attack();
-        if (currentWeapon.getItems() == Items.CUPIDBOW){
+        if (currentWeapon.getItems() == Items.CUPIDBOW) {
             removeWeapon(Items.CUPIDBOW);
         }
     }
 
-    public void enemyAttack(){
+    public void enemyAttack() {
         for (int i = 0; i < enemies.getCurrentEnemies().size(); i++) {
             Enemy enemy = enemies.getCurrentEnemies().get(i);
             if (enemy.canRangeAttack) {
@@ -93,15 +93,15 @@ public class WeaponHandler {
         }
     }
 
-    public void checkCollision(){
+    public void checkCollision() {
         currentWeapon.checkCollision();
     }
 
-    public void changeWeapon(){
+    public void changeWeapon() {
         int index = availableWeapons.indexOf(currentWeapon);
         icons.get(currentWeapon.getItems()).setIsRenderable(false);
 
-        if (index + 1 < availableWeapons.size()){
+        if (index + 1 < availableWeapons.size()) {
             currentWeapon = availableWeapons.get(index + 1);
         } else {
             currentWeapon = availableWeapons.get(0);
@@ -110,11 +110,11 @@ public class WeaponHandler {
         currentItem = currentWeapon.getItems();
     }
 
-    public Items getCurrentWeapon(){
+    public Items getCurrentWeapon() {
         return currentItem;
     }
 
-    public void createImages(int x, int y, int width, int height){
+    public void createImages(int x, int y, int width, int height) {
         icons = new HashMap<>();
         icons.put(Items.DAGGER, new TileShape(x, y, width, height, "daggerNorth.png", true));
         icons.put(Items.PROJECTILE, new TileShape(x, y, width, height, "arrowNorth.png", false));

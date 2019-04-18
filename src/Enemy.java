@@ -30,7 +30,7 @@ public class Enemy extends Being {
         dx = tileSize / 32;
         rx = tileSize / 32;
         timeLeft = 0;
-        this.level=level;
+        this.level = level;
         this.canRangeAttack = canRangeAttack;
         friendly = false;
     }
@@ -58,11 +58,11 @@ public class Enemy extends Being {
         isAlive = false;
     }
 
-    public Boolean getIsAlive(){
+    public Boolean getIsAlive() {
         return isAlive;
     }
 
-    public void becomeFriendly(){
+    public void becomeFriendly() {
         friendly = true;
     }
 
@@ -81,7 +81,7 @@ public class Enemy extends Being {
         setY(currentY + dy);
     }
 
-    public void randomMovement(){
+    public void randomMovement() {
         int currentX = getX();
         int currentY = getY();
 
@@ -89,14 +89,14 @@ public class Enemy extends Being {
         int randX = ThreadLocalRandom.current().nextInt(-2, 2);
         int randY = ThreadLocalRandom.current().nextInt(-1, 1);
 
-        if (timeLeft > 0){
+        if (timeLeft > 0) {
             //move
             setX(currentX + rx);
             setY(currentY + ry);
-            timeLeft --;
+            timeLeft--;
         }
 
-        if (checkCollision(maps.getCurrentObstacles()) | timeLeft == 0){
+        if (checkCollision(maps.getCurrentObstacles()) | timeLeft == 0) {
             timeLeft = countDown;
             rx = randX;
             ry = randY;
@@ -117,11 +117,10 @@ public class Enemy extends Being {
         int dx;
         int dy;
 
-        if (scale != 0){
+        if (scale != 0) {
             dx = (distX / scale);
             dy = (distY / scale);
-        }
-        else{
+        } else {
             dx = 0;
             dy = 0;
         }
