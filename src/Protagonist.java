@@ -24,6 +24,8 @@ public class Protagonist extends Being {
     Boolean pressRight = false;
     int health;
     int speed = 6;
+    int buffer = 50;
+
 
     public Protagonist(int xPos, int yPos, int width, int height, String image, int tile, MapHandler maps, ProjectileHandler ph, EnemyHandler enemies) {
         super(xPos, yPos, width, height, 6, image, ph);
@@ -41,9 +43,13 @@ public class Protagonist extends Being {
                 maps.setNextLevel();
                 enemies.setNextLevel();
                 this.setX(40);
-                this.setY(40);
+                this.setY(40 + buffer);
             }
         }
+    }
+
+    public int getHealth(){
+        return health;
     }
 
     public Direction getDir() {

@@ -1,6 +1,6 @@
 import java.awt.*;
 
-public class Projectile {
+public class Projectile extends TileShape {
 
     private int dx;
     private int dy;
@@ -9,6 +9,7 @@ public class Projectile {
     private Direction direction;
     private Boolean isRenderable = true;
     private MapHandler maps;
+    Boolean isImage;
 
     public Projectile(Direction dir, int xPos, int yPos, int tileSize, MapHandler maps) {
         setVelocity(dir, tileSize);
@@ -16,10 +17,17 @@ public class Projectile {
         currentXPos = xPos;
         currentYPos = yPos;
         this.maps = maps;
+        isImage = false;
     }
 
-    public Rectangle getBounds() {
-        return new Rectangle(currentXPos, currentYPos, 5, 5);
+    public Projectile(Direction dir, int xPos, int yPos, int tileSize, MapHandler maps, String image, int w, int h) {
+        super(xPos,yPos, w, h, image,true);
+        setVelocity(dir, tileSize);
+        direction = dir;
+        currentXPos = xPos;
+        currentYPos = yPos;
+        this.maps = maps;
+        isImage = true;
     }
 
     private void setVelocity(Direction dir, int tileSize) {
@@ -70,10 +78,18 @@ public class Projectile {
     }
 
     public void move() {
-        if (isRenderable) {
+        if (!isRenderable) {
+            return;
+        }
+
+        if (isImage) {
+            this.setX(this.getX()+dx);
+            this.setY(this.getY()+dy);
+        } else {
             currentXPos += dx;
             currentYPos += dy;
         }
+
     }
 
     public boolean checkCollision() {
@@ -92,11 +108,15 @@ public class Projectile {
     }
 
     public void paint(Graphics2D win) {
-        if (isRenderable) {
-            win.fillOval(currentXPos, currentYPos, 5, 5);
-        } else {
-            //win.clearRect(currentXPos, currentYPos, 5, 5);
+        if (!isRenderable) {
             System.out.println("not renderable");
         }
+
+        if (!isImage) {
+            win.fillOval(currentXPos, currentYPos, 5, 5);
+        } else {
+            this.renderShape(win);
+        }
+
     }
 }

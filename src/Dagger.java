@@ -13,7 +13,7 @@ public class Dagger extends TileShape implements Weapon {
     private Items item = Items.DAGGER;
 
     public Dagger (Protagonist player, int x, int y, String img, Boolean r, EnemyHandler enemies) {
-        super(x,y, 40, 40, img,false);
+        super(x,y, 60, 60, img,false);
         this.player = player;
         this.enemies = enemies;
     }
@@ -74,24 +74,28 @@ public class Dagger extends TileShape implements Weapon {
         int yPos = player.getY();
         switch(direction){
             case NORTH:
+                this.changeImage("daggerNorth.png");
                 currentXPos = xPos;
-                currentYPos = yPos - 40;
+                currentYPos = yPos - 60;
                 break;
             case SOUTH:
+                this.changeImage("daggerSouth.png");
                 currentXPos = xPos;
-                currentYPos = yPos + 40;
+                currentYPos = yPos + 60;
                 break;
             case EAST:
-                currentXPos = xPos + 40;
+                this.changeImage("daggerEast.png");
+                currentXPos = xPos + 60;
                 currentYPos = yPos;
                 break;
             case WEST:
-                currentXPos = xPos - 40;
+                this.changeImage("daggerWest.png");
+                currentXPos = xPos - 60;
                 currentYPos = yPos;
                 break;
             default:
                 currentXPos = xPos;
-                currentYPos = yPos - 40;
+                currentYPos = yPos - 60;
         }
         this.setX(currentXPos);
         this.setY(currentYPos);

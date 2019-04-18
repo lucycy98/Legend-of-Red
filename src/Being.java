@@ -33,19 +33,19 @@ public class Being extends TileShape {
 
             if (playerRec.intersects(obstacleRec)) {
 
-                if (this.getX() - speed - 2 < obstacle.getX() - this.getWidth()) {//intersects left
+                if (this.getX() - speed < obstacle.getX() - this.getWidth()) {//intersects left
                     this.setX(obstacle.getX() - this.getWidth());
                 }
 
-                if (this.getX() + speed + 2 > obstacle.getX() + obstacle.getWidth()) { //intersects right
+                if (this.getX() + speed > obstacle.getX() + obstacle.getWidth()) { //intersects right
                     this.setX(obstacle.getX() + obstacle.getWidth());
                 }
 
-                if (this.getY() - speed - 2 < obstacle.getY() - this.getHeight()) { //intersect bottom
+                if (this.getY() - speed < obstacle.getY() - this.getHeight()) { //intersect bottom
                     this.setY(obstacle.getY() - this.getHeight());
                 }
 
-                if (this.getY() + speed + 2 > obstacle.getY() + obstacle.getHeight()) { //intersects top
+                if (this.getY() + speed > obstacle.getY() + obstacle.getHeight()) { //intersects top
                     this.setY(obstacle.getY() + obstacle.getHeight());
                 }
 

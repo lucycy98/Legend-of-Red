@@ -14,19 +14,17 @@ public class GamePanel extends JPanel implements KeyListener {
     EnemyHandler enemies;
     MapHandler maps;
     WeaponHandler weapons;
-    //PickUpItemHandler pickup;
+    int weaponLocation = 800;
 
     // gameScreen Constructor
     public GamePanel() {
         maps = new MapHandler();
-        //projectiles = new ProjectileHandler(maps);
-        //pickup = new PickUpItemHandler(maps);
         enemies = new EnemyHandler(tileSize, maps, projectiles);
-        player = new Protagonist(tileSize, tileSize, tileSize, tileSize, "player.jpg", tileSize, maps, projectiles, enemies);
+        player = new Protagonist(tileSize, tileSize, tileSize, tileSize, "player.png", tileSize, maps, projectiles, enemies);
         enemies.addPlayer(player);
-        //pickup.addPlayer(player);
-        weapons = new WeaponHandler(maps, projectiles, player, enemies);
+        weapons = new WeaponHandler(maps, projectiles, player, enemies, this);
         enemies.addWeaponHandler(weapons);
+        weapons.createImages(weaponLocation, -40, 40, 40);
         this.addKeyListener(this);
         this.setFocusable(true);
         this.requestFocus();
@@ -37,31 +35,29 @@ public class GamePanel extends JPanel implements KeyListener {
         // Clears window
         super.paint(gr);
         Graphics2D window = (Graphics2D) gr;
+        window.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         maps.paint(gr);
         player.paint(window);
         enemies.paint(window);
         weapons.paint(window);
-        //pickup.paint(window);
+
+        window.setColor(Color.white);
+
+        window.drawString("Level:", 400, 25);
+        window.drawString(String.valueOf(maps.getCurrentLevel() + 1), 450, 25);
+
+        window.drawString("Health:", 550, 25);
+        window.drawString(String.valueOf(player.getHealth() + 1), 600, 25);
+
+        window.drawString("Current Weapon:", 700, 25);
+
+
+
+
+
         repaint();
     }
 
-    public static void main(String[] args) {
-
-        JFrame gameWindow = new JFrame("Game 1.1");
-        gameWindow.setSize(1030, 790);
-        //mainFrame.setLayout(new BorderLayout());
-        gameWindow.setVisible(true);
-        gameWindow.setResizable(false);
-        gameWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        GamePanel playScreen;
-        playScreen = new GamePanel();
-        playScreen.setBackground(Color.WHITE);
-        gameWindow.add(playScreen);
-        gameWindow.validate();
-        playScreen.requestFocus();
-
-    }
 
     @Override
     public void keyTyped(KeyEvent e) {

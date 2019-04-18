@@ -89,9 +89,6 @@ public class PickUpItemHandler {
         }
     }
 
-    public void changePickupItem(){
-    }
-
     //checks whether player collides with item.
     public void checkCollision(){
         if (player == null){

@@ -11,10 +11,15 @@ public class TileShape {
     private int width;
     private int height;
     private Boolean isRenderable;
+    int buffer = 50;
+
+    public TileShape(){
+
+    }
 
     public TileShape(int x, int y, int width, int height, String img, Boolean r) {
         this.x = x;
-        this.y = y;
+        this.y = y + buffer;
         this.width = width;
         this.height = height;
         this.isRenderable = r;
@@ -49,6 +54,10 @@ public class TileShape {
 
     public Rectangle getBounds() {
         return new Rectangle(x, y, width, height);
+    }
+
+    public void changeImage(String img){
+        tileImg = ImageHandler.getImage(img);
     }
 
     public void setIsRenderable(Boolean r) {

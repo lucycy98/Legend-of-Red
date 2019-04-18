@@ -7,9 +7,11 @@ public class Map {
     int xTiles = 17;
     int yTiles = 12;
     TileShape[][] _map = new TileShape[xTiles][yTiles];
+    TileShape[][] _grass = new TileShape[xTiles][yTiles];
     ArrayList<TileShape> _obstacles = new ArrayList<TileShape>();
     ArrayList<TileShape> _portals = new ArrayList<TileShape>();
     int tileSize = 60;
+
 
 
 
@@ -20,9 +22,9 @@ public class Map {
                     TileShape tile = new TileShape(i * tileSize, j * tileSize, tileSize, tileSize, "tree.png", true);
                     _obstacles.add(tile);
                     _map[i][j] = tile;
-                } else {
-                    _map[i][j] = new TileShape(i * tileSize, j * tileSize, tileSize, tileSize, "grass.jpg", true);
                 }
+                _grass[i][j] = new TileShape(i * tileSize, j * tileSize, tileSize, tileSize, "grass.jpg", true);
+
             }
         }
 
@@ -37,7 +39,7 @@ public class Map {
 
     public void addPortal(){
         System.out.println("portal added");
-        TileShape portal = new TileShape((xTiles - 2) * tileSize,yTiles/2 * tileSize, tileSize, tileSize, "portal.jpg", true);
+        TileShape portal = new TileShape((xTiles - 2) * tileSize,yTiles/2 * tileSize, tileSize, tileSize, "portal.png", true);
         _portals.add(portal);
         _map[xTiles-2][yTiles/2] = portal;
     }
@@ -45,9 +47,17 @@ public class Map {
     public void paint(Graphics g) {
         for (int i = 0; i < xTiles; i++) {
             for (int j = 0; j < yTiles; j++) {
-                _map[i][j].renderShape(g);
+                //_map[i][j].renderShape(g);
+                _grass[i][j].renderShape(g);
             }
         }
+        for (TileShape obs : _obstacles){
+            obs.renderShape(g);
+        }
+        for (TileShape portal : _portals){
+            portal.renderShape(g);
+        }
+
     }
 
     public ArrayList<TileShape> getObstacles() {

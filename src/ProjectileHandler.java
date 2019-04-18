@@ -56,7 +56,32 @@ public class ProjectileHandler implements Weapon {
         Direction dir = player.getDir();
         int xPos = player.getX();
         int yPos = player.getY();
-        Projectile projectile = new Projectile(dir, xPos, yPos, projectileSpeed, maps);
+        String image;
+        int w;
+        int h;
+        switch(dir){
+            case NORTH:
+                image = "arrowNorth.png";
+                w = 20; h = 50;
+                break;
+            case SOUTH:
+                image = "arrowSouth.png";
+                w = 20; h = 50;
+                break;
+            case EAST:
+                image = "arrowEast.png";
+                w = 50; h = 20;
+                break;
+            case WEST:
+                image = "arrowWest.png";
+                w = 50; h = 20;
+                break;
+            default:
+                image = "arrowNorth.png";
+                w = 20; h = 50;
+        }
+        //Projectile projectile = new Projectile(dir, xPos, yPos, projectileSpeed, maps);
+        Projectile projectile = new Projectile( dir,xPos,yPos, projectileSpeed,maps, image, w, h);
         projectiles.add(projectile);
     }
 
@@ -108,7 +133,8 @@ public class ProjectileHandler implements Weapon {
 
     @Override
     public void checkCollision() {
-        for (Projectile projectile : projectiles){
+        for (int i = 0; i < projectiles.size(); i++){
+            Projectile projectile = projectiles.get(i);
             Rectangle projRec = projectile.getBounds();
             ArrayList<Enemy> es = enemies.getCurrentEnemies();
             for (int j = 0; j < es.size(); j++){

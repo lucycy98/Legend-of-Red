@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class WeaponHandler {
 
@@ -11,18 +12,22 @@ public class WeaponHandler {
     private Weapon otherWeapon;
     private Weapon bossWeapon;
     private ArrayList<Weapon> availableWeapons;
+    private Items currentItem;
     Timer velocity_timer;
     EnemyHandler enemies;
     Protagonist player;
-
+    GamePanel game;
+    HashMap<Items, TileShape> icons;
 
     // Constructor initialises array of bullets
-    public WeaponHandler(MapHandler maps, ProjectileHandler projectiles, Protagonist player, EnemyHandler enemies) {
+    public WeaponHandler(MapHandler maps, ProjectileHandler projectiles, Protagonist player, EnemyHandler enemies, GamePanel panel) {
         this.maps = maps;
+        this.game = panel;
         availableWeapons = new ArrayList<>();
-        Weapon dagger = new Dagger(player, 60, 60, "dagger.jpg", false, enemies);
+        Weapon dagger = new Dagger(player, 60, 60, "daggerNorth.png", false, enemies);
         availableWeapons.add(dagger);
         currentWeapon = dagger;
+        currentItem = Items.DAGGER;
         //otherWeapon = new ProjectileHandler(maps, player, enemies);
         bossWeapon = new ProjectileHandler(maps, player, enemies, Items.PROJECTILE);
         this.enemies = enemies;
@@ -69,6 +74,7 @@ public class WeaponHandler {
         enemyAttack();
         currentWeapon.paint(win);
         bossWeapon.paint(win);
+        icons.get(currentItem).renderShape(win);
     }
 
     public void attack(){
@@ -93,12 +99,26 @@ public class WeaponHandler {
 
     public void changeWeapon(){
         int index = availableWeapons.indexOf(currentWeapon);
+        icons.get(currentWeapon.getItems()).setIsRenderable(false);
 
         if (index + 1 < availableWeapons.size()){
             currentWeapon = availableWeapons.get(index + 1);
         } else {
             currentWeapon = availableWeapons.get(0);
         }
+        icons.get(currentWeapon.getItems()).setIsRenderable(true);
+        currentItem = currentWeapon.getItems();
+    }
+
+    public Items getCurrentWeapon(){
+        return currentItem;
+    }
+
+    public void createImages(int x, int y, int width, int height){
+        icons = new HashMap<>();
+        icons.put(Items.DAGGER, new TileShape(x, y, width, height, "daggerNorth.png", true));
+        icons.put(Items.PROJECTILE, new TileShape(x, y, width, height, "arrowNorth.png", false));
+        icons.put(Items.CUPIDBOW, new TileShape(x, y, width, height, "cupid.png", false));
     }
 
 }
