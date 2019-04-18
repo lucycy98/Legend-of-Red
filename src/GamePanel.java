@@ -15,9 +15,11 @@ public class GamePanel extends JPanel implements KeyListener {
     MapHandler maps;
     WeaponHandler weapons;
     int weaponLocation = 800;
+    Gamestate option;
 
     // gameScreen Constructor
     public GamePanel() {
+        option = Gamestate.GAME;
         maps = new MapHandler();
         enemies = new EnemyHandler(tileSize, maps, projectiles);
         player = new Protagonist(tileSize, tileSize, tileSize, tileSize, "player.png", tileSize, maps, projectiles, enemies);
@@ -50,12 +52,11 @@ public class GamePanel extends JPanel implements KeyListener {
         window.drawString(String.valueOf(player.getHealth() + 1), 600, 25);
 
         window.drawString("Current Weapon:", 700, 25);
-
-
-
-
-
         repaint();
+    }
+
+    public Gamestate getOption(){
+        return option;
     }
 
 
