@@ -22,13 +22,13 @@ public class Enemy extends Being {
     public boolean friendly;
 
     public Enemy(int xPos, int yPos, int width, int height, String image, int tile, MapHandler maps, ProjectileHandler ph, int level, boolean canRangeAttack) {
-        super(xPos, yPos, width, height, 6, image, ph);
+        super(xPos, yPos, width, height, 1, image, ph);
         this.tileSize = tile;
         this.maps = maps;
-        dy = tileSize / 8;
-        ry = tileSize / 8;
-        dx = tileSize / 6;
-        rx = tileSize / 6;
+        dy = tileSize / 32;
+        ry = tileSize / 32;
+        dx = tileSize / 32;
+        rx = tileSize / 32;
         timeLeft = 0;
         this.level=level;
         this.canRangeAttack = canRangeAttack;
@@ -70,11 +70,11 @@ public class Enemy extends Being {
         int currentX = getX();
         int currentY = getY();
 
-        if (checkCollisionWithoutMoving(maps.getCurrentObstacles())) {
+        if (checkCollision(maps.getCurrentObstacles())) {
             dx = dx * -1;
         }
 
-        if (checkCollisionWithoutMoving(maps.getCurrentObstacles())) {
+        if (checkCollision(maps.getCurrentObstacles())) {
             dy = dy * -1;
         }
         setX(currentX + dx);
@@ -96,7 +96,7 @@ public class Enemy extends Being {
             timeLeft --;
         }
 
-        if (checkCollisionWithoutMoving(maps.getCurrentObstacles()) | timeLeft == 0){
+        if (checkCollision(maps.getCurrentObstacles()) | timeLeft == 0){
             timeLeft = countDown;
             rx = randX;
             ry = randY;
@@ -126,7 +126,7 @@ public class Enemy extends Being {
             dy = 0;
         }
 
-        if (!checkCollisionWithoutMoving(maps.getCurrentObstacles())) {
+        if (!checkCollision(maps.getCurrentObstacles())) {
             setX(currentX + dx);
             setY(currentY + dy);
         }

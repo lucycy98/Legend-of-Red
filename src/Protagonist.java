@@ -23,12 +23,12 @@ public class Protagonist extends Being {
     Boolean pressLeft = false;
     Boolean pressRight = false;
     int health;
-    int speed = 6;
+    int speed = 1;
     int buffer = 50;
 
 
     public Protagonist(int xPos, int yPos, int width, int height, String image, int tile, MapHandler maps, ProjectileHandler ph, EnemyHandler enemies) {
-        super(xPos, yPos, width, height, 6, image, ph);
+        super(xPos, yPos, width, height, 1, image, ph);
         this.tileSize = tile;
         this.maps = maps;
         this.enemies = enemies;
