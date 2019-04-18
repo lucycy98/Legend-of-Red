@@ -42,7 +42,7 @@ public class EnemyHandler {
 
     public ArrayList<Enemy> createEnemies(int level) {
         ArrayList<Enemy> enemies = new ArrayList<>();
-        int[] enemiesPerLevel = {10, 10, 5, 1};
+        int[] enemiesPerLevel = {6, 6, 5, 1};
 
         if (level < 3) {
             for (int i = 0; i < enemiesPerLevel[level]; i++) {

@@ -7,7 +7,6 @@ import java.util.ArrayList;
 public class Being extends TileShape {
 
     private ProjectileHandler  projectileHandler;
-    private Dagger dagger;
     private int speed;
 
     public Being(int xPos, int yPos, int width, int height, int speed, String image, ProjectileHandler ph) {
@@ -24,7 +23,11 @@ public class Being extends TileShape {
         return distance;
     }
 
-    public boolean checkCollision(ArrayList<TileShape> obstacles) {
+    /**
+     * checks collision and doesnt allow moving into the obstacle.
+     * @param obstacles
+     */
+    public checkCollision(ArrayList<TileShape> obstacles) {
 
         Rectangle playerRec = this.getBounds();
 
@@ -32,23 +35,37 @@ public class Being extends TileShape {
             Rectangle obstacleRec = obstacle.getBounds();
 
             if (playerRec.intersects(obstacleRec)) {
-
-                if (this.getX() - speed < obstacle.getX() - this.getWidth()) {//intersects left
+                if (this.getX() - speed - 2 < obstacle.getX() - this.getWidth()) {//intersects left
                     this.setX(obstacle.getX() - this.getWidth());
                 }
 
-                if (this.getX() + speed > obstacle.getX() + obstacle.getWidth()) { //intersects right
+                if (this.getX() + speed + 2 > obstacle.getX() + obstacle.getWidth()) { //intersects right
                     this.setX(obstacle.getX() + obstacle.getWidth());
                 }
 
-                if (this.getY() - speed < obstacle.getY() - this.getHeight()) { //intersect bottom
+                if (this.getY() - speed - 2 < obstacle.getY() - this.getHeight()) { //intersect bottom
                     this.setY(obstacle.getY() - this.getHeight());
                 }
 
-                if (this.getY() + speed > obstacle.getY() + obstacle.getHeight()) { //intersects top
+                if (this.getY() + speed + 2 > obstacle.getY() + obstacle.getHeight()) { //intersects top
                     this.setY(obstacle.getY() + obstacle.getHeight());
                 }
+            }
+        }
+    }
 
+    /**
+     * returns a boolean whether it has collided with an obstacle.
+     * @param obstacles
+     * @return
+     */
+    public boolean checkCollisionWithoutMoving(ArrayList<TileShape> obstacles) {
+
+        Rectangle playerRec = this.getBounds();
+
+        for (TileShape obstacle : obstacles) {
+            Rectangle obstacleRec = obstacle.getBounds();
+            if (playerRec.intersects(obstacleRec)) {
                 return true;
             }
         }

@@ -70,11 +70,11 @@ public class Enemy extends Being {
         int currentX = getX();
         int currentY = getY();
 
-        if (checkCollision(maps.getCurrentObstacles())) {
+        if (checkCollisionWithoutMoving(maps.getCurrentObstacles())) {
             dx = dx * -1;
         }
 
-        if (checkCollision(maps.getCurrentObstacles())) {
+        if (checkCollisionWithoutMoving(maps.getCurrentObstacles())) {
             dy = dy * -1;
         }
         setX(currentX + dx);
@@ -96,7 +96,7 @@ public class Enemy extends Being {
             timeLeft --;
         }
 
-        if (checkCollision(maps.getCurrentObstacles()) | timeLeft == 0){
+        if (checkCollisionWithoutMoving(maps.getCurrentObstacles()) | timeLeft == 0){
             timeLeft = countDown;
             rx = randX;
             ry = randY;
@@ -126,7 +126,7 @@ public class Enemy extends Being {
             dy = 0;
         }
 
-        if (!checkCollision(maps.getCurrentObstacles())) {
+        if (!checkCollisionWithoutMoving(maps.getCurrentObstacles())) {
             setX(currentX + dx);
             setY(currentY + dy);
         }
