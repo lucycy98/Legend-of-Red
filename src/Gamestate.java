@@ -4,5 +4,6 @@ public enum Gamestate {
     TUTORIAL,
     MENU,
     LOSE,
-    WIN
+    WIN,
+    PAUSE
 }

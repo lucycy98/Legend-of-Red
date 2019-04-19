@@ -10,11 +10,11 @@ import java.util.concurrent.ThreadLocalRandom;
 public class PickUpItemHandler {
 
     private final MapHandler maps;
-    Timer velocity_timer;
-    int levels = 4;
-    int[] killedEnemies = {0,0,0,0};
-    int[] numberOfEnemies = new int[4];
-    int lastLevel = 1;
+    private Timer velocity_timer;
+    private int levels = 4;
+    private int[] killedEnemies = {0,0,0,0};
+    private int[] numberOfEnemies = new int[4];
+    private int lastLevel = 1;
     private ArrayList<PickUpItem> itemsList;
     private ArrayList<Items> levelPickUps = new ArrayList<>(Arrays.asList(Items.PROJECTILE, Items.CUPIDBOW, Items.WOLFSKIN, Items.HEALTH));
     private int currentPickUps;
@@ -145,6 +145,10 @@ public class PickUpItemHandler {
             System.out.println("current pick up is " + currentPickUps);
         }
         return item;
+    }
+
+    public void stopTimers(){
+        velocity_timer.stop();
     }
 
 }

@@ -7,4 +7,6 @@ public interface Weapon {
     public void paint(Graphics2D g);
     public void checkCollision();
     public Items getItems();
+    public void stopTimers();
+    public void startTimers();
 }

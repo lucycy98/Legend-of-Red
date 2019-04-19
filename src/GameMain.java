@@ -41,11 +41,12 @@ public class GameMain {
                     gameWindow.add(playScreen);
                     gameWindow.validate();
                     playScreen.requestFocus();
-                    while (playScreen.getOption() == Gamestate.GAME) {
+                    while (playScreen.getOption() == Gamestate.GAME || playScreen.getOption() == Gamestate.PAUSE ) {
                         Thread.sleep(1);
                     }
                     gameWindow.remove(playScreen);
                     state = playScreen.getOption();
+                    break;
                 case LOSE:
                     lose = new Lose(2,2);
                     lose.setBackground(Color.BLACK);

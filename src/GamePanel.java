@@ -29,8 +29,8 @@ public class GamePanel extends JPanel implements KeyListener {
         option = Gamestate.GAME;
         maps = new MapHandler();
         score = new Score();
-        enemies = new EnemyHandler(tileSize, maps, projectiles,score);
-        player = new Protagonist(tileSize, tileSize, tileSize, tileSize, "player.png", tileSize, maps, projectiles, enemies);
+        enemies = new EnemyHandler(tileSize, maps, score);
+        player = new Protagonist(tileSize, tileSize, tileSize, tileSize, "player.png", tileSize, maps, enemies);
         enemies.addPlayer(player);
         weapons = new WeaponHandler(maps, projectiles, player, enemies, this);
         enemies.addWeaponHandler(weapons);
@@ -104,6 +104,22 @@ public class GamePanel extends JPanel implements KeyListener {
 
     }
 
+    public void stopTimers(){
+        weapons.stopTimers();
+        enemies.stopTimers();
+        player.stopTimers();
+        updateHealth.stop();
+        gameTimer.stop();
+    }
+
+    public void startTimers(){
+        weapons.startTimers();
+        enemies.startTimers();
+        player.startTimers();
+        updateHealth.start();
+        gameTimer.start();
+    }
+
     public Gamestate getOption(){
         return option;
     }
@@ -120,17 +136,25 @@ public class GamePanel extends JPanel implements KeyListener {
     @Override
     public void keyPressed(KeyEvent evt) {
 
-        switch (evt.getKeyCode()) {
-
-            case KeyEvent.VK_SPACE:
-                weapons.attack();
-                break;
-            case KeyEvent.VK_S:
-                weapons.changeWeapon();
-                break;
-            default:
-                player.keyPressed(evt);
+        if (option == Gamestate.PAUSE){
+            if (evt.getKeyCode() == KeyEvent.VK_P){
+                startTimers();
+                option = Gamestate.GAME;
+            }
+        } else {
+            switch (evt.getKeyCode()) {
+                case KeyEvent.VK_SPACE:
+                    weapons.attack();
+                    break;
+                case KeyEvent.VK_S:
+                    weapons.changeWeapon();
+                    break;
+                case KeyEvent.VK_P:
+                    stopTimers();
+                    option = Gamestate.PAUSE;
+                default:
+                    player.keyPressed(evt);
+            }
         }
-
     }
 }

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 /**
  * keep incrementing x, y until key release OR another arrow is pressed.
  */
-public class Protagonist extends Being {
+public class Protagonist extends Being implements Timers {
 
     private EnemyHandler enemies;
     // co-ordinates of player
@@ -27,16 +27,27 @@ public class Protagonist extends Being {
     int buffer = 50;
     private int score = 0;
     boolean beingAttacked;
+    Timer velocity_timer;
 
 
-    public Protagonist(int xPos, int yPos, int width, int height, String image, int tile, MapHandler maps, ProjectileHandler ph, EnemyHandler enemies) {
-        super(xPos, yPos, width, height, 1, image, ph);
+    public Protagonist(int xPos, int yPos, int width, int height, String image, int tile, MapHandler maps, EnemyHandler enemies) {
+        super(xPos, yPos, width, height, 1, image);
         this.tileSize = tile;
         this.maps = maps;
         this.enemies = enemies;
         health = 99;
         beingAttacked = false;
+        this.velocity_timer = new Timer(1000 / 300, (new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                movePlayer();
+            }
+        }));
+        velocity_timer.start();
+
     }
+
+
 
     public void checkPortal() {
         Rectangle playerRec = this.getBounds();
@@ -69,7 +80,6 @@ public class Protagonist extends Being {
     }
 
     public void paint(Graphics2D win) {
-        movePlayer();
         renderShape(win);
     }
 
@@ -203,4 +213,13 @@ public class Protagonist extends Being {
 
     }
 
+    @Override
+    public void stopTimers() {
+        velocity_timer.stop();
+    }
+
+    @Override
+    public void startTimers() {
+        velocity_timer.start();
+    }
 }

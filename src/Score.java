@@ -33,6 +33,4 @@ public class Score {
         return score;
     }
 
-
-
 }

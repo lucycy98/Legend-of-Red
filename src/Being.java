@@ -6,12 +6,10 @@ import java.util.ArrayList;
  */
 public class Being extends TileShape {
 
-    private ProjectileHandler projectileHandler;
     private int speed;
 
-    public Being(int xPos, int yPos, int width, int height, int speed, String image, ProjectileHandler ph) {
+    public Being(int xPos, int yPos, int width, int height, int speed, String image) {
         super(xPos, yPos, width, height, image, true);
-        this.projectileHandler = ph;
         this.speed = speed;
     }
 

@@ -22,8 +22,8 @@ public class Enemy extends Being {
     public boolean friendly;
     public boolean attackStatus;
 
-    public Enemy(int xPos, int yPos, int width, int height, String image, int tile, MapHandler maps, ProjectileHandler ph, int level, boolean canRangeAttack) {
-        super(xPos, yPos, width, height, 1, image, ph);
+    public Enemy(int xPos, int yPos, int width, int height, String image, int tile, MapHandler maps, int level, boolean canRangeAttack) {
+        super(xPos, yPos, width, height, 1, image);
         this.tileSize = tile;
         this.maps = maps;
         dy = tileSize / 32;

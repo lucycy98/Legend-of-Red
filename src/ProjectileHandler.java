@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class ProjectileHandler implements Weapon {
+public class ProjectileHandler implements Weapon, Timers {
 
     private final MapHandler maps;
     private ArrayList<Projectile> projectiles;
@@ -156,6 +156,16 @@ public class ProjectileHandler implements Weapon {
                 }
             }
         }
+    }
+
+    @Override
+    public void stopTimers(){
+        velocity_timer.stop();
+    }
+
+    @Override
+    public void startTimers() {
+        velocity_timer.start();
     }
 
 //    @Override
