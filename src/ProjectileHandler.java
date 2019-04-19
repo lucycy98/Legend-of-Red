@@ -51,7 +51,7 @@ public class ProjectileHandler implements Weapon, Timers {
             eproj.emove(player);
             if (eproj.checkCollision()) {
                 eproj.setIsRenderable(false);
-                projectiles.remove(eproj);
+                enemyProjectiles.remove(eproj);
             }
         }
     }
@@ -191,8 +191,8 @@ public class ProjectileHandler implements Weapon, Timers {
     @Override
     public void checkEnemyCollision() {
         Rectangle playerRec = player.getBounds();
-        for (Projectile eproj : enemyProjectiles) {
-            System.out.println("step 1");
+        for (int i = 0; i < enemyProjectiles.size(); i++){
+            Projectile eproj = enemyProjectiles.get(i);
             Rectangle projRec = eproj.getBounds();
             if (projRec.intersects(playerRec)) {
                 player.health -= 10;

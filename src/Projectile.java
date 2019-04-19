@@ -11,15 +11,6 @@ public class Projectile extends TileShape {
     private MapHandler maps;
     Boolean isImage;
 
-    public Projectile(Direction dir, int xPos, int yPos, int tileSize, MapHandler maps) {
-        setVelocity(dir, tileSize);
-        direction = dir;
-        currentXPos = xPos;
-        currentYPos = yPos;
-        this.maps = maps;
-        isImage = false;
-    }
-
     public Projectile(Direction dir, int xPos, int yPos, int tileSize, MapHandler maps, String image, int w, int h) {
         super(xPos, yPos, w, h, image, true);
         setVelocity(dir, tileSize);
@@ -114,6 +105,8 @@ public class Projectile extends TileShape {
         }
         currentXPos += dx;
         currentYPos += dy;
+        setX(currentXPos);
+        setY(currentYPos);
 
     }
 

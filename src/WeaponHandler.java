@@ -21,6 +21,7 @@ public class WeaponHandler {
     int counter;
     Boolean canAttack;
     private Timer attack_timer;
+    private Timer enemy_attack_timer;
 
 
     // Constructor initialises array of bullets
@@ -51,13 +52,18 @@ public class WeaponHandler {
             @Override
             public void actionPerformed(ActionEvent e) {
                 canAttack = true;
-                counter++;
-                if (counter % scaleFactor == 0) {
-                    enemyAttack(); //todo WILLIAM I MOVED THE METHOD HERE
-                }
             }
         }));
         attack_timer.start();
+
+        this.enemy_attack_timer = new Timer(5000, (new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                enemyAttack(); //todo WILLIAM I MOVED THE METHOD HERE i recommend using timers.
+            }
+        }));
+        enemy_attack_timer.start();
+
     }
 
     public void addWeapon(Items item) {
@@ -152,6 +158,7 @@ public class WeaponHandler {
         }
         currentWeapon.stopTimers();
         attack_timer.stop();
+        enemy_attack_timer.start();
 
     }
 
@@ -162,6 +169,7 @@ public class WeaponHandler {
             availableWeapons.get(i).startTimers();
         }
         attack_timer.start();
+        enemy_attack_timer.stop();
     }
 
 }
