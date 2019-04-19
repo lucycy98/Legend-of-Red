@@ -113,18 +113,35 @@ public class ProjectileHandler implements Weapon {
             dy = 0;
         }
 
+        String image = "arrowEast.png";
+        int w = 50;
+        int h = 20;
+
         if (dx == 1 & dy == 0) {
             dir = Direction.EAST;
+            image = "arrowEast.png";
+            w = 50;
+            h = 20;
         } else if (dx == 0 & dy == -1) {
             dir = Direction.NORTH;
+            image = "arrowNorth.png";
+            w = 20;
+            h = 50;
         } else if (dx == -1 & dy == 0) {
             dir = Direction.WEST;
+            image = "arrowWest.png";
+            w = 50;
+            h = 20;
         } else if (dx == 0 & dy == 1) {
             dir = Direction.SOUTH;
+            image = "arrowSouth.png";
+            w = 20;
+            h = 50;
         }
 
         if (dir != null) {
-            Projectile projectile = new Projectile(dir, enemy.getX(), enemy.getY(), projectileSpeed, maps);
+            //Projectile projectile = new Projectile(dir, enemy.getX(), enemy.getY(), projectileSpeed, maps);
+            Projectile projectile = new Projectile(dir, enemy.getX(), enemy.getY(), projectileSpeed, maps, image, w, h);
             enemyProjectiles.add(projectile);
         }
     }
