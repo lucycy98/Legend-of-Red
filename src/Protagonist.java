@@ -23,15 +23,17 @@ public class Protagonist extends Being implements Timers {
     Boolean pressLeft = false;
     Boolean pressRight = false;
     int health;
-    int speed = 1;
+    int speed = 2;
     int buffer = 50;
     private int score = 0;
     boolean beingAttacked;
     Timer velocity_timer;
+    int invincibleTime;
+    boolean isInvincible;
 
 
     public Protagonist(int xPos, int yPos, int width, int height, String image, int tile, MapHandler maps, EnemyHandler enemies) {
-        super(xPos, yPos, width, height, 1, image);
+        super(xPos, yPos, width, height, 2, image);
         this.tileSize = tile;
         this.maps = maps;
         this.enemies = enemies;
@@ -41,13 +43,19 @@ public class Protagonist extends Being implements Timers {
             @Override
             public void actionPerformed(ActionEvent e) {
                 movePlayer();
+                if (isInvincible){
+                    invincibleTime--;
+                }
             }
         }));
         velocity_timer.start();
-
+        isInvincible = false;
     }
 
-
+    public void setInvincible(int time){
+        isInvincible = true;
+        invincibleTime = time;
+    }
 
     public void checkPortal() {
         Rectangle playerRec = this.getBounds();
@@ -96,14 +104,24 @@ public class Protagonist extends Being implements Timers {
         Rectangle playerRec = this.getBounds();
         Rectangle obstacleRec = enemy.getBounds();
 
-        if (playerRec.intersects(obstacleRec)) {
-            if (!enemy.attackStatus) {
-                health -= 10;
-                enemy.attackStatus = true;
+        if (!isInvincible) {
+            if (playerRec.intersects(obstacleRec)) {
+                if (!enemy.attackStatus) {
+                    health -= 5;
+                    enemy.attackStatus = true;
+                }
+                return true;
+            } else {
+                enemy.attackStatus = false;
             }
-            return true;
-        } else {
-            enemy.attackStatus = false;
+        }
+        else{
+            this.changeImage("transparentplayer.png");
+            System.out.println(invincibleTime);
+            if (invincibleTime == 0){
+                isInvincible = false;
+                this.changeImage("player.png");
+            }
         }
         return false;
     }
