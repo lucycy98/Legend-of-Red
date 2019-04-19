@@ -25,7 +25,6 @@ public class Map {
                 TileShape grass = new TileShape(i * tileSize, j * tileSize, tileSize, tileSize, "grass.jpg", true);
                 _grass.add(grass);
                 _map[i][j] = grass;
-
             }
         }
 

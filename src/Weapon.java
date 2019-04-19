@@ -8,4 +8,6 @@ public interface Weapon {
     public void checkCollision();
     public void checkEnemyCollision();
     public Items getItems();
+    public void stopTimers();
+    public void startTimers();
 }

@@ -10,7 +10,7 @@ public class GameMain {
 
     public static void main(String[] args) throws InterruptedException {
 
-        JFrame gameWindow = new JFrame("Game 1.1");
+        JFrame gameWindow = new JFrame("Game of Red");
         gameWindow.setSize(1040, 850);
         gameWindow.setVisible(true);
         gameWindow.setResizable(false);
@@ -18,6 +18,7 @@ public class GameMain {
 
         Menu menu;
         GamePanel playScreen;
+        Lose lose;
 
         Gamestate state = Gamestate.MENU;
         while(state != Gamestate.QUIT){
@@ -40,11 +41,25 @@ public class GameMain {
                     gameWindow.add(playScreen);
                     gameWindow.validate();
                     playScreen.requestFocus();
-                    while (playScreen.getOption() == Gamestate.GAME) {
+                    while (playScreen.getOption() == Gamestate.GAME || playScreen.getOption() == Gamestate.PAUSE ) {
                         Thread.sleep(1);
                     }
                     gameWindow.remove(playScreen);
                     state = playScreen.getOption();
+                    break;
+                case LOSE:
+                    lose = new Lose(2,2);
+                    lose.setBackground(Color.BLACK);
+                    gameWindow.add(lose);
+                    gameWindow.validate();
+                    lose.requestFocus();
+                    while (lose.getOption() == null) {
+                        Thread.sleep(1);
+                    }
+                    gameWindow.remove(lose);
+                    state = lose.getOption();
+                    break;
+
             }
         }
         gameWindow.dispose();

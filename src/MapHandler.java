@@ -9,6 +9,8 @@ public class MapHandler {
     private int currentLevel;
     int xTiles = 17;
     int yTiles = 12;
+    int maxLevel = 3;
+    private EnemyHandler enemies;
 
     // Constructor initialises array of bullets
     public MapHandler() {
@@ -24,6 +26,13 @@ public class MapHandler {
         map.addBackwardsPortal();
         maps.put(3, map);
         currentLevel = 0;
+    }
+
+    public void setFinalLevel(){
+        currentLevel = maxLevel;
+        if (enemies != null){
+            enemies.setEnemy();
+        }
     }
 
     public int setNextLevel() {
@@ -46,6 +55,11 @@ public class MapHandler {
 
     public void addPortal() { //when key is found
         maps.get(currentLevel).addForwardsPortal();
+    }
+
+    public void addEnemyHandler(EnemyHandler enemy){
+        enemies = enemy;
+
     }
 
     public int getCurrentLevel() {

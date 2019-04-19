@@ -1,12 +1,14 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
+
 
 public class GamePanel extends JPanel implements KeyListener {
 
-    JPanel panel = this;
     ProjectileHandler projectiles;
     Protagonist player;
     int speed = 8;
@@ -16,17 +18,54 @@ public class GamePanel extends JPanel implements KeyListener {
     WeaponHandler weapons;
     int weaponLocation = 800;
     Gamestate option;
+    Timer updateHealth;
+    Timer gameTimer;
+    Score score;
+    int timeLeft = 1000 * 180;
+    String time;
 
     // gameScreen Constructor
     public GamePanel() {
         option = Gamestate.GAME;
         maps = new MapHandler();
-        enemies = new EnemyHandler(tileSize, maps, projectiles);
-        player = new Protagonist(tileSize, tileSize, tileSize, tileSize, "player.png", tileSize, maps, projectiles, enemies);
+        score = new Score();
+        enemies = new EnemyHandler(tileSize, maps, score);
+        maps.addEnemyHandler(enemies);
+        player = new Protagonist(tileSize, tileSize, tileSize, tileSize, "player.png", tileSize, maps, enemies);
         enemies.addPlayer(player);
         weapons = new WeaponHandler(maps, projectiles, player, enemies, this);
         enemies.addWeaponHandler(weapons);
         weapons.createImages(weaponLocation, -40, 40, 40);
+
+        this.updateHealth = new Timer(2, (new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (player.getHealth() <= 0){
+                    option = Gamestate.LOSE;
+                    updateHealth.stop();
+                }
+            }
+        }));
+        updateHealth.start();
+
+        this.gameTimer = new Timer(100, (new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                timeLeft -= 100;
+
+                SimpleDateFormat df=new SimpleDateFormat("mm:ss");
+                time = df.format(timeLeft);
+
+                if(timeLeft<=0)
+                {
+                    option = Gamestate.LOSE;
+                    gameTimer.stop();
+                }
+            }
+        }));
+        updateHealth.start();
+        gameTimer.start();
+
         this.addKeyListener(this);
         this.setFocusable(true);
         this.requestFocus();
@@ -45,6 +84,9 @@ public class GamePanel extends JPanel implements KeyListener {
 
         window.setColor(Color.white);
 
+        window.drawString("Score:", 250, 25);
+        window.drawString(String.valueOf(score.getScore()), 300, 25);
+
         window.drawString("Level:", 400, 25);
         window.drawString(String.valueOf(maps.getCurrentLevel() + 1), 450, 25);
 
@@ -52,13 +94,33 @@ public class GamePanel extends JPanel implements KeyListener {
         window.drawString(String.valueOf(player.getHealth() + 1), 600, 25);
 
         window.drawString("Current Weapon:", 700, 25);
+
+        window.drawString("Time Left:", 850, 25);
+        if (time != null){
+            window.drawString(time, 930, 25);
+        }
         repaint();
+    }
+
+    public void stopTimers(){
+        weapons.stopTimers();
+        enemies.stopTimers();
+        player.stopTimers();
+        updateHealth.stop();
+        gameTimer.stop();
+    }
+
+    public void startTimers(){
+        weapons.startTimers();
+        enemies.startTimers();
+        player.startTimers();
+        updateHealth.start();
+        gameTimer.start();
     }
 
     public Gamestate getOption(){
         return option;
     }
-
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -72,17 +134,32 @@ public class GamePanel extends JPanel implements KeyListener {
     @Override
     public void keyPressed(KeyEvent evt) {
 
-        switch (evt.getKeyCode()) {
-
-            case KeyEvent.VK_SPACE:
-                weapons.attack();
-                break;
-            case KeyEvent.VK_S:
-                weapons.changeWeapon();
-                break;
-            default:
-                player.keyPressed(evt);
+        if (evt.getKeyCode() == KeyEvent.VK_ESCAPE){ //mainMenu
+            stopTimers();
+            option = Gamestate.MENU;
         }
 
+        if (option == Gamestate.PAUSE){
+            if (evt.getKeyCode() == KeyEvent.VK_P){
+                startTimers();
+                option = Gamestate.GAME;
+            }
+        } else {
+            switch (evt.getKeyCode()) {
+                case KeyEvent.VK_SPACE:
+                    weapons.attack();
+                    break;
+                case KeyEvent.VK_S:
+                    weapons.changeWeapon();
+                    break;
+                case KeyEvent.VK_P:
+                    stopTimers();
+                    option = Gamestate.PAUSE;
+                case KeyEvent.VK_B:
+                    maps.setFinalLevel();
+                default:
+                    player.keyPressed(evt);
+            }
+        }
     }
 }

@@ -1,9 +1,11 @@
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Dagger extends TileShape implements Weapon {
+public class Dagger extends TileShape implements Weapon, Timers {
 
     private int currentXPos;
     private int currentYPos;
@@ -11,11 +13,19 @@ public class Dagger extends TileShape implements Weapon {
     private Protagonist player;
     private EnemyHandler enemies;
     private Items item = Items.DAGGER;
+    private javax.swing.Timer velocity_timer;
 
     public Dagger(Protagonist player, int x, int y, String img, Boolean r, EnemyHandler enemies) {
         super(x, y, 60, 60, img, false);
         this.player = player;
         this.enemies = enemies;
+        this.velocity_timer = new javax.swing.Timer(1000 / 300, (new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showDagger();
+            }
+        }));
+        velocity_timer.start();
     }
 
     public Rectangle getBounds() {
@@ -25,6 +35,16 @@ public class Dagger extends TileShape implements Weapon {
     @Override
     public Items getItems() {
         return item;
+    }
+
+    @Override
+    public void stopTimers() {
+        velocity_timer.stop();
+    }
+
+    @Override
+    public void startTimers() {
+        velocity_timer.start();
     }
 
     @Override
@@ -45,7 +65,6 @@ public class Dagger extends TileShape implements Weapon {
 
     @Override
     public void enemyRangeAttack(Enemy enemy) {
-
     }
 
     @Override

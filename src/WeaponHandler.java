@@ -9,7 +9,6 @@ public class WeaponHandler {
 
     private final MapHandler maps;
     private Weapon currentWeapon;
-    private Weapon otherWeapon;
     private Weapon bossWeapon;
     private ArrayList<Weapon> availableWeapons;
     private Items currentItem;
@@ -20,9 +19,13 @@ public class WeaponHandler {
     HashMap<Items, TileShape> icons;
     int scaleFactor;
     int counter;
+    Boolean canAttack;
+    private Timer attack_timer;
+
 
     // Constructor initialises array of bullets
     public WeaponHandler(MapHandler maps, ProjectileHandler projectiles, Protagonist player, EnemyHandler enemies, GamePanel panel) {
+        canAttack = true;
         this.maps = maps;
         this.game = panel;
         availableWeapons = new ArrayList<>();
@@ -30,7 +33,6 @@ public class WeaponHandler {
         availableWeapons.add(dagger);
         currentWeapon = dagger;
         currentItem = Items.DAGGER;
-        //otherWeapon = new ProjectileHandler(maps, player, enemies);
         bossWeapon = new ProjectileHandler(maps, player, enemies, Items.PROJECTILE);
         this.enemies = enemies;
         this.player = player;
@@ -44,6 +46,18 @@ public class WeaponHandler {
         velocity_timer.start();
         scaleFactor = 20;
         counter = 0;
+
+        this.attack_timer = new Timer(150, (new ActionListener() { //this timer shows what can be done
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                canAttack = true;
+                counter++;
+                if (counter % scaleFactor == 0) {
+                    enemyAttack(); //todo WILLIAM I MOVED THE METHOD HERE
+                }
+            }
+        }));
+        attack_timer.start();
     }
 
     public void addWeapon(Items item) {
@@ -75,20 +89,21 @@ public class WeaponHandler {
     }
 
     public void paint(Graphics2D win) {
-        counter++;
-        if (counter % scaleFactor == 0) {
-            enemyAttack();
-        }
+
         currentWeapon.paint(win);
         bossWeapon.paint(win);
         icons.get(currentItem).renderShape(win);
     }
 
     public void attack() {
+        if (!canAttack) {
+            return;
+        }
         currentWeapon.attack();
         if (currentWeapon.getItems() == Items.CUPIDBOW) {
             removeWeapon(Items.CUPIDBOW);
         }
+        canAttack = false;
     }
 
     public void enemyAttack() {
@@ -127,6 +142,26 @@ public class WeaponHandler {
         icons.put(Items.DAGGER, new TileShape(x, y, width, height, "daggerNorth.png", true));
         icons.put(Items.PROJECTILE, new TileShape(x, y, width, height, "arrowNorth.png", false));
         icons.put(Items.CUPIDBOW, new TileShape(x, y, width, height, "cupid.png", false));
+    }
+
+    public void stopTimers(){
+        canAttack  = false;
+        velocity_timer.stop();
+        for (int i = 0; i < availableWeapons.size(); i++){
+            availableWeapons.get(i).stopTimers();
+        }
+        currentWeapon.stopTimers();
+        attack_timer.stop();
+
+    }
+
+    public void startTimers(){
+        canAttack  = true;
+        velocity_timer.start();
+        for (int i = 0; i < availableWeapons.size(); i++){
+            availableWeapons.get(i).startTimers();
+        }
+        attack_timer.start();
     }
 
 }
