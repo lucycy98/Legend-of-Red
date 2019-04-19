@@ -34,6 +34,7 @@ public class PickUpItem extends TileShape {
             case DAGGER:
                 break;
             case WOLFSKIN:
+                player.setInvincible(100);
                 break;
             default:
                 weapon.addWeapon(item);
