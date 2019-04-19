@@ -61,15 +61,15 @@ public class PickUpItemHandler {
         }
         ArrayList indices = new ArrayList();
         if (level < 2){
-            int index = ThreadLocalRandom.current().nextInt(numberOfEnemies[level]/6, numberOfEnemies[level]-4);
+            int index = ThreadLocalRandom.current().nextInt(2, numberOfEnemies[level]);
             indices.add(index);
             System.out.println("assigning pickup for level" + level + " with index " + index);
         } else if (level == 2){ //two items in level 2
 
-            int index = ThreadLocalRandom.current().nextInt(numberOfEnemies[level]/3, numberOfEnemies[level]);
+            int index = ThreadLocalRandom.current().nextInt(2, numberOfEnemies[level]);
             int index_2 = index;
             while (index_2 == index){
-                index_2 = ThreadLocalRandom.current().nextInt(numberOfEnemies[level]/3, numberOfEnemies[level]);
+                index_2 = ThreadLocalRandom.current().nextInt(2, numberOfEnemies[level]);
             }
             indices.add(index);
             indices.add(index_2);

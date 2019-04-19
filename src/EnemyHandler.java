@@ -16,16 +16,20 @@ public class EnemyHandler {
     private MapHandler maps;
     protected Protagonist player;
     private PickUpItemHandler item;
+    int totallevels = 4;
+    private Score score;
 
 
-    public EnemyHandler(int tileSize, MapHandler maps, ProjectileHandler ph) {
+    public EnemyHandler(int tileSize, MapHandler maps, ProjectileHandler ph, Score score) {
         item = new PickUpItemHandler(maps);
         enemies = new HashMap<>();
         this.maps = maps;
         this.projectiles = ph;
         this.tileSize = tileSize;
+        this.score = score;
+        score.totalLevels(totallevels);
 
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < totallevels; i++) {
             ArrayList<Enemy> enemy = createEnemies(i);
             enemies.put(i, enemy);
         }
@@ -67,6 +71,7 @@ public class EnemyHandler {
             enemies.add(new Enemy(x * tileSize, y * tileSize, tileSize * 2, tileSize * 2, "wolf.png", tileSize * 2, maps, projectiles, level, true));
         }
         System.out.println("level created " + level);
+        System.out.println("enemise in level" + level + enemiesPerLevel[level]);
         item.addNumberOfEnemies(level, enemiesPerLevel[level]);
         return enemies;
     }
@@ -131,9 +136,12 @@ public class EnemyHandler {
     public void damageEnemy(Enemy enemy) {
         enemy.damageHealth();
         if (!enemy.getIsAlive()) {
-            System.out.println("damage enemy");
+            score.killWolf(maps.getCurrentLevel());
             item.addEnemiesKilled(enemy.getLevel(), enemy.getX(), enemy.getY());
             currentEnemies.remove(enemy); //todo update the hashmap
+        } else { //not kill just damage
+            score.damageWolf(maps.getCurrentLevel());
+
         }
     }
 

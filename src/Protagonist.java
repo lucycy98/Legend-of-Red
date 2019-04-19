@@ -25,6 +25,7 @@ public class Protagonist extends Being {
     int health;
     int speed = 1;
     int buffer = 50;
+    private int score = 0;
     boolean beingAttacked;
 
 
