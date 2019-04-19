@@ -25,11 +25,11 @@ public class Protagonist extends Being implements Timers {
     int health;
     int speed = 2;
     int buffer = 50;
-    private int score = 0;
     boolean beingAttacked;
     Timer velocity_timer;
     int invincibleTime;
     boolean isInvincible;
+    private TutorialLevel tutorial;
 
 
     public Protagonist(int xPos, int yPos, int width, int height, String image, int tile, MapHandler maps, EnemyHandler enemies) {
@@ -39,10 +39,12 @@ public class Protagonist extends Being implements Timers {
         this.enemies = enemies;
         health = 99;
         beingAttacked = false;
-        this.velocity_timer = new Timer(1000 / 300, (new ActionListener() {
+        this.velocity_timer = new Timer(1, (new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 movePlayer();
+                checkCollision(maps.getCurrentObstacles());
+                checkPortal();
                 if (isInvincible){
                     invincibleTime--;
                 }
@@ -50,6 +52,10 @@ public class Protagonist extends Being implements Timers {
         }));
         velocity_timer.start();
         isInvincible = false;
+    }
+
+    public void addTutorialLevel( TutorialLevel tut){
+        tutorial = tut;
     }
 
     public void setInvincible(int time){
@@ -74,8 +80,10 @@ public class Protagonist extends Being implements Timers {
         for (TileShape portal : maps.getCurrentForwardPortal()) {
             Rectangle portalRec = portal.getBounds();
             if (playerRec.intersects(portalRec)) {
+                System.out.println("intersecting portal");
                 maps.setNextLevel();
                 enemies.setEnemy();
+                tutorial.beginGame();
                 this.setX(tileSize + buffer);
                 this.setY(tileSize + buffer);
             }
@@ -85,6 +93,7 @@ public class Protagonist extends Being implements Timers {
             if (playerRec.intersects(portalRec)) {
                 maps.setPreviousLevel();
                 enemies.setEnemy();
+                tutorial.backLevel();
                 this.setX(tileSize + buffer);
                 this.setY(tileSize + buffer);
             }
@@ -108,8 +117,6 @@ public class Protagonist extends Being implements Timers {
         setX(currentX + dx);
         int currentY = getY();
         setY(currentY + dy);
-        checkCollision(maps.getCurrentObstacles());
-        checkPortal();
     }
 
     public boolean checkEnemy(Enemy enemy) {

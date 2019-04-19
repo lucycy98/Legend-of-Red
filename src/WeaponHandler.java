@@ -30,10 +30,10 @@ public class WeaponHandler {
         this.maps = maps;
         this.game = panel;
         availableWeapons = new ArrayList<>();
-        Weapon dagger = new Dagger(player, 60, 60, "daggerNorth.png", false, enemies);
-        availableWeapons.add(dagger);
-        currentWeapon = dagger;
-        currentItem = Items.DAGGER;
+        //Weapon dagger = new Dagger(player, 60, 60, "daggerNorth.png", false, enemies);
+        //availableWeapons.add(dagger);
+        currentWeapon = null;
+        currentItem = null;
         bossWeapon = new ProjectileHandler(maps, player, enemies, Items.PROJECTILE);
         this.enemies = enemies;
         this.player = player;
@@ -75,6 +75,12 @@ public class WeaponHandler {
             case CUPIDBOW:
                 weapon = new ProjectileHandler(maps, player, enemies, Items.CUPIDBOW);
                 break;
+            case DAGGER:
+                weapon = new Dagger(player, 60, 60, "daggerNorth.png", false, enemies);
+                currentWeapon = weapon;
+                currentItem = Items.DAGGER;
+                icons.get(currentWeapon.getItems()).setIsRenderable(true);
+                break;
             default:
                 weapon = null;
         }
@@ -95,10 +101,12 @@ public class WeaponHandler {
     }
 
     public void paint(Graphics2D win) {
+        if (currentWeapon != null){
+            currentWeapon.paint(win);
+            icons.get(currentItem).renderShape(win);
 
-        currentWeapon.paint(win);
+        }
         bossWeapon.paint(win);
-        icons.get(currentItem).renderShape(win);
     }
 
     public void attack() {
@@ -122,7 +130,9 @@ public class WeaponHandler {
     }
 
     public void checkCollision() {
-        currentWeapon.checkCollision();
+        if (currentWeapon != null){
+            currentWeapon.checkCollision();
+        }
         bossWeapon.checkEnemyCollision();
     }
 
@@ -145,7 +155,7 @@ public class WeaponHandler {
 
     public void createImages(int x, int y, int width, int height) {
         icons = new HashMap<>();
-        icons.put(Items.DAGGER, new TileShape(x, y, width, height, "daggerNorth.png", true));
+        icons.put(Items.DAGGER, new TileShape(x, y, width, height, "daggerNorth.png", false));
         icons.put(Items.PROJECTILE, new TileShape(x, y, width, height, "arrowNorth.png", false));
         icons.put(Items.CUPIDBOW, new TileShape(x, y, width, height, "cupid.png", false));
     }

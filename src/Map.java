@@ -13,16 +13,32 @@ public class Map {
     ArrayList<TileShape> _fportals = new ArrayList<>();
     int tileSize = 60;
 
+    private String houseGround = "floor.png";
+    private String houseObs = "brick.png";
 
-    public Map(int num_obs) {
+    private String forestGround = "grass.jpg";
+    private String forestObs = "tree.png";
+
+
+    public Map(int num_obs, Boolean isForest) {
+        String ground;
+        String obs;
+        if (isForest){
+            ground = forestGround;
+            obs = forestObs;
+        } else {
+            ground = houseGround;
+            obs = houseObs;
+        }
+
         for (int i = 0; i < xTiles; i++) {
             for (int j = 0; j < yTiles; j++) {
                 if (i == 0 | i == xTiles - 1 | j == 0 | j == yTiles - 1) {
-                    TileShape tree = new TileShape(i * tileSize, j * tileSize, tileSize, tileSize, "tree.png", true);
+                    TileShape tree = new TileShape(i * tileSize, j * tileSize, tileSize, tileSize, obs, true);
                     _obstacles.add(tree);
                     _map[i][j] = tree;
                 }
-                TileShape grass = new TileShape(i * tileSize, j * tileSize, tileSize, tileSize, "grass.jpg", true);
+                TileShape grass = new TileShape(i * tileSize, j * tileSize, tileSize, tileSize, ground, true);
                 _grass.add(grass);
                 _map[i][j] = grass;
             }
@@ -32,13 +48,14 @@ public class Map {
             int x = new Random().nextInt(xTiles);
             int y = new Random().nextInt(yTiles);
             if (x != (xTiles - 2) * tileSize & y != yTiles / 2 * tileSize) {
-                TileShape tile = new TileShape(x * tileSize, y * tileSize, tileSize, tileSize, "tree.png", true);
+                TileShape tile = new TileShape(x * tileSize, y * tileSize, tileSize, tileSize, obs, true);
                 _obstacles.add(tile);
             } else {
                 k--;
             }
         }
     }
+
 
     public void addForwardsPortal() {
         System.out.println("forwards portal added");

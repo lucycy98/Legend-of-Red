@@ -1,4 +1,3 @@
-import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,29 +6,40 @@ public class MapHandler {
 
     HashMap<Integer, Map> maps;
     private int currentLevel;
+    private int tutorialLevel = 0;
+    private int bossLevel = 4;
+    private int totalLevels = 5;
     int xTiles = 17;
     int yTiles = 12;
-    int maxLevel = 3;
     private EnemyHandler enemies;
 
     // Constructor initialises array of bullets
     public MapHandler() {
         maps = new HashMap<>();
-        for (int i = 0; i < 3; i++) {
-            Map map = new Map(20);
-            if (i != 0) {
+        for (int i = 0; i < totalLevels; i++) {
+            int level = i;
+            Map map;
+            if (level == tutorialLevel || level == bossLevel){
+                map = new Map(0, false);
+            } else {
+                map = new Map(20, true);
+            }
+
+            if (level > tutorialLevel) {
                 map.addBackwardsPortal();
             }
-            maps.put(i, map);
+            maps.put(level, map);
         }
-        Map map = new Map(0);
-        map.addBackwardsPortal();
-        maps.put(3, map);
-        currentLevel = 0;
+        currentLevel = tutorialLevel;
     }
 
+    public int getTotalLevels(){
+        return totalLevels;
+    }
+
+
     public void setFinalLevel(){
-        currentLevel = maxLevel;
+        currentLevel = bossLevel;
         if (enemies != null){
             enemies.setEnemy();
         }
@@ -59,7 +69,6 @@ public class MapHandler {
 
     public void addEnemyHandler(EnemyHandler enemy){
         enemies = enemy;
-
     }
 
     public int getCurrentLevel() {

@@ -33,6 +33,7 @@ public class TileShape {
         this.height = height;
         this.isRenderable = r;
         String image;
+        System.out.println(item);
         switch (item) {
             case KEY:
                 image = "key.png";
@@ -48,6 +49,9 @@ public class TileShape {
                 break;
             case HEALTH:
                 image = "heart.png";
+                break;
+            case DAGGER:
+                image = "spear.png";
                 break;
             default:
                 image = "key.png";

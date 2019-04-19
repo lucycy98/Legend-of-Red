@@ -11,9 +11,9 @@ public class PickUpItemHandler {
 
     private final MapHandler maps;
     private Timer velocity_timer;
-    private int levels = 4;
-    private int[] killedEnemies = {0,0,0,0};
-    private int[] numberOfEnemies = new int[4];
+    private int levels;
+    private int[] killedEnemies = {0,0,0,0,0};
+    private int[] numberOfEnemies = new int[5];
     private int lastLevel = 1;
     private ArrayList<PickUpItem> itemsList;
     private ArrayList<Items> levelPickUps = new ArrayList<>(Arrays.asList(Items.PROJECTILE, Items.CUPIDBOW, Items.WOLFSKIN, Items.HEALTH));
@@ -27,6 +27,8 @@ public class PickUpItemHandler {
         this.maps = maps;
         itemsList = new ArrayList<>();
         currentPickUps = 0;
+        levels = maps.getTotalLevels();
+        numberOfEnemies[0] = 0;
 
         this.velocity_timer = new Timer(1000/300, (new ActionListener() {
             @Override
@@ -47,7 +49,7 @@ public class PickUpItemHandler {
      * @param number
      */
     public void addNumberOfEnemies(int level, int number){
-        if (level > levels || number < 0){
+        if (level > levels || number < 1){
             return;
         }
         numberOfEnemies[level] = number;
@@ -62,11 +64,17 @@ public class PickUpItemHandler {
 
         int index;
         switch(level){
-            case 0:
+            case 0: //tutorial level
+                System.out.println("level 0");
+                break;
+            case 4:
+                System.out.println("boss level");
+
+            case 1:
                 index = ThreadLocalRandom.current().nextInt(2, numberOfEnemies[level]);
                 indices.add(index);
                 break;
-            case 1: //2 pick ups here
+            case 2: //2 pick ups here
                 index = ThreadLocalRandom.current().nextInt(2, numberOfEnemies[level]);
                 int index_2 = index;
                 while (index_2 == index){
@@ -77,8 +85,11 @@ public class PickUpItemHandler {
                 System.out.println("assigning pickup for level" + level + " with index " + index + " " + index_2);
                 break;
             default:
+                System.out.println("level breaking at default is " + level);
+
                 index = ThreadLocalRandom.current().nextInt(2, numberOfEnemies[level]);
                 indices.add(index);
+                System.out.println("level breaking at default is " + level);
                 break;
         }
         pickupIndices.put(level, indices);
@@ -111,7 +122,7 @@ public class PickUpItemHandler {
     }
 
     public void addEnemiesKilled(int level, int x, int y){ //to be called by enemy handler
-        if (level > levels){
+        if (level > levels || level < 1){
             return;
         }
         System.out.println("current level is " + level);
@@ -125,9 +136,10 @@ public class PickUpItemHandler {
         }
     }
 
-    private void createItem(int x, int y, Items item){
+    public void createItem(int x, int y, Items item){
         PickUpItem pickup;
         if (weapon == null) {
+            System.out.println("null");
             pickup = new PickUpItem(player, x, y, item, maps);
         } else {
             pickup = new PickUpItem(player, x, y, item, maps, weapon);
@@ -154,6 +166,10 @@ public class PickUpItemHandler {
 
     public void stopTimers(){
         velocity_timer.stop();
+    }
+
+    public void startTimers(){
+        velocity_timer.start();
     }
 
 }

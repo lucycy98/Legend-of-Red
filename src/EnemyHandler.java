@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class EnemyHandler implements Timers{
@@ -15,22 +14,24 @@ public class EnemyHandler implements Timers{
     private MapHandler maps;
     protected Protagonist player;
     private PickUpItemHandler item;
-    int totallevels = 4;
+    int totallevels;
     private Score score;
     private Timer velocity_timer;
 
 
-    public EnemyHandler(int tileSize, MapHandler maps, Score score) {
-        item = new PickUpItemHandler(maps);
+    public EnemyHandler(int tileSize, MapHandler maps, Score score, PickUpItemHandler item) {
+        this.item = item;
         enemies = new HashMap<>();
         this.maps = maps;
+        totallevels = maps.getTotalLevels();
         this.tileSize = tileSize;
         this.score = score;
         score.totalLevels(totallevels);
 
         for (int i = 0; i < totallevels; i++) {
-            ArrayList<Enemy> enemy = createEnemies(i);
-            enemies.put(i, enemy);
+            int level = i;
+            ArrayList<Enemy> enemy = createEnemies(level);
+            enemies.put(level, enemy);
         }
         this.currentEnemies = enemies.get(maps.getCurrentLevel());
 
@@ -45,10 +46,12 @@ public class EnemyHandler implements Timers{
 
     public void stopTimers(){
         velocity_timer.stop();
+        item.stopTimers();
     }
 
     public void startTimers(){
         velocity_timer.start();
+        item.startTimers();
     }
 
     public void addPlayer(Protagonist player) {
@@ -62,9 +65,12 @@ public class EnemyHandler implements Timers{
 
     public ArrayList<Enemy> createEnemies(int level) {
         ArrayList<Enemy> enemies = new ArrayList<>();
-        int[] enemiesPerLevel = {6, 6, 5, 1};
+        if (level == 0){
+            return enemies;
+        }
+        int[] enemiesPerLevel = {0, 6, 6, 5, 1};
 
-        if (level < 3) {
+        if (level < totallevels - 1) {
             for (int i = 0; i < enemiesPerLevel[level]; i++) {
                 int x = ThreadLocalRandom.current().nextInt(1, maps.getxTiles() - 1);
                 int y = ThreadLocalRandom.current().nextInt(1, maps.getyTiles() - 1);

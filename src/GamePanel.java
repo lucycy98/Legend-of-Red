@@ -23,18 +23,23 @@ public class GamePanel extends JPanel implements KeyListener {
     Score score;
     int timeLeft = 1000 * 180;
     String time;
+    PickUpItemHandler item;
+    TutorialLevel tutorial;
 
     // gameScreen Constructor
     public GamePanel() {
         option = Gamestate.GAME;
         maps = new MapHandler();
         score = new Score();
-        enemies = new EnemyHandler(tileSize, maps, score);
+        item = new PickUpItemHandler(maps);
+        enemies = new EnemyHandler(tileSize, maps, score, item);
         maps.addEnemyHandler(enemies);
         player = new Protagonist(tileSize, tileSize, tileSize, tileSize, "player.png", tileSize * 2, maps, enemies);
         enemies.addPlayer(player);
         weapons = new WeaponHandler(maps, projectiles, player, enemies, this);
         enemies.addWeaponHandler(weapons);
+        tutorial = new TutorialLevel(maps, item);
+        player.addTutorialLevel(tutorial);
         weapons.createImages(weaponLocation, -40, 40, 40);
 
         this.updateHealth = new Timer(2, (new ActionListener() {

@@ -35,6 +35,10 @@ public class PickUpItem extends TileShape {
             case WOLFSKIN:
                 player.setInvincible(100);
                 break;
+            case DAGGER:
+                weapon.addWeapon(item);
+                map.addPortal();
+                break;
             default:
                 weapon.addWeapon(item);
                 break;
