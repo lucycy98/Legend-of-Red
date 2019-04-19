@@ -30,6 +30,7 @@ public class GamePanel extends JPanel implements KeyListener {
         maps = new MapHandler();
         score = new Score();
         enemies = new EnemyHandler(tileSize, maps, score);
+        maps.addEnemyHandler(enemies);
         player = new Protagonist(tileSize, tileSize, tileSize, tileSize, "player.png", tileSize, maps, enemies);
         enemies.addPlayer(player);
         weapons = new WeaponHandler(maps, projectiles, player, enemies, this);
@@ -98,10 +99,7 @@ public class GamePanel extends JPanel implements KeyListener {
         if (time != null){
             window.drawString(time, 930, 25);
         }
-
-
         repaint();
-
     }
 
     public void stopTimers(){
@@ -136,6 +134,11 @@ public class GamePanel extends JPanel implements KeyListener {
     @Override
     public void keyPressed(KeyEvent evt) {
 
+        if (evt.getKeyCode() == KeyEvent.VK_ESCAPE){ //mainMenu
+            stopTimers();
+            option = Gamestate.MENU;
+        }
+
         if (option == Gamestate.PAUSE){
             if (evt.getKeyCode() == KeyEvent.VK_P){
                 startTimers();
@@ -152,6 +155,8 @@ public class GamePanel extends JPanel implements KeyListener {
                 case KeyEvent.VK_P:
                     stopTimers();
                     option = Gamestate.PAUSE;
+                case KeyEvent.VK_B:
+                    maps.setFinalLevel();
                 default:
                     player.keyPressed(evt);
             }
