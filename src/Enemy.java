@@ -21,8 +21,9 @@ public class Enemy extends Being {
     public boolean canRangeAttack;
     public boolean friendly;
     public boolean attackStatus;
+    private int health;
 
-    public Enemy(int xPos, int yPos, int width, int height, String image, int tile, MapHandler maps, int level, boolean canRangeAttack) {
+    public Enemy(int xPos, int yPos, int width, int height, String image, int tile, MapHandler maps, int level, boolean canRangeAttack, int health) {
         super(xPos, yPos, width, height, 1, image);
         this.tileSize = tile;
         this.maps = maps;
@@ -35,6 +36,7 @@ public class Enemy extends Being {
         this.canRangeAttack = canRangeAttack;
         friendly = false;
         attackStatus = false;
+        this.health = health;
     }
 
     public int getLevel() {
@@ -51,8 +53,11 @@ public class Enemy extends Being {
 
     @Override
     public void damageHealth() {
+        health --;
         System.out.println("bullet hit wolf");
-        killWolf();
+        if (health == 0){
+            killWolf();
+        }
     }
 
     private void killWolf() {

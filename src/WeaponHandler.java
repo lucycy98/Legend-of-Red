@@ -44,7 +44,7 @@ public class WeaponHandler {
             }
         }));
         velocity_timer.start();
-        scaleFactor = 20;
+        scaleFactor = 15;
         counter = 0;
 
         this.attack_timer = new Timer(150, (new ActionListener() { //this timer shows what can be done

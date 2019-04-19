@@ -10,6 +10,7 @@ public class Projectile extends TileShape {
     private Boolean isRenderable = true;
     private MapHandler maps;
     Boolean isImage;
+    int timer;
 
     public Projectile(Direction dir, int xPos, int yPos, int tileSize, MapHandler maps) {
         setVelocity(dir, tileSize);
@@ -28,6 +29,11 @@ public class Projectile extends TileShape {
         currentYPos = yPos;
         this.maps = maps;
         isImage = true;
+        timer = 0;
+    }
+
+    public int incrementTimer() {
+        return timer++;
     }
 
     private void setVelocity(Direction dir, int tileSize) {
@@ -97,8 +103,8 @@ public class Projectile extends TileShape {
             return;
         }
 
-        int distX = player.getX() - currentXPos;
-        int distY = player.getY() - currentYPos;
+        int distX = player.getX() - this.getX();
+        int distY = player.getY() - this.getY();
 
         int scale = Math.max(Math.abs(distX), Math.abs(distY));
 
@@ -112,8 +118,9 @@ public class Projectile extends TileShape {
             dx = 0;
             dy = 0;
         }
-        currentXPos += dx;
-        currentYPos += dy;
+        //TODO change scale factor
+        this.setX(this.getX() + dx * 3);
+        this.setY(this.getY() + dy * 3);
 
     }
 

@@ -51,7 +51,7 @@ public class ProjectileHandler implements Weapon, Timers {
             eproj.emove(player);
             if (eproj.checkCollision()) {
                 eproj.setIsRenderable(false);
-                projectiles.remove(eproj);
+                enemyProjectiles.remove(eproj);
             }
         }
     }
@@ -61,38 +61,37 @@ public class ProjectileHandler implements Weapon, Timers {
         Direction dir = player.getDir();
         int xPos = player.getX();
         int yPos = player.getY();
-        String image;
-        int w;
-        int h;
+        String image = "";
+        int w = 0;
+        int h = 0;
         switch (dir) {
             case NORTH:
                 image = "arrowNorth.png";
-                w = 20;
-                h = 50;
+                w = 10;
+                h = 25;
                 break;
             case SOUTH:
                 image = "arrowSouth.png";
-                w = 20;
-                h = 50;
+                w = 10;
+                h = 25;
                 break;
             case EAST:
                 image = "arrowEast.png";
-                w = 50;
-                h = 20;
+                w = 25;
+                h = 10;
                 break;
             case WEST:
                 image = "arrowWest.png";
-                w = 50;
-                h = 20;
+                w = 25;
+                h = 10;
                 break;
             default:
-                image = "arrowNorth.png";
-                w = 20;
-                h = 50;
         }
         //Projectile projectile = new Projectile(dir, xPos, yPos, projectileSpeed, maps);
-        Projectile projectile = new Projectile(dir, xPos, yPos, projectileSpeed, maps, image, w, h);
-        projectiles.add(projectile);
+        if (!image.equals("")) {
+            Projectile projectile = new Projectile(dir, xPos, yPos, projectileSpeed, maps, image, w, h);
+            projectiles.add(projectile);
+        }
     }
 
     @Override
@@ -113,35 +112,20 @@ public class ProjectileHandler implements Weapon, Timers {
             dy = 0;
         }
 
-        String image = "arrowEast.png";
-        int w = 50;
-        int h = 20;
-
         if (dx == 1 & dy == 0) {
             dir = Direction.EAST;
-            image = "arrowEast.png";
-            w = 50;
-            h = 20;
         } else if (dx == 0 & dy == -1) {
             dir = Direction.NORTH;
-            image = "arrowNorth.png";
-            w = 20;
-            h = 50;
         } else if (dx == -1 & dy == 0) {
             dir = Direction.WEST;
-            image = "arrowWest.png";
-            w = 50;
-            h = 20;
         } else if (dx == 0 & dy == 1) {
             dir = Direction.SOUTH;
-            image = "arrowSouth.png";
-            w = 20;
-            h = 50;
         }
 
+        String image = "circle.png";
+
         if (dir != null) {
-            //Projectile projectile = new Projectile(dir, enemy.getX(), enemy.getY(), projectileSpeed, maps);
-            Projectile projectile = new Projectile(dir, enemy.getX(), enemy.getY(), projectileSpeed, maps, image, w, h);
+            Projectile projectile = new Projectile(dir, enemy.getX(), enemy.getY(), projectileSpeed, maps, image, 5, 5);
             enemyProjectiles.add(projectile);
         }
     }
@@ -152,7 +136,16 @@ public class ProjectileHandler implements Weapon, Timers {
             proj.paint(g);
         }
         for (Projectile eproj : enemyProjectiles) {
-            eproj.paint(g);
+
+            //todo change magical number
+            if (eproj.incrementTimer() == 150){
+                eproj.setIsRenderable(false);
+                enemyProjectiles.remove(eproj);
+                return;
+            }
+            else{
+                eproj.paint(g);
+            }
         }
     }
 
@@ -192,11 +185,9 @@ public class ProjectileHandler implements Weapon, Timers {
     public void checkEnemyCollision() {
         Rectangle playerRec = player.getBounds();
         for (Projectile eproj : enemyProjectiles) {
-            System.out.println("step 1");
             Rectangle projRec = eproj.getBounds();
             if (projRec.intersects(playerRec)) {
-                player.health -= 10;
-                System.out.println("step 2");
+                player.health -= 5;
                 eproj.setIsRenderable(false);
                 enemyProjectiles.remove(eproj);
                 return;

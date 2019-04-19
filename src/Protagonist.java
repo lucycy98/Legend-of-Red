@@ -23,7 +23,7 @@ public class Protagonist extends Being implements Timers {
     Boolean pressLeft = false;
     Boolean pressRight = false;
     int health;
-    int speed = 1;
+    int speed = 2;
     int buffer = 50;
     private int score = 0;
     boolean beingAttacked;
@@ -31,7 +31,7 @@ public class Protagonist extends Being implements Timers {
 
 
     public Protagonist(int xPos, int yPos, int width, int height, String image, int tile, MapHandler maps, EnemyHandler enemies) {
-        super(xPos, yPos, width, height, 1, image);
+        super(xPos, yPos, width, height, 2, image);
         this.tileSize = tile;
         this.maps = maps;
         this.enemies = enemies;
@@ -98,7 +98,7 @@ public class Protagonist extends Being implements Timers {
 
         if (playerRec.intersects(obstacleRec)) {
             if (!enemy.attackStatus) {
-                health -= 10;
+                health -= 5;
                 enemy.attackStatus = true;
             }
             return true;
