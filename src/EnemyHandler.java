@@ -52,7 +52,7 @@ public class EnemyHandler implements Timers{
     }
 
     public void addPlayer(Protagonist player) {
-        item.player = player;
+        item.addPlayer(player);
         this.player = player;
     }
 

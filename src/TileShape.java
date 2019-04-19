@@ -44,7 +44,10 @@ public class TileShape {
                 image = "cupid.png";
                 break;
             case WOLFSKIN:
-                image = "cloak.png";
+                image = "redCloak.png";
+                break;
+            case HEALTH:
+                image = "heart.png";
                 break;
             default:
                 image = "key.png";

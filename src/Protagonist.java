@@ -57,6 +57,18 @@ public class Protagonist extends Being implements Timers {
         invincibleTime = time;
     }
 
+    public void healthUp(){
+        int up = 0;
+        if (health < 30){
+            up = 40;
+        } else if (health < 70){
+            up = 20;
+        } else if (health < 90){
+            up = 9;
+        }
+        health = health + up;
+    }
+
     public void checkPortal() {
         Rectangle playerRec = this.getBounds();
         for (TileShape portal : maps.getCurrentForwardPortal()) {

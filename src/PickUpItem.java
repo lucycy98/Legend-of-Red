@@ -10,7 +10,7 @@ public class PickUpItem extends TileShape {
     private WeaponHandler weapon;
 
     public PickUpItem(Protagonist player, int x, int y, Items item, MapHandler map, WeaponHandler weapon) {
-        super(x, y, 40, 40, item, true);
+        super(x, y, 60, 60, item, true);
         this.player = player;
         this.item = item;
         this.map = map;
@@ -18,7 +18,7 @@ public class PickUpItem extends TileShape {
     }
 
     public PickUpItem(Protagonist player, int x, int y, Items item, MapHandler map) {
-        super(x, y, 40, 40, item, true);
+        super(x, y, 60, 60, item, true);
         this.player = player;
         this.item = item;
         this.map = map;
@@ -30,8 +30,7 @@ public class PickUpItem extends TileShape {
                 map.addPortal();
                 break;
             case HEALTH:
-                break;
-            case DAGGER:
+                player.healthUp();
                 break;
             case WOLFSKIN:
                 player.setInvincible(100);

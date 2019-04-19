@@ -20,8 +20,7 @@ public class PickUpItemHandler {
     private int currentPickUps;
     private HashMap<Integer, ArrayList> pickupIndices = new HashMap<>();
     private WeaponHandler weapon;
-
-    Protagonist player;
+    private Protagonist player;
 
     // Constructor initialises array of bullets
     public PickUpItemHandler(MapHandler maps) {
@@ -60,21 +59,27 @@ public class PickUpItemHandler {
             return;
         }
         ArrayList indices = new ArrayList();
-        if (level < 2){
-            int index = ThreadLocalRandom.current().nextInt(2, numberOfEnemies[level]);
-            indices.add(index);
-            System.out.println("assigning pickup for level" + level + " with index " + index);
-        } else if (level == 2){ //two items in level 2
 
-            int index = ThreadLocalRandom.current().nextInt(2, numberOfEnemies[level]);
-            int index_2 = index;
-            while (index_2 == index){
-                index_2 = ThreadLocalRandom.current().nextInt(2, numberOfEnemies[level]);
-            }
-            indices.add(index);
-            indices.add(index_2);
-            System.out.println("assigning pickup for level" + level + " with index " + index + " " + index_2);
-
+        int index;
+        switch(level){
+            case 0:
+                index = ThreadLocalRandom.current().nextInt(2, numberOfEnemies[level]);
+                indices.add(index);
+                break;
+            case 1: //2 pick ups here
+                index = ThreadLocalRandom.current().nextInt(2, numberOfEnemies[level]);
+                int index_2 = index;
+                while (index_2 == index){
+                    index_2 = ThreadLocalRandom.current().nextInt(2, numberOfEnemies[level]);
+                }
+                indices.add(index);
+                indices.add(index_2);
+                System.out.println("assigning pickup for level" + level + " with index " + index + " " + index_2);
+                break;
+            default:
+                index = ThreadLocalRandom.current().nextInt(2, numberOfEnemies[level]);
+                indices.add(index);
+                break;
         }
         pickupIndices.put(level, indices);
     }
