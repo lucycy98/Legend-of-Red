@@ -48,7 +48,11 @@ public class ProjectileHandler implements Weapon {
         }
         for (int i = 0; i < enemyProjectiles.size(); i++) {
             Projectile eproj = enemyProjectiles.get(i);
-            eproj.move();
+            eproj.emove(player);
+            if (eproj.checkCollision()) {
+                eproj.setIsRenderable(false);
+                projectiles.remove(eproj);
+            }
         }
     }
 
@@ -96,7 +100,6 @@ public class ProjectileHandler implements Weapon {
         int distX = player.getX() - enemy.getX();
         int distY = player.getY() - enemy.getY();
         Direction dir = null;
-//        double angle = Math.atan2((double)dy, (double)dx);
         int scale = Math.max(Math.abs(distX), Math.abs(distY));
 
         int dx;
@@ -158,6 +161,21 @@ public class ProjectileHandler implements Weapon {
         }
     }
 
+    @Override
+    public void checkEnemyCollision() {
+        Rectangle playerRec = player.getBounds();
+        for (Projectile eproj : enemyProjectiles) {
+            System.out.println("step 1");
+            Rectangle projRec = eproj.getBounds();
+            if (projRec.intersects(playerRec)) {
+                player.health -= 10;
+                System.out.println("step 2");
+                eproj.setIsRenderable(false);
+                enemyProjectiles.remove(eproj);
+                return;
+            }
+        }
+    }
 //    @Override
 //    public void checkCollision() {
 //        for (Projectile projectile : projectiles){

@@ -18,6 +18,8 @@ public class WeaponHandler {
     Protagonist player;
     GamePanel game;
     HashMap<Items, TileShape> icons;
+    int scaleFactor;
+    int counter;
 
     // Constructor initialises array of bullets
     public WeaponHandler(MapHandler maps, ProjectileHandler projectiles, Protagonist player, EnemyHandler enemies, GamePanel panel) {
@@ -40,6 +42,8 @@ public class WeaponHandler {
             }
         }));
         velocity_timer.start();
+        scaleFactor = 20;
+        counter = 0;
     }
 
     public void addWeapon(Items item) {
@@ -71,7 +75,10 @@ public class WeaponHandler {
     }
 
     public void paint(Graphics2D win) {
-        enemyAttack();
+        counter++;
+        if (counter % scaleFactor == 0) {
+            enemyAttack();
+        }
         currentWeapon.paint(win);
         bossWeapon.paint(win);
         icons.get(currentItem).renderShape(win);
@@ -95,6 +102,7 @@ public class WeaponHandler {
 
     public void checkCollision() {
         currentWeapon.checkCollision();
+        bossWeapon.checkEnemyCollision();
     }
 
     public void changeWeapon() {

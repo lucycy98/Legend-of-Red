@@ -49,6 +49,11 @@ public class Dagger extends TileShape implements Weapon {
     }
 
     @Override
+    public void checkEnemyCollision(){
+
+    }
+
+    @Override
     public void paint(Graphics2D win) {
         this.renderShape(win);
         showDagger();

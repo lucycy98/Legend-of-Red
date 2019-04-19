@@ -92,6 +92,31 @@ public class Projectile extends TileShape {
 
     }
 
+    public void emove(Being player) {
+        if (!isRenderable) {
+            return;
+        }
+
+        int distX = player.getX() - currentXPos;
+        int distY = player.getY() - currentYPos;
+
+        int scale = Math.max(Math.abs(distX), Math.abs(distY));
+
+        int dx;
+        int dy;
+
+        if (scale != 0) {
+            dx = (distX / scale);
+            dy = (distY / scale);
+        } else {
+            dx = 0;
+            dy = 0;
+        }
+        currentXPos += dx;
+        currentYPos += dy;
+
+    }
+
     public boolean checkCollision() {
         Rectangle bulletRec = this.getBounds();
         for (TileShape obstacle : maps.getCurrentObstacles()) {
