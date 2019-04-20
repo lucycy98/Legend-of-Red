@@ -62,7 +62,7 @@ public class TutorialLevel implements Timers {
     }
 
     public void paint(Graphics2D win) {
-        if (inTutorialLevel){
+        if (inTutorialLevel) {
             win.setColor(Color.BLACK);
             win.setFont(new Font("TimesRoman", Font.PLAIN, 20));
             if (!messageFinished) {

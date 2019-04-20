@@ -138,12 +138,11 @@ public class ProjectileHandler implements Weapon, Timers {
         for (Projectile eproj : enemyProjectiles) {
 
             //todo change magical number
-            if (eproj.incrementTimer() == 150){
+            if (eproj.incrementTimer() == 150) {
                 eproj.setIsRenderable(false);
                 enemyProjectiles.remove(eproj);
                 return;
-            }
-            else{
+            } else {
                 eproj.paint(g);
             }
         }
@@ -172,7 +171,7 @@ public class ProjectileHandler implements Weapon, Timers {
     }
 
     @Override
-    public void stopTimers(){
+    public void stopTimers() {
         velocity_timer.stop();
     }
 
@@ -184,7 +183,7 @@ public class ProjectileHandler implements Weapon, Timers {
     @Override
     public void checkEnemyCollision() {
         Rectangle playerRec = player.getBounds();
-        for (int i = 0; i < enemyProjectiles.size(); i++){
+        for (int i = 0; i < enemyProjectiles.size(); i++) {
             Projectile eproj = enemyProjectiles.get(i);
             Rectangle projRec = eproj.getBounds();
             if (projRec.intersects(playerRec)) {

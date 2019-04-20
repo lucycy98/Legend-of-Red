@@ -19,7 +19,7 @@ public class MapHandler {
         for (int i = 0; i < totalLevels; i++) {
             int level = i;
             Map map;
-            if (level == tutorialLevel || level == bossLevel){
+            if (level == tutorialLevel || level == bossLevel) {
                 map = new Map(0, false);
             } else {
                 map = new Map(20, true);
@@ -33,14 +33,14 @@ public class MapHandler {
         currentLevel = tutorialLevel;
     }
 
-    public int getTotalLevels(){
+    public int getTotalLevels() {
         return totalLevels;
     }
 
 
-    public void setFinalLevel(){
+    public void setFinalLevel() {
         currentLevel = bossLevel;
-        if (enemies != null){
+        if (enemies != null) {
             enemies.setEnemy();
         }
     }
@@ -67,7 +67,7 @@ public class MapHandler {
         maps.get(currentLevel).addForwardsPortal();
     }
 
-    public void addEnemyHandler(EnemyHandler enemy){
+    public void addEnemyHandler(EnemyHandler enemy) {
         enemies = enemy;
     }
 

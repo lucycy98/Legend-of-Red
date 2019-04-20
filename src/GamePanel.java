@@ -45,7 +45,7 @@ public class GamePanel extends JPanel implements KeyListener {
         this.updateHealth = new Timer(2, (new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (player.getHealth() <= 0){
+                if (player.getHealth() <= 0) {
                     option = Gamestate.LOSE;
                     updateHealth.stop();
                 }
@@ -58,11 +58,10 @@ public class GamePanel extends JPanel implements KeyListener {
             public void actionPerformed(ActionEvent e) {
                 timeLeft -= 100;
 
-                SimpleDateFormat df=new SimpleDateFormat("mm:ss");
+                SimpleDateFormat df = new SimpleDateFormat("mm:ss");
                 time = df.format(timeLeft);
 
-                if(timeLeft<=0)
-                {
+                if (timeLeft <= 0) {
                     option = Gamestate.LOSE;
                     gameTimer.stop();
                 }
@@ -103,13 +102,13 @@ public class GamePanel extends JPanel implements KeyListener {
         window.drawString("Current Weapon:", 700, 25);
 
         window.drawString("Time Left:", 850, 25);
-        if (time != null){
+        if (time != null) {
             window.drawString(time, 930, 25);
         }
         repaint();
     }
 
-    public void stopTimers(){
+    public void stopTimers() {
         weapons.stopTimers();
         enemies.stopTimers();
         player.stopTimers();
@@ -117,7 +116,7 @@ public class GamePanel extends JPanel implements KeyListener {
         gameTimer.stop();
     }
 
-    public void startTimers(){
+    public void startTimers() {
         weapons.startTimers();
         enemies.startTimers();
         player.startTimers();
@@ -125,7 +124,7 @@ public class GamePanel extends JPanel implements KeyListener {
         gameTimer.start();
     }
 
-    public Gamestate getOption(){
+    public Gamestate getOption() {
         return option;
     }
 
@@ -141,37 +140,36 @@ public class GamePanel extends JPanel implements KeyListener {
     @Override
     public void keyPressed(KeyEvent evt) {
 
-        if (evt.getKeyCode() == KeyEvent.VK_ESCAPE){ //mainMenu
-            stopTimers();
-            option = Gamestate.MENU;
-        }
-
-        if (option == Gamestate.PAUSE){
-            if (evt.getKeyCode() == KeyEvent.VK_P){
-                startTimers();
-                option = Gamestate.GAME;
-            }
-        } else {
-            switch (evt.getKeyCode()) {
-                case KeyEvent.VK_SPACE:
-                    if (maps.getCurrentLevel() == 0){
-                        tutorial.nextMessage();
-                    }
-                    else{
-                        weapons.attack();
-                    }
+        switch (evt.getKeyCode()) {
+            case KeyEvent.VK_ESCAPE:
+                stopTimers();
+                option = Gamestate.MENU;
+                break;
+            case KeyEvent.VK_SPACE:
+                if (maps.getCurrentLevel() == 0) {
+                    tutorial.nextMessage();
+                } else {
+                    weapons.attack();
+                }
+                break;
+            case KeyEvent.VK_S:
+                weapons.changeWeapon();
+                break;
+            case KeyEvent.VK_P:
+                if (option == Gamestate.PAUSE) {
+                    startTimers();
+                    option = Gamestate.GAME;
                     break;
-                case KeyEvent.VK_S:
-                    weapons.changeWeapon();
-                    break;
-                case KeyEvent.VK_P:
+                } else {
                     stopTimers();
                     option = Gamestate.PAUSE;
-                case KeyEvent.VK_B:
-                    maps.setFinalLevel();
-                default:
-                    player.keyPressed(evt);
-            }
+                    break;
+                }
+            case KeyEvent.VK_B:
+                maps.setFinalLevel();
+                break;
+            default:
+                player.keyPressed(evt);
         }
     }
 }

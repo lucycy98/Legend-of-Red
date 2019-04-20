@@ -101,7 +101,7 @@ public class WeaponHandler {
     }
 
     public void paint(Graphics2D win) {
-        if (currentWeapon != null){
+        if (currentWeapon != null) {
             currentWeapon.paint(win);
             icons.get(currentItem).renderShape(win);
 
@@ -130,7 +130,7 @@ public class WeaponHandler {
     }
 
     public void checkCollision() {
-        if (currentWeapon != null){
+        if (currentWeapon != null) {
             currentWeapon.checkCollision();
         }
         bossWeapon.checkEnemyCollision();
@@ -160,13 +160,13 @@ public class WeaponHandler {
         icons.put(Items.CUPIDBOW, new TileShape(x, y, width, height, "cupid.png", false));
     }
 
-    public void stopTimers(){
-        canAttack  = false;
+    public void stopTimers() {
+        canAttack = false;
         velocity_timer.stop();
-        for (int i = 0; i < availableWeapons.size(); i++){
+        for (int i = 0; i < availableWeapons.size(); i++) {
             availableWeapons.get(i).stopTimers();
         }
-        if (currentWeapon != null){
+        if (currentWeapon != null) {
             currentWeapon.stopTimers();
         }
 
@@ -175,10 +175,10 @@ public class WeaponHandler {
 
     }
 
-    public void startTimers(){
-        canAttack  = true;
+    public void startTimers() {
+        canAttack = true;
         velocity_timer.start();
-        for (int i = 0; i < availableWeapons.size(); i++){
+        for (int i = 0; i < availableWeapons.size(); i++) {
             availableWeapons.get(i).startTimers();
         }
         attack_timer.start();

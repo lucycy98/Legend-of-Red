@@ -46,7 +46,7 @@ public class Protagonist extends Being implements Timers {
                 movePlayer();
                 checkCollision(maps.getCurrentObstacles());
                 checkPortal();
-                if (isInvincible){
+                if (isInvincible) {
                     invincibleTime--;
                 }
             }
@@ -55,22 +55,22 @@ public class Protagonist extends Being implements Timers {
         isInvincible = false;
     }
 
-    public void addTutorialLevel( TutorialLevel tut){
+    public void addTutorialLevel(TutorialLevel tut) {
         tutorial = tut;
     }
 
-    public void setInvincible(int time){
+    public void setInvincible(int time) {
         isInvincible = true;
         invincibleTime = time;
     }
 
-    public void healthUp(){
+    public void healthUp() {
         int up = 0;
-        if (health < 30){
+        if (health < 30) {
             up = 40;
-        } else if (health < 70){
+        } else if (health < 70) {
             up = 20;
-        } else if (health < 90){
+        } else if (health < 90) {
             up = 9;
         }
         health = health + up;
@@ -82,7 +82,7 @@ public class Protagonist extends Being implements Timers {
             Rectangle portalRec = portal.getBounds();
             if (playerRec.intersects(portalRec)) {
                 System.out.println("intersecting portal");
-                if (maps.getCurrentLevel()==0){
+                if (maps.getCurrentLevel() == 0) {
                     tutorial.beginGame();
                 }
                 maps.setNextLevel();
@@ -95,7 +95,7 @@ public class Protagonist extends Being implements Timers {
             Rectangle portalRec = portal.getBounds();
             if (playerRec.intersects(portalRec)) {
                 maps.setPreviousLevel();
-                if (maps.getCurrentLevel()==0){
+                if (maps.getCurrentLevel() == 0) {
                     tutorial.backLevel();
                 }
                 enemies.setEnemy();
@@ -138,11 +138,10 @@ public class Protagonist extends Being implements Timers {
             } else {
                 enemy.attackStatus = false;
             }
-        }
-        else{
+        } else {
             this.changeImage("transparentplayer.png");
             System.out.println(invincibleTime);
-            if (invincibleTime <= 0){
+            if (invincibleTime <= 0) {
                 isInvincible = false;
                 this.changeImage("player.png");
             }

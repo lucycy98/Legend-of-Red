@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class EnemyHandler implements Timers{
+public class EnemyHandler implements Timers {
 
     private HashMap<Integer, ArrayList<Enemy>> enemies;
     private ArrayList<Enemy> currentEnemies;
@@ -44,12 +44,12 @@ public class EnemyHandler implements Timers{
         velocity_timer.start();
     }
 
-    public void stopTimers(){
+    public void stopTimers() {
         velocity_timer.stop();
         item.stopTimers();
     }
 
-    public void startTimers(){
+    public void startTimers() {
         velocity_timer.start();
         item.startTimers();
     }
@@ -65,7 +65,7 @@ public class EnemyHandler implements Timers{
 
     public ArrayList<Enemy> createEnemies(int level) {
         ArrayList<Enemy> enemies = new ArrayList<>();
-        if (level == 0){
+        if (level == 0) {
             return enemies;
         }
         int[] enemiesPerLevel = {0, 6, 6, 5, 1};
@@ -113,7 +113,7 @@ public class EnemyHandler implements Timers{
     }
 
     public void move() {
-        if (player == null){
+        if (player == null) {
             return;
         }
         for (int i = 0; i < currentEnemies.size(); i++) {
