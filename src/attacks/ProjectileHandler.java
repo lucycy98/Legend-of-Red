@@ -1,3 +1,13 @@
+package attacks;
+
+import being.Enemy;
+import being.EnemyHandler;
+import being.Protagonist;
+import game.Direction;
+import game.Timers;
+import maps.MapHandler;
+import pickup.Items;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -87,7 +97,7 @@ public class ProjectileHandler implements Weapon, Timers {
                 break;
             default:
         }
-        //Projectile projectile = new Projectile(dir, xPos, yPos, projectileSpeed, maps);
+        //attacks.Projectile projectile = new attacks.Projectile(dir, xPos, yPos, projectileSpeed, maps);
         if (!image.equals("")) {
             Projectile projectile = new Projectile(dir, xPos, yPos, projectileSpeed, maps, image, w, h);
             projectiles.add(projectile);
@@ -187,7 +197,7 @@ public class ProjectileHandler implements Weapon, Timers {
             Projectile eproj = enemyProjectiles.get(i);
             Rectangle projRec = eproj.getBounds();
             if (projRec.intersects(playerRec)) {
-                player.health -= 5;
+                player.damageHealth();
                 eproj.setIsRenderable(false);
                 enemyProjectiles.remove(eproj);
                 return;
@@ -196,13 +206,13 @@ public class ProjectileHandler implements Weapon, Timers {
     }
 //    @Override
 //    public void checkCollision() {
-//        for (Projectile projectile : projectiles){
+//        for (attacks.Projectile projectile : projectiles){
 //            Rectangle projRec = projectile.getBounds();
-//            ArrayList<Enemy> currentEnemies = enemies.getCurrentEnemies();
-//            for (Enemy enemy : currentEnemies){
+//            ArrayList<being.Enemy> currentEnemies = enemies.getCurrentEnemies();
+//            for (being.Enemy enemy : currentEnemies){
 //                Rectangle enemyRec = enemy.getBounds();
 //                if (projRec.intersects(enemyRec)) {
-//                    if (item == Items.PROJECTILE){
+//                    if (item == pickup.Items.PROJECTILE){
 //                        enemies.damageEnemy(enemy);
 //                    } else {
 //                        enemy.becomeFriendly();

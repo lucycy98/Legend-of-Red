@@ -1,3 +1,8 @@
+package maps;
+
+import being.EnemyHandler;
+import graphics.TileShape;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,6 +40,13 @@ public class MapHandler {
 
     public int getTotalLevels() {
         return totalLevels;
+    }
+
+    public Map getMap(int level){
+        if (level < 0 || level > totalLevels){
+            return null;
+        }
+        return maps.get(level);
     }
 
 

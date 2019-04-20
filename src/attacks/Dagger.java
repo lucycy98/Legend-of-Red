@@ -1,3 +1,13 @@
+package attacks;
+
+import being.Enemy;
+import being.EnemyHandler;
+import being.Protagonist;
+import game.Direction;
+import game.Timers;
+import pickup.Items;
+import graphics.TileShape;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

@@ -1,3 +1,10 @@
+package attacks;
+
+import being.Being;
+import game.Direction;
+import maps.MapHandler;
+import graphics.TileShape;
+
 import java.awt.*;
 
 public class Projectile extends TileShape {
@@ -11,15 +18,6 @@ public class Projectile extends TileShape {
     private MapHandler maps;
     Boolean isImage;
     int timer;
-
-    public Projectile(Direction dir, int xPos, int yPos, int tileSize, MapHandler maps) {
-        setVelocity(dir, tileSize);
-        direction = dir;
-        currentXPos = xPos;
-        currentYPos = yPos;
-        this.maps = maps;
-        isImage = false;
-    }
 
     public Projectile(Direction dir, int xPos, int yPos, int tileSize, MapHandler maps, String image, int w, int h) {
         super(xPos, yPos, w, h, image, true);

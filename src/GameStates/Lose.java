@@ -1,25 +1,24 @@
-import javax.imageio.ImageIO;
+package GameStates;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
-public class Menu extends JPanel {
+public class Lose extends JPanel {
 
     int height;
     int width;
     JButton startButton;
     JButton quitButton;
+    JButton menuButton;
     JPanel panel = this;
     Gamestate option;
 
 
-    public Menu(int width, int height) {
+
+    public Lose(int width, int height) {
 
         this.height = height;
         this.width = width;
@@ -33,11 +32,11 @@ public class Menu extends JPanel {
     }
 
     private void makeButtons() throws IOException {
-        ImageIcon startIcon = new ImageIcon(getClass().getResource("button.png"));
+        ImageIcon startIcon = new ImageIcon(getClass().getResource("../button.png"));
         startButton = new JButton(startIcon){
             {
                 setPreferredSize(new Dimension(400, 100));
-                setText("START");
+                setText("PLAY AGAIN");
                 setHorizontalTextPosition(JButton.CENTER);
             }
         };
@@ -49,7 +48,7 @@ public class Menu extends JPanel {
         });
 
 
-        ImageIcon quitIcon = new ImageIcon(getClass().getResource("button.png"));
+        ImageIcon quitIcon = new ImageIcon(getClass().getResource("../button.png"));
         quitButton = new JButton(quitIcon){
             {
                 setPreferredSize(new Dimension(400, 100));
@@ -76,23 +75,6 @@ public class Menu extends JPanel {
 
     public Gamestate getOption(){
         return option;
-    }
-
-    public static void main(String[] args) {
-
-        JFrame gameWindow = new JFrame("Game 1.1");
-        gameWindow.setSize(1030, 790);
-        gameWindow.setVisible(true);
-        gameWindow.setResizable(false);
-        gameWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        Menu menu;
-        menu = new Menu(2,2);
-        menu.setBackground(Color.BLACK);
-        gameWindow.add(menu);
-        gameWindow.validate();
-        menu.requestFocus();
-
     }
 
 }

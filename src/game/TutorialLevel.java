@@ -1,11 +1,12 @@
-import javax.swing.*;
+package game;
+
+import maps.MapHandler;
+import pickup.Items;
+import pickup.PickUpItemHandler;
+import graphics.TileShape;
+
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class TutorialLevel implements Timers {
 
@@ -40,7 +41,7 @@ public class TutorialLevel implements Timers {
     public void createSprites() {
         if (maps.getCurrentLevel() == 0) {
             mumSprite = new TileShape(100, 400, 100, 100, "mum.png", true);
-//            mumIcon = new TileShape(100, 530, 30, 30, "mum.png", true);
+//            mumIcon = new graphics.TileShape(100, 530, 30, 30, "mum.png", true);
             item.createItem(500, 200, Items.DAGGER);
         }
     }

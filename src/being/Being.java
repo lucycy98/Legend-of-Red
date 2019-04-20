@@ -1,3 +1,7 @@
+package being;
+
+import graphics.TileShape;
+
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -61,11 +65,11 @@ public class Being extends TileShape {
 //     * @param obstacles
 //     * @return
 //     */
-//    public boolean checkCollisionWithoutMoving(ArrayList<TileShape> obstacles) {
+//    public boolean checkCollisionWithoutMoving(ArrayList<graphics.TileShape> obstacles) {
 //
 //        Rectangle playerRec = this.getBounds();
 //
-//        for (TileShape obstacle : obstacles) {
+//        for (graphics.TileShape obstacle : obstacles) {
 //            Rectangle obstacleRec = obstacle.getBounds();
 //            if (playerRec.intersects(obstacleRec)) {
 //                return true;

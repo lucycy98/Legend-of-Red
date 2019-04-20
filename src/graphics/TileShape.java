@@ -1,3 +1,7 @@
+package graphics;
+
+import pickup.Items;
+
 import java.awt.*;
 
 /**

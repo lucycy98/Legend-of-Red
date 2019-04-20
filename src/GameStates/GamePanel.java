@@ -1,3 +1,14 @@
+package GameStates;
+
+import attacks.ProjectileHandler;
+import attacks.WeaponHandler;
+import being.EnemyHandler;
+import being.Protagonist;
+import game.Score;
+import game.TutorialLevel;
+import maps.MapHandler;
+import pickup.PickUpItemHandler;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -11,7 +22,6 @@ public class GamePanel extends JPanel implements KeyListener {
 
     ProjectileHandler projectiles;
     Protagonist player;
-    int speed = 8;
     int tileSize = 60;
     EnemyHandler enemies;
     MapHandler maps;

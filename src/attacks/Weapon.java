@@ -1,3 +1,8 @@
+package attacks;
+
+import being.Enemy;
+import pickup.Items;
+
 import java.awt.*;
 
 public interface Weapon {

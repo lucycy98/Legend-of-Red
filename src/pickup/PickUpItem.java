@@ -1,3 +1,10 @@
+package pickup;
+
+import attacks.WeaponHandler;
+import being.Protagonist;
+import maps.MapHandler;
+import graphics.TileShape;
+
 import java.awt.*;
 
 public class PickUpItem extends TileShape {

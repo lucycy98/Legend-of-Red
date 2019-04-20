@@ -1,10 +1,17 @@
+package being;
+
+import game.Direction;
+import game.Timers;
+import game.TutorialLevel;
+import maps.MapHandler;
+import graphics.TileShape;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
 
 /**
  * keep incrementing x, y until key release OR another arrow is pressed.
@@ -63,6 +70,7 @@ public class Protagonist extends Being implements Timers {
         isInvincible = true;
         invincibleTime = time;
     }
+
 
     public void healthUp() {
         int up = 0;
@@ -205,6 +213,8 @@ public class Protagonist extends Being implements Timers {
 
     public void damageHealth() {
         System.out.println("bullet hit player");
+        health -= 5;
+
     }
 
     public void keyReleased(KeyEvent e) {

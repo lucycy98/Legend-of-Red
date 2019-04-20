@@ -1,3 +1,5 @@
+package GameStates;
+
 public enum Gamestate {
     GAME,
     QUIT,

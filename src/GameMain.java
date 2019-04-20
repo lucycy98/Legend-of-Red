@@ -1,4 +1,7 @@
-import Engine.GameEngine;
+import GameStates.GamePanel;
+import GameStates.Gamestate;
+import GameStates.Lose;
+import GameStates.Menu;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,13 +13,14 @@ public class GameMain {
 
     public static void main(String[] args) throws InterruptedException {
 
+
         JFrame gameWindow = new JFrame("Game of Red");
         gameWindow.setSize(1040, 850);
         gameWindow.setVisible(true);
         gameWindow.setResizable(false);
         gameWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        Menu menu;
+        GameStates.Menu menu;
         GamePanel playScreen;
         Lose lose;
 

@@ -1,7 +1,10 @@
+package being;
+
+import being.Being;
+import game.Direction;
+import maps.MapHandler;
+
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**

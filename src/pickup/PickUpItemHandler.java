@@ -1,3 +1,9 @@
+package pickup;
+
+import attacks.WeaponHandler;
+import being.Protagonist;
+import maps.MapHandler;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;

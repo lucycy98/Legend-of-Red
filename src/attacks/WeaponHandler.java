@@ -1,9 +1,20 @@
+package attacks;
+
+import GameStates.GamePanel;
+import being.EnemyHandler;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import being.Enemy;
+import being.Protagonist;
+import maps.MapHandler;
+import pickup.Items;
+import graphics.TileShape;
 
 public class WeaponHandler {
 
@@ -30,7 +41,7 @@ public class WeaponHandler {
         this.maps = maps;
         this.game = panel;
         availableWeapons = new ArrayList<>();
-        //Weapon dagger = new Dagger(player, 60, 60, "daggerNorth.png", false, enemies);
+        //attacks.Weapon dagger = new attacks.Dagger(player, 60, 60, "daggerNorth.png", false, enemies);
         //availableWeapons.add(dagger);
         currentWeapon = null;
         currentItem = null;

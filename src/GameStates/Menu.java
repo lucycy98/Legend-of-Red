@@ -1,22 +1,24 @@
+package GameStates;
+
+import GameStates.Gamestate;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 
-public class Lose extends JPanel {
+public class Menu extends JPanel {
 
     int height;
     int width;
     JButton startButton;
     JButton quitButton;
-    JButton menuButton;
     JPanel panel = this;
     Gamestate option;
 
 
-
-    public Lose(int width, int height) {
+    public Menu(int width, int height) {
 
         this.height = height;
         this.width = width;
@@ -30,11 +32,11 @@ public class Lose extends JPanel {
     }
 
     private void makeButtons() throws IOException {
-        ImageIcon startIcon = new ImageIcon(getClass().getResource("button.png"));
+        ImageIcon startIcon = new ImageIcon(getClass().getResource("../button.png"));
         startButton = new JButton(startIcon){
             {
                 setPreferredSize(new Dimension(400, 100));
-                setText("PLAY AGAIN");
+                setText("START");
                 setHorizontalTextPosition(JButton.CENTER);
             }
         };
@@ -45,8 +47,7 @@ public class Lose extends JPanel {
             }
         });
 
-
-        ImageIcon quitIcon = new ImageIcon(getClass().getResource("button.png"));
+        ImageIcon quitIcon = new ImageIcon(getClass().getResource("../button.png"));
         quitButton = new JButton(quitIcon){
             {
                 setPreferredSize(new Dimension(400, 100));

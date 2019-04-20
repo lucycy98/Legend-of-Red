@@ -1,3 +1,12 @@
+package being;
+
+import attacks.WeaponHandler;
+import game.Score;
+import game.Timers;
+import maps.MapHandler;
+import pickup.PickUpItemHandler;
+import graphics.TileShape;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -75,7 +84,7 @@ public class EnemyHandler implements Timers {
                 int x = ThreadLocalRandom.current().nextInt(1, maps.getxTiles() - 1);
                 int y = ThreadLocalRandom.current().nextInt(1, maps.getyTiles() - 1);
                 boolean overlap = false;
-                for (TileShape obs : maps.maps.get(level).getObstacles()) {
+                for (TileShape obs : maps.getMap(level).getObstacles()) {
                     if (obs.getX() / tileSize == x && obs.getY() / tileSize == y) {
                         overlap = true;
                     }
@@ -142,7 +151,7 @@ public class EnemyHandler implements Timers {
 
 //    public void attack(){
 //        for (int i = 0; i < currentEnemies.size(); i++) {
-//            Enemy enemy = currentEnemies.get(i);
+//            being.Enemy enemy = currentEnemies.get(i);
 //            if (enemy.canRangeAttack) {
 //
 //            }
