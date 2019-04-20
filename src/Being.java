@@ -35,6 +35,10 @@ public class Being extends TileShape {
 
             if (playerRec.intersects(obstacleRec)) {
 
+                if (this.getY() + 10 > obstacle.getY() + obstacle.getHeight()) { //intersects top
+                    this.setY(obstacle.getY() + obstacle.getHeight());
+                }
+
                 if (this.getX() - 10 < obstacle.getX() - this.getWidth()) {//intersects left
                     this.setX(obstacle.getX() - this.getWidth());
                 }
@@ -46,11 +50,6 @@ public class Being extends TileShape {
                 if (this.getY() - 10 < obstacle.getY() - this.getHeight()) { //intersect bottom
                     this.setY(obstacle.getY() - this.getHeight());
                 }
-
-                if (this.getY() + 10 > obstacle.getY() + obstacle.getHeight()) { //intersects top
-                    this.setY(obstacle.getY() + obstacle.getHeight());
-                }
-
                 return true;
             }
         }

@@ -166,7 +166,10 @@ public class WeaponHandler {
         for (int i = 0; i < availableWeapons.size(); i++){
             availableWeapons.get(i).stopTimers();
         }
-        currentWeapon.stopTimers();
+        if (currentWeapon != null){
+            currentWeapon.stopTimers();
+        }
+
         attack_timer.stop();
         enemy_attack_timer.start();
 

@@ -42,6 +42,7 @@ public class Protagonist extends Being implements Timers {
         this.velocity_timer = new Timer(1, (new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                checkCollision(maps.getCurrentObstacles());
                 movePlayer();
                 checkCollision(maps.getCurrentObstacles());
                 checkPortal();
@@ -81,9 +82,11 @@ public class Protagonist extends Being implements Timers {
             Rectangle portalRec = portal.getBounds();
             if (playerRec.intersects(portalRec)) {
                 System.out.println("intersecting portal");
+                if (maps.getCurrentLevel()==0){
+                    tutorial.beginGame();
+                }
                 maps.setNextLevel();
                 enemies.setEnemy();
-                tutorial.beginGame();
                 this.setX(tileSize + buffer);
                 this.setY(tileSize * 3 + buffer);
             }
@@ -92,8 +95,10 @@ public class Protagonist extends Being implements Timers {
             Rectangle portalRec = portal.getBounds();
             if (playerRec.intersects(portalRec)) {
                 maps.setPreviousLevel();
+                if (maps.getCurrentLevel()==0){
+                    tutorial.backLevel();
+                }
                 enemies.setEnemy();
-                tutorial.backLevel();
                 this.setX(tileSize * 6 + buffer);
                 this.setY(tileSize * 3 + buffer);
             }
