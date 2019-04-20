@@ -33,16 +33,16 @@ public class WeaponHandler {
     Boolean canAttack;
     private Timer attack_timer;
     private Timer enemy_attack_timer;
+    private int playerDim;
 
 
     // Constructor initialises array of bullets
     public WeaponHandler(MapHandler maps, ProjectileHandler projectiles, Protagonist player, EnemyHandler enemies, GamePanel panel) {
         canAttack = true;
+        playerDim = player.getHeight();
         this.maps = maps;
         this.game = panel;
         availableWeapons = new ArrayList<>();
-        //attacks.Weapon dagger = new attacks.Dagger(player, 60, 60, "daggerNorth.png", false, enemies);
-        //availableWeapons.add(dagger);
         currentWeapon = null;
         currentItem = null;
         bossWeapon = new ProjectileHandler(maps, player, enemies, Items.PROJECTILE);
@@ -59,7 +59,7 @@ public class WeaponHandler {
         scaleFactor = 15;
         counter = 0;
 
-        this.attack_timer = new Timer(150, (new ActionListener() { //this timer shows what can be done
+        this.attack_timer = new Timer(300, (new ActionListener() { //this timer shows what can be done
             @Override
             public void actionPerformed(ActionEvent e) {
                 canAttack = true;
@@ -87,7 +87,7 @@ public class WeaponHandler {
                 weapon = new ProjectileHandler(maps, player, enemies, Items.CUPIDBOW);
                 break;
             case DAGGER:
-                weapon = new Dagger(player, 60, 60, "daggerNorth.png", false, enemies);
+                weapon = new Dagger(player, 40, 40, "daggerNorth.png", false, enemies);
                 currentWeapon = weapon;
                 currentItem = Items.DAGGER;
                 icons.get(currentWeapon.getItems()).setIsRenderable(true);

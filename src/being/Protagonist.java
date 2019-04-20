@@ -37,10 +37,12 @@ public class Protagonist extends Being implements Timers {
     int invincibleTime;
     boolean isInvincible;
     private TutorialLevel tutorial;
+    private Boolean canMove;
 
 
     public Protagonist(int xPos, int yPos, int width, int height, String image, int tile, MapHandler maps, EnemyHandler enemies) {
         super(xPos, yPos, width, height, 2, image);
+        canMove = true;
         this.tileSize = tile;
         this.maps = maps;
         this.enemies = enemies;
@@ -50,7 +52,9 @@ public class Protagonist extends Being implements Timers {
             @Override
             public void actionPerformed(ActionEvent e) {
                 checkCollision(maps.getCurrentObstacles());
-                movePlayer();
+                if (canMove){
+                    movePlayer();
+                }
                 checkCollision(maps.getCurrentObstacles());
                 checkPortal();
                 if (isInvincible) {
@@ -60,6 +64,10 @@ public class Protagonist extends Being implements Timers {
         }));
         velocity_timer.start();
         isInvincible = false;
+    }
+
+    public void canMove(Boolean move){
+        canMove = move;
     }
 
     public void addTutorialLevel(TutorialLevel tut) {

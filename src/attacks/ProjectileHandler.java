@@ -24,10 +24,12 @@ public class ProjectileHandler implements Weapon, Timers {
     private int projectileSpeed = 4;
     private EnemyHandler enemies;
     private Items item;
+    private int playerDim;
 
     // Constructor initialises array of bullets
     public ProjectileHandler(MapHandler maps, Protagonist player, EnemyHandler enemies, Items item) {
         this.item = item;
+        playerDim = player.getHeight();
         this.maps = maps;
         this.player = player;
         projectiles = new ArrayList<>();
@@ -69,33 +71,54 @@ public class ProjectileHandler implements Weapon, Timers {
     @Override
     public void attack() {
         Direction dir = player.getDir();
-        int xPos = player.getX();
-        int yPos = player.getY();
+        int xPos = player.getX() + playerDim/3;
+        int yPos = player.getY() + playerDim/2 - 50; //buffer is 50
         String image = "";
         int w = 0;
         int h = 0;
         switch (dir) {
             case NORTH:
                 image = "arrowNorth.png";
-                w = 10;
-                h = 25;
+                w = 15;
+                h = 40;
+                break;
+            case NORTH_EAST:
+                image = "arrowNorth.png";
+                w = 15;
+                h = 40;
+                break;
+            case NORTH_WEST:
+                image = "arrowNorth.png";
+                w = 15;
+                h = 40;
                 break;
             case SOUTH:
                 image = "arrowSouth.png";
-                w = 10;
-                h = 25;
+                w = 15;
+                h = 40;
+                break;
+            case SOUTH_EAST:
+                image = "arrowSouth.png";
+                w = 15;
+                h = 40;
+                break;
+            case SOUTH_WEST:
+                image = "arrowSouth.png";
+                w = 15;
+                h = 40;
                 break;
             case EAST:
                 image = "arrowEast.png";
-                w = 25;
-                h = 10;
+                w = 40;
+                h = 15;
                 break;
             case WEST:
                 image = "arrowWest.png";
-                w = 25;
-                h = 10;
+                w = 40;
+                h = 15;
                 break;
             default:
+                break;
         }
         //attacks.Projectile projectile = new attacks.Projectile(dir, xPos, yPos, projectileSpeed, maps);
         if (!image.equals("")) {

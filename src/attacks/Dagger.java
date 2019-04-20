@@ -24,10 +24,13 @@ public class Dagger extends TileShape implements Weapon, Timers {
     private EnemyHandler enemies;
     private Items item = Items.DAGGER;
     private javax.swing.Timer velocity_timer;
+    private int playerDim;
+
 
     public Dagger(Protagonist player, int x, int y, String img, Boolean r, EnemyHandler enemies) {
-        super(x, y, 60, 60, img, false);
+        super(x, y, 40, 40, img, false);
         this.player = player;
+        playerDim = player.getHeight();
         this.enemies = enemies;
         this.velocity_timer = new javax.swing.Timer(1000 / 300, (new ActionListener() {
             @Override
@@ -59,6 +62,7 @@ public class Dagger extends TileShape implements Weapon, Timers {
 
     @Override
     public void attack() {
+        player.canMove(false);
         this.setIsRenderable(true);
         showDagger();
 
@@ -67,10 +71,11 @@ public class Dagger extends TileShape implements Weapon, Timers {
             @Override
             public void run() {
                 // Your database code here
+                player.canMove(true);
                 setIsRenderable(false);
 
             }
-        }, 100);
+        }, 300);
     }
 
     @Override
@@ -109,27 +114,47 @@ public class Dagger extends TileShape implements Weapon, Timers {
         switch (direction) {
             case NORTH:
                 this.changeImage("daggerNorth.png");
-                currentXPos = xPos;
-                currentYPos = yPos - 60;
+                currentXPos = xPos + 10;
+                currentYPos = yPos - playerDim + 20;
+                break;
+            case NORTH_EAST:
+                this.changeImage("daggerNorth.png");
+                currentXPos = xPos + 10;
+                currentYPos = yPos - playerDim + 20;
+                break;
+            case NORTH_WEST:
+                this.changeImage("daggerNorth.png");
+                currentXPos = xPos + 10;
+                currentYPos = yPos - playerDim + 20;
                 break;
             case SOUTH:
                 this.changeImage("daggerSouth.png");
-                currentXPos = xPos;
-                currentYPos = yPos + 60;
+                currentXPos = xPos + 10;
+                currentYPos = yPos + playerDim - 10;
+                break;
+            case SOUTH_EAST:
+                this.changeImage("daggerSouth.png");
+                currentXPos = xPos + 10;
+                currentYPos = yPos + playerDim - 10;
+                break;
+            case SOUTH_WEST:
+                this.changeImage("daggerSouth.png");
+                currentXPos = xPos + 10;
+                currentYPos = yPos + playerDim - 10;
                 break;
             case EAST:
                 this.changeImage("daggerEast.png");
-                currentXPos = xPos + 60;
-                currentYPos = yPos;
+                currentXPos = xPos + playerDim - 10;
+                currentYPos = yPos + 20;
                 break;
             case WEST:
                 this.changeImage("daggerWest.png");
-                currentXPos = xPos - 60;
-                currentYPos = yPos;
+                currentXPos = xPos - playerDim + 30;
+                currentYPos = yPos + 20;
                 break;
             default:
-                currentXPos = xPos;
-                currentYPos = yPos - 60;
+                currentXPos = xPos + 10;
+                currentYPos = yPos + playerDim - 10;
         }
         this.setX(currentXPos);
         this.setY(currentYPos);
