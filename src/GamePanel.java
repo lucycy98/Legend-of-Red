@@ -86,8 +86,10 @@ public class GamePanel extends JPanel implements KeyListener {
         player.paint(window);
         enemies.paint(window);
         weapons.paint(window);
+        tutorial.paint(window);
 
         window.setColor(Color.white);
+        window.setFont(new Font("TimesRoman", Font.PLAIN, 15));
 
         window.drawString("Score:", 250, 25);
         window.drawString(String.valueOf(score.getScore()), 300, 25);
@@ -152,7 +154,12 @@ public class GamePanel extends JPanel implements KeyListener {
         } else {
             switch (evt.getKeyCode()) {
                 case KeyEvent.VK_SPACE:
-                    weapons.attack();
+                    if (maps.getCurrentLevel() == 0){
+                        tutorial.nextMessage();
+                    }
+                    else{
+                        weapons.attack();
+                    }
                     break;
                 case KeyEvent.VK_S:
                     weapons.changeWeapon();

@@ -12,16 +12,33 @@ public class TutorialLevel implements Timers {
     private final MapHandler maps;
     private PickUpItemHandler item;
     private TileShape mumSprite;
+    private TileShape mumIcon;
+    private ArrayList<String> tutorialMsg;
+    private int currentMsg;
+    private boolean messageFinished;
+    private TileShape dialogueBox;
 
     public TutorialLevel(MapHandler maps, PickUpItemHandler item) {
         this.maps = maps;
         this.item = item;
         createSprites();
+        tutorialMsg = new ArrayList<>();
+        tutorialMsg.add("Mum: Little Red Riding Hood, could you pay your grandma a visit?");
+        tutorialMsg.add("Mum: She hasn't seen you in ages and really misses you");
+        tutorialMsg.add("Mum: You'll have to go through the woods to see her");
+        tutorialMsg.add("Mum: Here is a dagger, so you can protect yourself");
+        tutorialMsg.add("Mum: You can walk towards it to pick it up");
+        tutorialMsg.add("Mum: Be careful of the wolves!");
+        tutorialMsg.add("");
+        currentMsg = 0;
+        messageFinished = false;
+        dialogueBox = new TileShape(60, 500, 900, 160, "dialogueBox.png", true);
     }
 
-    public void createSprites(){
-        if (maps.getCurrentLevel() == 0){
-            mumSprite = new TileShape(400,200, 60, 60, "mum.png", true);
+    public void createSprites() {
+        if (maps.getCurrentLevel() == 0) {
+            mumSprite = new TileShape(100, 400, 100, 100, "mum.png", true);
+//            mumIcon = new TileShape(100, 530, 30, 30, "mum.png", true);
             item.createItem(500, 200, Items.DAGGER);
         }
     }
@@ -29,20 +46,39 @@ public class TutorialLevel implements Timers {
     /**
      * player enters portal.
      */
-    public void beginGame(){
+    public void beginGame() {
         mumSprite.setIsRenderable(false);
     }
 
     /**
      * when player returns to tutorial level
      */
-    public void backLevel(){
+    public void backLevel() {
         mumSprite.setIsRenderable(true);
     }
 
-    public void paint(Graphics2D win){
-        if (mumSprite != null){
-            mumSprite.renderShape(win);
+    public void paint(Graphics2D win) {
+        win.setColor(Color.BLACK);
+        win.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+        if (!messageFinished) {
+            dialogueBox.renderShape(win);
+//            mumIcon.renderShape(win);
+            if (mumSprite != null) {
+                mumSprite.renderShape(win);
+            }
+            win.drawString("Press space to continue", 700, 680);
+        }
+        win.setFont(new Font("TimesRoman", Font.BOLD, 20));
+        win.drawString(tutorialMsg.get(currentMsg), 100, 600);
+
+
+    }
+
+    public void nextMessage() {
+        if (currentMsg < tutorialMsg.size() - 1) {
+            currentMsg++;
+        } else {
+            messageFinished = true;
         }
     }
 

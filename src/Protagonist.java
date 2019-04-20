@@ -85,7 +85,7 @@ public class Protagonist extends Being implements Timers {
                 enemies.setEnemy();
                 tutorial.beginGame();
                 this.setX(tileSize + buffer);
-                this.setY(tileSize + buffer);
+                this.setY(tileSize * 3 + buffer);
             }
         }
         for (TileShape portal : maps.getCurrentBackwardPortal()) {
@@ -94,8 +94,8 @@ public class Protagonist extends Being implements Timers {
                 maps.setPreviousLevel();
                 enemies.setEnemy();
                 tutorial.backLevel();
-                this.setX(tileSize + buffer);
-                this.setY(tileSize + buffer);
+                this.setX(tileSize * 6 + buffer);
+                this.setY(tileSize * 3 + buffer);
             }
         }
     }
@@ -137,7 +137,7 @@ public class Protagonist extends Being implements Timers {
         else{
             this.changeImage("transparentplayer.png");
             System.out.println(invincibleTime);
-            if (invincibleTime == 0){
+            if (invincibleTime <= 0){
                 isInvincible = false;
                 this.changeImage("player.png");
             }
