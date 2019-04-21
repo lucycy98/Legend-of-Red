@@ -178,11 +178,13 @@ public class GamePanel extends JPanel implements KeyListener {
                 weapons.changeWeapon();
                 break;
             case KeyEvent.VK_P:
-                if (option == Gamestate.PAUSE) {
+                if (option == Gamestate.PAUSE) { //play game
+
                     startTimers();
                     option = Gamestate.GAME;
                     break;
-                } else {
+                } else { //pause game
+                    sound.pause();
                     stopTimers();
                     option = Gamestate.PAUSE;
                     break;

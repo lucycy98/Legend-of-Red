@@ -9,17 +9,18 @@ import java.net.URL;
 public class SoundEffect implements Runnable {
 
     private String file;
+    private Clip clip = null;
 
     public SoundEffect(String filename) {
-        this.file = "../audio/"+filename;
+        this.file = "../audio/" + filename;
     }
 
-    public void play(){
+    public void play() {
         Thread t = new Thread(this);
         t.start();
     }
 
-    private void playSound(){
+    private void playSound() {
         AudioInputStream audioInput = null;
         try {
             URL url = this.getClass().getResource(file);
@@ -28,7 +29,7 @@ public class SoundEffect implements Runnable {
             InputStream input = url.openStream();
             InputStream audio = new BufferedInputStream(input);
             audioInput = AudioSystem.getAudioInputStream(audio);
-            Clip clip = AudioSystem.getClip();
+            clip = AudioSystem.getClip();
             clip.open(audioInput);
             clip.start();
         } catch (Exception ex) {
@@ -36,7 +37,25 @@ public class SoundEffect implements Runnable {
         }
     }
 
-    private void playSoundOld(){
+    public void stop() {
+        try {
+            if (clip != null){
+                clip.stop();
+            }
+        } catch(Exception ex){
+            System.out.println("error with playing sound");
+        }
+    }
+
+    @Override
+    public void run() {
+        playSound();
+    }
+
+
+
+
+    private void playSoundOld() {
         AudioInputStream audioInput = null;
         try {
             URL url = this.getClass().getResource(file);
@@ -55,9 +74,7 @@ public class SoundEffect implements Runnable {
             line.open(audioFormat);
         } catch (LineUnavailableException e) {
             e.printStackTrace();
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         line.start();
@@ -75,20 +92,5 @@ public class SoundEffect implements Runnable {
         }
         line.drain();
         line.close();
-    }
-
-
-    public void stop() {
-        try {
-
-
-        } catch(Exception ex){
-            System.out.println("error with playing sound");
-        }
-    }
-
-    @Override
-    public void run() {
-        playSound();
     }
 }

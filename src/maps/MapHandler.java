@@ -104,11 +104,11 @@ public class MapHandler {
         return maps.get(currentLevel).getObstacles();
     }
 
-    public ArrayList<TileShape> getCurrentForwardPortal() {
+    public TileShape getCurrentForwardPortal() {
         return maps.get(currentLevel).getForwardPortals();
     }
 
-    public ArrayList<TileShape> getCurrentBackwardPortal() {
+    public TileShape getCurrentBackwardPortal() {
         return maps.get(currentLevel).getBackwardPortals();
     }
 

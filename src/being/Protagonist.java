@@ -94,9 +94,10 @@ public class Protagonist extends Being implements Timers {
 
     public void checkPortal() {
         Rectangle playerRec = this.getBounds();
-        for (TileShape portal : maps.getCurrentForwardPortal()) {
-            Rectangle portalRec = portal.getBounds();
-            if (playerRec.intersects(portalRec)) {
+        TileShape fportal = maps.getCurrentForwardPortal();
+        if (fportal != null){
+            Rectangle fportalRec = fportal.getBounds();
+            if (playerRec.intersects(fportalRec)) {
                 System.out.println("intersecting portal");
                 if (maps.getCurrentLevel() == 0) {
                     tutorial.beginGame();
@@ -109,9 +110,10 @@ public class Protagonist extends Being implements Timers {
                 }
             }
         }
-        for (TileShape portal : maps.getCurrentBackwardPortal()) {
-            Rectangle portalRec = portal.getBounds();
-            if (playerRec.intersects(portalRec)) {
+        TileShape bportal = maps.getCurrentForwardPortal();
+        if (bportal != null){
+            Rectangle bportalRec = bportal.getBounds();
+            if (playerRec.intersects(bportalRec)) {
                 maps.setPreviousLevel();
                 if (maps.getCurrentLevel() == 0) {
                     tutorial.backLevel();
@@ -120,8 +122,11 @@ public class Protagonist extends Being implements Timers {
                 this.setX(tileSize * 6 + buffer);
                 this.setY(tileSize * 3 + buffer);
             }
+
         }
+
     }
+
 
     public int getHealth() {
         return health;

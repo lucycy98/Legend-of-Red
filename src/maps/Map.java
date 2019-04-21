@@ -8,13 +8,16 @@ import java.util.Random;
 
 public class Map {
 
-    int xTiles = 17;
-    int yTiles = 12;
-    TileShape[][] _map = new TileShape[xTiles][yTiles];
-    ArrayList<TileShape> _grass = new ArrayList<>();
-    ArrayList<TileShape> _obstacles = new ArrayList<>();
-    ArrayList<TileShape> _bportals = new ArrayList<>();
-    ArrayList<TileShape> _fportals = new ArrayList<>();
+    private int xTiles = 17;
+    private int yTiles = 12;
+    private TileShape[][] _map = new TileShape[xTiles][yTiles];
+    private ArrayList<TileShape> _grass = new ArrayList<>();
+    private ArrayList<TileShape> _obstacles = new ArrayList<>();
+    private ArrayList<TileShape> _bportals = new ArrayList<>();
+    private ArrayList<TileShape> _fportals = new ArrayList<>();
+
+    private TileShape fportal;
+    private TileShape bportal;
     int tileSize = 60;
 
     private String houseGround = "floor.png";
@@ -27,7 +30,7 @@ public class Map {
     public Map(int num_obs, Boolean isForest) {
         String ground;
         String obs;
-        if (isForest){
+        if (isForest) {
             ground = forestGround;
             obs = forestObs;
         } else {
@@ -65,12 +68,14 @@ public class Map {
         System.out.println("forwards portal added");
         TileShape portal = new TileShape((xTiles - 2) * tileSize, yTiles / 2 * tileSize, tileSize, tileSize, "portal.png", true);
         _fportals.add(portal);
+        fportal = portal;
     }
 
     public void addBackwardsPortal() {
         System.out.println("backwards portal added");
         TileShape portal = new TileShape(tileSize, yTiles / 2 * tileSize, tileSize, tileSize, "portal.png", true);
         _bportals.add(portal);
+        bportal = portal;
     }
 
     public void paint(Graphics g) {
@@ -99,11 +104,11 @@ public class Map {
         this._obstacles = _obstacles;
     }
 
-    public ArrayList<TileShape> getForwardPortals() {
-        return _fportals;
+    public TileShape getForwardPortals() {
+        return fportal;
     }
 
-    public ArrayList<TileShape> getBackwardPortals() {
-        return _bportals;
+    public TileShape getBackwardPortals() {
+        return bportal;
     }
 }
