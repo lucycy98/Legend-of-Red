@@ -56,8 +56,9 @@ public class GamePanel extends JPanel implements KeyListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (player.getHealth() <= 0) {
-                    option = Gamestate.LOSE;
                     stopTimers();
+                    score.considerTimeRemaining(timeLeft);
+                    option = Gamestate.LOSE;
                 }
             }
         }));
@@ -87,6 +88,8 @@ public class GamePanel extends JPanel implements KeyListener {
 
     public void gameWon(){
         stopTimers();
+        score.considerTimeRemaining(timeLeft);
+        score.considerHealth(player.getHealth());
         option = Gamestate.WIN;
     }
 

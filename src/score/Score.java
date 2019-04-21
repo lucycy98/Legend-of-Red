@@ -1,19 +1,10 @@
 package score;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.concurrent.ThreadLocalRandom;
-
 public class Score {
 
     private int score;
     private int totalLevels;
-    private ArrayList<Integer> highscores;
+    int maxLevels = 5;
 
     public Score(){
         score = 0;
@@ -24,15 +15,32 @@ public class Score {
     }
 
     public void killWolf(int level){
-        score = score + 50;
+        if (level < maxLevels / 2){
+            score = score + 30;
+        } else if (level == maxLevels - 1) { //boss level
+            score = score + 100;
+        } else {
+            score = score + 50;
+        }
     }
 
     public void damageWolf(int level){
-        score = score + 10;
+        if (level < maxLevels / 2){
+            score = score + 5;
+        } else {
+            score = score + 10;
+        }
+    }
+
+    public void considerHealth(int health){
+        score = score - (99 - (int)(health * 1.2));
+    }
+
+    public void considerTimeRemaining(int time){
+        score = score + time/1000;
     }
 
     public int getScore(){
         return score;
     }
-
 }
