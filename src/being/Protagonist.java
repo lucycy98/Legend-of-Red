@@ -21,23 +21,21 @@ import java.util.TimerTask;
 public class Protagonist extends Being implements Timers {
 
     private EnemyHandler enemies;
-    // co-ordinates of player
     private int dx, dy;
-    int tileSize;
+    private int tileSize;
     private Rectangle2D rec;
     private Direction currentDirection = Direction.NORTH_EAST;
     private MapHandler maps;
-    Boolean pressUp = false;
-    Boolean pressDown = false;
-    Boolean pressLeft = false;
-    Boolean pressRight = false;
-    int health;
-    int speed = 2;
-    int buffer = 50;
-    boolean beingAttacked;
-    Timer velocity_timer;
-    int invincibleTime;
-    boolean isInvincible;
+    private Boolean pressUp = false;
+    private Boolean pressDown = false;
+    private Boolean pressLeft = false;
+    private Boolean pressRight = false;
+    private int health;
+    private int speed = 2;
+    private int buffer = 50;
+    private boolean beingAttacked;
+    private Timer velocity_timer;
+    private boolean isInvincible;
     private TutorialLevel tutorial;
     private Boolean canMove;
     private SoundHandler sound;
@@ -61,9 +59,7 @@ public class Protagonist extends Being implements Timers {
                 }
                 checkCollision(maps.getCurrentObstacles());
                 checkPortal();
-                if (isInvincible) {
-                    invincibleTime--;
-                }
+
             }
         }));
         velocity_timer.start();
@@ -170,14 +166,14 @@ public class Protagonist extends Being implements Timers {
             return false;
         }
         if (playerRec.intersects(obstacleRec)) {
-            if (!enemy.attackStatus) {
+            if (!enemy.getattackStatus()) {
                 sound.play("loseHealth.wav");
                 health -= 5;
-                enemy.attackStatus = true;
+                enemy.setAttackStatus(true);
             }
             return true;
         } else {
-            enemy.attackStatus = false;
+            enemy.setAttackStatus(false);
         }
         return false;
     }
@@ -282,7 +278,6 @@ public class Protagonist extends Being implements Timers {
         }
         setVelocity();
         face();
-
     }
 
     @Override

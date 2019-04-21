@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public class SoundHandler {
 
-    HashMap<String, SoundEffect> sounds;
+    private HashMap<String, SoundEffect> sounds;
 
     public SoundHandler(){
         sounds = new HashMap<>();

@@ -16,8 +16,8 @@ public class Projectile extends TileShape {
     private Direction direction;
     private Boolean isRenderable = true;
     private MapHandler maps;
-    Boolean isImage;
-    int timer;
+    private  Boolean isImage;
+    private int timer;
 
     public Projectile(Direction dir, int xPos, int yPos, int tileSize, MapHandler maps, String image, int w, int h) {
         super(xPos, yPos, w, h, image, true);

@@ -18,7 +18,7 @@ public class Map {
 
     private TileShape fportal;
     private TileShape bportal;
-    int tileSize = 60;
+    private int tileSize = 60;
 
     private String houseGround = "floor.png";
     private String houseObs = "brick.png";

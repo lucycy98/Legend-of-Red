@@ -21,22 +21,22 @@ import java.text.SimpleDateFormat;
 
 public class GamePanel extends JPanel implements KeyListener {
 
-    ProjectileHandler projectiles;
-    Protagonist player;
-    int tileSize = 60;
-    EnemyHandler enemies;
-    MapHandler maps;
-    WeaponHandler weapons;
-    int weaponLocation = 800;
-    Gamestate option;
-    Timer updateHealth;
-    Timer gameTimer;
-    Score score;
-    int timeLeft = 1000 * 180;
-    String time;
-    PickUpItemHandler item;
-    TutorialLevel tutorial;
-    SoundHandler sound;
+    private ProjectileHandler projectiles;
+    private Protagonist player;
+    private int tileSize = 60;
+    private EnemyHandler enemies;
+    private MapHandler maps;
+    private WeaponHandler weapons;
+    private int weaponLocation = 800;
+    private  Gamestate option;
+    private Timer updateHealth;
+    private Timer gameTimer;
+    private Score score;
+    private  int timeLeft = 1000 * 180;
+    private String time;
+    private PickUpItemHandler item;
+    private TutorialLevel tutorial;
+    private SoundHandler sound;
 
     // gameScreen Constructor
     public GamePanel(Score score, SoundHandler sound) {

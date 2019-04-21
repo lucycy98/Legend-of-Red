@@ -26,14 +26,14 @@ public class WeaponHandler {
     private ArrayList<Weapon> availableWeapons;
     private ArrayList<Items> requiredItems = new ArrayList<>(Arrays.asList(Items.PROJECTILE, Items.CUPIDBOW, Items.DAGGER));
     private Items currentItem;
-    Timer velocity_timer;
-    EnemyHandler enemies;
-    Protagonist player;
-    GamePanel game;
-    HashMap<Items, TileShape> icons;
-    int scaleFactor;
-    int counter;
-    Boolean canAttack;
+    private Timer velocity_timer;
+    private EnemyHandler enemies;
+    private Protagonist player;
+    private GamePanel game;
+    private HashMap<Items, TileShape> icons;
+    private int scaleFactor;
+    private int counter;
+    private Boolean canAttack;
     private Timer attack_timer;
     private Timer enemy_attack_timer;
     private int playerDim;
@@ -160,7 +160,7 @@ public class WeaponHandler {
     public void enemyAttack() {
         for (int i = 0; i < enemies.getCurrentEnemies().size(); i++) {
             Enemy enemy = enemies.getCurrentEnemies().get(i);
-            if (enemy.canRangeAttack) {
+            if (enemy.getcanRangeAttack()) {
                 bossWeapon.enemyRangeAttack(enemy);
             }
         }

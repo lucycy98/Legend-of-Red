@@ -10,10 +10,10 @@ import java.awt.*;
 public class PickUpItem extends TileShape {
 
     private Protagonist player;
-    int x;
-    int y;
-    Items item;
-    MapHandler map;
+    private  int x;
+    private int y;
+    private Items item;
+    private MapHandler map;
     private WeaponHandler weapon;
 
     public PickUpItem(Protagonist player, int x, int y, Items item, MapHandler map, WeaponHandler weapon) {

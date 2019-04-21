@@ -6,7 +6,6 @@ import game.Timers;
 import maps.MapHandler;
 import pickup.PickUpItemHandler;
 import graphics.TileShape;
-import sound.Sound;
 import sound.SoundHandler;
 
 import javax.swing.*;
@@ -23,9 +22,9 @@ public class EnemyHandler implements Timers {
     private ArrayList<Enemy> currentEnemies;
     private int tileSize;
     private MapHandler maps;
-    protected Protagonist player;
+    private Protagonist player;
     private PickUpItemHandler item;
-    int totallevels;
+    private int totallevels;
     private Score score;
     private Timer velocity_timer;
     private SoundHandler sound;
@@ -133,7 +132,7 @@ public class EnemyHandler implements Timers {
             Enemy enemy = currentEnemies.get(i);
             if (!player.checkEnemy(enemy)) {
 
-                if (enemy.friendly) {
+                if (enemy.getfriendly()) {
                     Enemy closest = findClosestEnemy(enemy, currentEnemies);
                     enemy.losTracking(closest.getX(), closest.getY());
                     if (enemy.getBounds().intersects(closest.getBounds())) {

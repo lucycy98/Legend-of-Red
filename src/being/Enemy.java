@@ -15,15 +15,15 @@ public class Enemy extends Being {
     // co-ordinates of player
     private int dx, dy;
     private int rx, ry;
-    int tileSize;
+    private int tileSize;
     private Direction currentDirection = Direction.NORTH_EAST;
     private Boolean isAlive = true;
     private MapHandler maps;
     private int timeLeft;
     private int level;
-    public boolean canRangeAttack;
-    public boolean friendly;
-    public boolean attackStatus;
+    private boolean canRangeAttack;
+    private boolean friendly;
+    private boolean attackStatus;
     private int health;
 
     public Enemy(int xPos, int yPos, int width, int height, String image, int tile, MapHandler maps, int level, boolean canRangeAttack, int health) {
@@ -139,5 +139,21 @@ public class Enemy extends Being {
             setX(currentX + dx);
             setY(currentY + dy);
         }
+    }
+
+    public Boolean getcanRangeAttack(){
+        return canRangeAttack;
+    }
+
+    public boolean getfriendly(){
+        return friendly;
+    }
+
+    public boolean getattackStatus(){
+        return attackStatus;
+    }
+
+    public void setAttackStatus(Boolean bool){
+        attackStatus = bool;
     }
 }

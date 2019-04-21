@@ -20,7 +20,7 @@ public class ProjectileHandler implements Weapon, Timers {
     private ArrayList<Projectile> projectiles;
     private ArrayList<Projectile> enemyProjectiles;
     private Protagonist player;
-    Timer velocity_timer;
+    private Timer velocity_timer;
     private int projectileSpeed = 4;
     private EnemyHandler enemies;
     private Items item;

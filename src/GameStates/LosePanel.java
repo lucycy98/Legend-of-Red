@@ -13,14 +13,14 @@ import java.io.IOException;
 
 public class LosePanel extends JPanel {
 
-    JButton startButton;
-    JButton quitButton;
-    Gamestate option;
-    JLabel title;
-    Score score;
-    JLabel imageLabel = null;
-    JButton menuButton;
-    SoundHandler sound;
+    private JButton startButton;
+    private JButton quitButton;
+    private Gamestate option;
+    private JLabel title;
+    private Score score;
+    private JLabel imageLabel = null;
+    private JButton menuButton;
+    private SoundHandler sound;
 
 
     public LosePanel(Score score, SoundHandler sound) {

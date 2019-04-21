@@ -10,13 +10,13 @@ import java.util.HashMap;
 
 public class MapHandler {
 
-    HashMap<Integer, Map> maps;
+    private HashMap<Integer, Map> maps;
     private int currentLevel;
     private int tutorialLevel = 0;
     private int bossLevel = 4;
     private int totalLevels = 5;
-    int xTiles = 17;
-    int yTiles = 12;
+    private int xTiles = 17;
+    private int yTiles = 12;
     private EnemyHandler enemies;
     private Boolean gameComplete;
     private GamePanel game;

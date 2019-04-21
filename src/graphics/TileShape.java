@@ -15,7 +15,7 @@ public class TileShape {
     private int width;
     private int height;
     private Boolean isRenderable;
-    int buffer = 50;
+    private int buffer = 50;
 
     public TileShape() {
 

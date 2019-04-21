@@ -13,15 +13,15 @@ import java.io.IOException;
 
 public class WinPanel extends JPanel {
 
-    JButton startButton;
-    JButton quitButton;
-    Gamestate option;
-    JLabel title;
-    JLabel scoreLabel;
-    Score score;
-    JLabel imageLabel = null;
-    JButton menuButton;
-    SoundHandler sound;
+    private JButton startButton;
+    private JButton quitButton;
+    private Gamestate option;
+    private JLabel title;
+    private JLabel scoreLabel;
+    private Score score;
+    private JLabel imageLabel = null;
+    private JButton menuButton;
+    private SoundHandler sound;
 
 
     public WinPanel(Score score, SoundHandler sound) {

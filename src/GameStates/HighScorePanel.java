@@ -12,17 +12,17 @@ import java.io.IOException;
 
 public class HighScorePanel extends JPanel {
 
-    int height;
-    int width;
-    JButton menuButton;
-    Gamestate option;
-    JLabel title;
-    JLabel imageLabel = null;
-    JButton highscore;
-    ScoreHandler scoreHandler;
-    JLabel score1;
-    JLabel score2;
-    JLabel score3;
+    private int height;
+    private int width;
+    private JButton menuButton;
+    private Gamestate option;
+    private JLabel title;
+    private JLabel imageLabel = null;
+    private JButton highscore;
+    private ScoreHandler scoreHandler;
+    private JLabel score1;
+    private JLabel score2;
+    private JLabel score3;
 
     public HighScorePanel(ScoreHandler scoreHandler) {
 

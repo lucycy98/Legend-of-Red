@@ -10,18 +10,17 @@ import java.io.IOException;
 
 public class Menu extends JPanel {
 
-    int height;
-    int width;
-    JButton startButton;
-    JButton quitButton;
-    Gamestate option;
-    JLabel title;
-    JLabel imageLabel = null;
-    JButton highscore;
+    private  int height;
+    private int width;
+    private JButton startButton;
+    private JButton quitButton;
+    private Gamestate option;
+    private JLabel title;
+    private JLabel imageLabel = null;
+    private JButton highscore;
 
 
     public Menu(int width, int height) {
-
         this.height = height;
         this.width = width;
 
