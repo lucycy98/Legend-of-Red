@@ -107,7 +107,7 @@ public class WeaponHandler {
                 weapon = new ProjectileHandler(maps, player, enemies, Items.PROJECTILE);
                 break;
             case CUPIDBOW:
-                weapon = new ProjectileHandler(maps, player, enemies, Items.CUPIDBOW);
+                weapon = new ProjectileHandler(maps, player, enemies, Items.CUPIDBOW, this);
                 break;
             case DAGGER:
                 weapon = new Dagger(player, 40, 40, "daggerNorth.png", false, enemies);
@@ -128,8 +128,9 @@ public class WeaponHandler {
             Weapon weapon = availableWeapons.get(i);
             Items currentItem = weapon.getItems();
             if (currentItem == items) {
-                availableWeapons.remove(i);
+                availableWeapons.remove(weapon);
                 weapon = null; //get rid of it
+                //todo update
             }
         }
     }
@@ -151,10 +152,13 @@ public class WeaponHandler {
             sound.play(currentWeapon.getSoundFile());
         }
         currentWeapon.attack();
-        if (currentWeapon.getItems() == Items.CUPIDBOW) {
-            removeWeapon(Items.CUPIDBOW);
-        }
         canAttack = false;
+    }
+
+    public void cupidUsed(){
+        System.out.println("CUPID USED");
+        removeWeapon(Items.CUPIDBOW);
+        changeWeapon();
     }
 
     public void enemyAttack() {

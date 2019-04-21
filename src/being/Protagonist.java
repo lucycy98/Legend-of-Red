@@ -121,7 +121,7 @@ public class Protagonist extends Being implements Timers {
                 }
             }
         }
-        TileShape bportal = maps.getCurrentForwardPortal();
+        TileShape bportal = maps.getCurrentBackwardPortal();
         if (bportal != null){
             Rectangle bportalRec = bportal.getBounds();
             if (playerRec.intersects(bportalRec)) {

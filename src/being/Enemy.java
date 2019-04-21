@@ -57,7 +57,6 @@ public class Enemy extends Being {
     @Override
     public void damageHealth() {
         health --;
-        System.out.println("bullet hit wolf");
         if (health == 0){
             killWolf();
         }

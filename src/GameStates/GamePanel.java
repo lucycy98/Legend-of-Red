@@ -4,6 +4,7 @@ import attacks.ProjectileHandler;
 import attacks.WeaponHandler;
 import being.EnemyHandler;
 import being.Protagonist;
+import pickup.Items;
 import score.Score;
 import game.TutorialLevel;
 import maps.MapHandler;
@@ -174,6 +175,8 @@ public class GamePanel extends JPanel implements KeyListener {
                     weapons.attack();
                 }
                 break;
+            case KeyEvent.VK_T:
+                weapons.addWeapon(Items.CUPIDBOW);
             case KeyEvent.VK_S:
                 weapons.changeWeapon();
                 break;

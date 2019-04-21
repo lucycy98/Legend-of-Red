@@ -26,10 +26,32 @@ public class ProjectileHandler implements Weapon, Timers {
     private Items item;
     private int playerDim;
     private String soundEffect = "bow_release.wav";
+    private WeaponHandler weapons = null;
+    private int totalLevels;
 
     // Constructor initialises array of bullets
     public ProjectileHandler(MapHandler maps, Protagonist player, EnemyHandler enemies, Items item) {
+        this.totalLevels = maps.getTotalLevels();
         this.item = item;
+        playerDim = player.getHeight();
+        this.maps = maps;
+        this.player = player;
+        projectiles = new ArrayList<>();
+        enemyProjectiles = new ArrayList<>();
+        this.enemies = enemies;
+        this.velocity_timer = new Timer(1000 / 300, (new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                move();
+            }
+        }));
+        velocity_timer.start();
+    }
+
+    // Constructor initialises array of bullets
+    public ProjectileHandler(MapHandler maps, Protagonist player, EnemyHandler enemies, Items item, WeaponHandler weapon) {
+        this.item = item;
+        this.weapons = weapon;
         playerDim = player.getHeight();
         this.maps = maps;
         this.player = player;
@@ -189,12 +211,18 @@ public class ProjectileHandler implements Weapon, Timers {
             Rectangle projRec = projectile.getBounds();
             ArrayList<Enemy> es = enemies.getCurrentEnemies();
             for (int j = 0; j < es.size(); j++) {
-                Rectangle enemyRec = es.get(j).getBounds();
+                Enemy enemy = es.get(j);
+                Rectangle enemyRec = enemy.getBounds();
                 if (projRec.intersects(enemyRec)) {
-                    if (item == Items.PROJECTILE) {
-                        enemies.damageEnemy(es.get(j));
+                    //if projectile, or boss level, or only 2 enemies in level....
+                    if (item == Items.PROJECTILE || enemy.getLevel() == totalLevels - 1 || enemies.getCurrentEnemies().size() < 2) {
+                        System.out.println("cupid not used");
+                        enemies.damageEnemy(enemy);
                     } else {
-                        es.get(j).becomeFriendly();
+                        enemy.becomeFriendly();
+                        if (weapons != null){
+                            weapons.cupidUsed();
+                        }
                     }
                     projectile.setIsRenderable(false);
                     projectiles.remove(projectile);
