@@ -1,4 +1,4 @@
-package game;
+package score;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,6 +13,7 @@ public class Score {
 
     private int score;
     private int totalLevels;
+    private ArrayList<Integer> highscores;
 
     public Score(){
         score = 0;
@@ -24,7 +25,6 @@ public class Score {
 
     public void killWolf(int level){
         score = score + 50;
-
     }
 
     public void damageWolf(int level){

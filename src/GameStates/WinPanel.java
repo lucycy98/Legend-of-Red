@@ -1,6 +1,6 @@
 package GameStates;
 
-import game.Score;
+import score.Score;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -12,8 +12,6 @@ import java.io.IOException;
 
 public class WinPanel extends JPanel {
 
-    int height;
-    int width;
     JButton startButton;
     JButton quitButton;
     Gamestate option;
@@ -21,6 +19,7 @@ public class WinPanel extends JPanel {
     JLabel scoreLabel;
     Score score;
     JLabel imageLabel = null;
+    JButton menuButton;
 
 
     public WinPanel(Score score) {
@@ -43,6 +42,7 @@ public class WinPanel extends JPanel {
         title.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         title.setForeground(Color.pink);
 
+        //current score
         String scoreval;
         if (score.getScore() < 0){
             scoreval = "";
@@ -55,7 +55,7 @@ public class WinPanel extends JPanel {
         scoreLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         scoreLabel.setForeground(Color.pink);
 
-
+        //image
         BufferedImage image = null;
         try {
             image = ImageIO.read(getClass().getResource("../grandma.png"));
@@ -75,16 +75,10 @@ public class WinPanel extends JPanel {
             imageLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         }
 
-        ImageIcon startIcon = new ImageIcon(getClass().getResource("../button.png"));
-        startButton = new JButton(startIcon){
-            {
-                setPreferredSize(new Dimension(400, 80));
-                setMaximumSize(new Dimension(400, 80));
-                setText("START");
-                setHorizontalTextPosition(JButton.CENTER);
-                setAlignmentX(JButton.CENTER_ALIGNMENT);
-            }
-        };
+        //buttons
+        ImageIcon icon = new ImageIcon(getClass().getResource("../button.png"));
+        startButton = new JButton(icon);
+        buttonSettings(startButton, "START");
         startButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -92,22 +86,31 @@ public class WinPanel extends JPanel {
             }
         });
 
-        ImageIcon quitIcon = new ImageIcon(getClass().getResource("../button.png"));
-        quitButton = new JButton(quitIcon){
-            {
-                setPreferredSize(new Dimension(400, 80));
-                setMaximumSize(new Dimension(400, 80));
-                setText("QUIT");
-                setHorizontalTextPosition(JButton.CENTER);
-                setAlignmentX(JButton.CENTER_ALIGNMENT);
+        menuButton = new JButton(icon);
+        buttonSettings(menuButton, "MAIN MENU");
+        menuButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                option = Gamestate.MENU;
             }
-        };
+        });
+
+        quitButton = new JButton(icon);
+        buttonSettings(quitButton, "QUIT");
         quitButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 option = Gamestate.QUIT;
             }
         });
+    }
+
+    private void buttonSettings(JButton button, String text){
+        button.setPreferredSize(new Dimension(400, 80));
+        button.setMaximumSize(new Dimension(400, 80));
+        button.setText(text);
+        button.setHorizontalTextPosition(JButton.CENTER);
+        button.setAlignmentX(JButton.CENTER_ALIGNMENT);
     }
 
     private void addComponents() {
@@ -120,6 +123,8 @@ public class WinPanel extends JPanel {
             this.add(Box.createVerticalGlue());
         }
         this.add(startButton);
+        this.add(Box.createVerticalGlue());
+        this.add(menuButton);
         this.add(Box.createVerticalGlue());
         this.add(quitButton);
         this.add(Box.createVerticalGlue());

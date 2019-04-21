@@ -1,6 +1,7 @@
 import GameStates.*;
 import GameStates.Menu;
-import game.Score;
+import score.Score;
+import score.ScoreHandler;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,7 +24,9 @@ public class GameMain {
         GamePanel playScreen;
         LosePanel lose;
         WinPanel win;
-        Score score = new Score();
+        HighScorePanel scorePanel;
+        Score score = null;
+        ScoreHandler scoreHandler = new ScoreHandler();
 
         Gamestate state = Gamestate.MENU;
         while(state != Gamestate.QUIT){
@@ -40,7 +43,21 @@ public class GameMain {
                     gameWindow.remove(menu);
                     state = menu.getOption();
                     break;
+                case HIGHSCORE:
+                    System.out.println("highscore");
+                    scorePanel = new HighScorePanel(scoreHandler);
+                    scorePanel.setBackground(Color.BLACK);
+                    gameWindow.add(scorePanel);
+                    gameWindow.validate();
+                    scorePanel.requestFocus();
+                    while (scorePanel.getOption() == null) {
+                        Thread.sleep(1);
+                    }
+                    gameWindow.remove(scorePanel);
+                    state = scorePanel.getOption();
+                    break;
                 case GAME:
+                    score = new Score();
                     playScreen = new GamePanel(score);
                     playScreen.setBackground(Color.BLACK);
                     gameWindow.add(playScreen);
@@ -53,7 +70,11 @@ public class GameMain {
                     state = playScreen.getOption();
                     break;
                 case LOSE:
+                    if (score == null){
+                        break;
+                    }
                     lose = new LosePanel(score);
+                    scoreHandler.addGameScore(score.getScore());
                     lose.setBackground(Color.BLACK);
                     gameWindow.add(lose);
                     gameWindow.validate();
@@ -65,7 +86,11 @@ public class GameMain {
                     state = lose.getOption();
                     break;
                 case WIN:
+                    if (score == null){
+                        break;
+                    }
                     win = new WinPanel(score);
+                    scoreHandler.addGameScore(score.getScore());
                     win.setBackground(Color.BLACK);
                     gameWindow.add(win);
                     gameWindow.validate();

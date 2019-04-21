@@ -1,7 +1,7 @@
 package being;
 
 import attacks.WeaponHandler;
-import game.Score;
+import score.Score;
 import game.Timers;
 import maps.MapHandler;
 import pickup.PickUpItemHandler;

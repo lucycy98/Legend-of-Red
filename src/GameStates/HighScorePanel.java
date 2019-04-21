@@ -1,6 +1,6 @@
 package GameStates;
 
-import score.Score;
+import score.ScoreHandler;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -10,21 +10,23 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class LosePanel extends JPanel {
+public class HighScorePanel extends JPanel {
 
-    JButton startButton;
-    JButton quitButton;
+    int height;
+    int width;
+    JButton menuButton;
     Gamestate option;
     JLabel title;
-    JLabel scoreLabel;
-    Score score;
     JLabel imageLabel = null;
-    JButton menuButton;
+    JButton highscore;
+    ScoreHandler scoreHandler;
+    JLabel score1;
+    JLabel score2;
+    JLabel score3;
 
+    public HighScorePanel(ScoreHandler scoreHandler) {
 
-    public LosePanel(Score score) {
-
-        this.score = score;
+        this.scoreHandler = scoreHandler;
 
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
@@ -37,96 +39,96 @@ public class LosePanel extends JPanel {
     }
 
     private void makeComponents() throws IOException {
-        //title
-        title = new JLabel("MISSION UNSUCCESSFUL");
+
+        title = new JLabel("HIGH SCORE");
         title.setFont(new Font("Helvetica", Font.PLAIN, 50));
         title.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         title.setForeground(Color.pink);
 
-        //score
-        String scoreval;
-        if (score.getScore() < 0){
-            scoreval = "";
-        } else {
-            scoreval = Integer.toString(score.getScore());
-        }
-        scoreLabel = new JLabel("Score: " + scoreval);
-        scoreLabel.setFont(new Font("Helvetica", Font.PLAIN, 20));
-        scoreLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-        scoreLabel.setForeground(Color.pink);
-
-        //image
         BufferedImage image = null;
         try {
-            image = ImageIO.read(getClass().getResource("../wolf.png"));
+            image = ImageIO.read(getClass().getResource("../player.png"));
         }
         catch (IOException e) {
             e.printStackTrace();
         }
+
         ImageIcon imageIcon = null;
         if (image != null){
             Image dimg = image.getScaledInstance(120,120, Image.SCALE_SMOOTH);
             imageIcon = new ImageIcon(dimg);
         }
+
         if (imageIcon != null){
             imageLabel = new JLabel(imageIcon);
             imageLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         }
 
-        //buttons
-        ImageIcon icon = new ImageIcon(getClass().getResource("../button.png"));
-        startButton = new JButton(icon);
-        buttonSettings(startButton, "START");
-        startButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                option = Gamestate.GAME;
-            }
-        });
+        score1 = new JLabel(getScoreString(0));
+        score2 = new JLabel(getScoreString(1));
+        score3 = new JLabel(getScoreString(2));
 
-        menuButton = new JButton(icon);
-        buttonSettings(menuButton, "MAIN MENU");
+        createScores(score1);
+        createScores(score2);
+        createScores(score3);
+
+        ImageIcon icon = new ImageIcon(getClass().getResource("../button.png"));
+        menuButton = new JButton(icon){
+            {
+                setPreferredSize(new Dimension(400, 100));
+                setMaximumSize(new Dimension(400, 100));
+                setText("BACK");
+                setHorizontalTextPosition(JButton.CENTER);
+                setAlignmentX(JButton.CENTER_ALIGNMENT);
+            }
+        };
         menuButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 option = Gamestate.MENU;
             }
         });
-
-        quitButton = new JButton(icon);
-        buttonSettings(quitButton, "QUIT");
-        quitButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                option = Gamestate.QUIT;
-            }
-        });
     }
 
-    private void buttonSettings(JButton button, String text){
-        button.setPreferredSize(new Dimension(400, 80));
-        button.setMaximumSize(new Dimension(400, 80));
-        button.setText(text);
-        button.setHorizontalTextPosition(JButton.CENTER);
-        button.setAlignmentX(JButton.CENTER_ALIGNMENT);
+    private String getScoreString(int index){
+        String scoreval;
+        if (scoreHandler.getTopScore(index) < 0){
+            scoreval = "0";
+        } else {
+            scoreval = Integer.toString(scoreHandler.getTopScore(index));
+        }
+        return scoreval;
+    }
+
+    private void createScores(JLabel label){
+        label.setFont(new Font("Helvetica", Font.PLAIN, 40));
+        label.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        label.setForeground(Color.pink);
     }
 
     private void addComponents() {
         this.add(Box.createVerticalGlue());
         this.add(title);
-        this.add(scoreLabel);
         this.add(Box.createVerticalGlue());
         if (imageLabel != null){
             this.add(imageLabel);
-            this.add(Box.createVerticalGlue());
         }
-        this.add(startButton);
+        this.add(Box.createVerticalGlue());
+
+        this.add(score1);
+        this.add(Box.createVerticalGlue());
+
+        this.add(score2);
+        this.add(Box.createVerticalGlue());
+
+        this.add(score3);
+        this.add(Box.createVerticalGlue());
+
         this.add(Box.createVerticalGlue());
         this.add(menuButton);
         this.add(Box.createVerticalGlue());
-        this.add(quitButton);
-        this.add(Box.createVerticalGlue());
     }
+
 
     public Gamestate getOption(){
         return option;

@@ -4,7 +4,7 @@ import attacks.ProjectileHandler;
 import attacks.WeaponHandler;
 import being.EnemyHandler;
 import being.Protagonist;
-import game.Score;
+import score.Score;
 import game.TutorialLevel;
 import maps.MapHandler;
 import pickup.PickUpItemHandler;

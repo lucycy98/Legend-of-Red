@@ -17,6 +17,7 @@ public class Menu extends JPanel {
     Gamestate option;
     JLabel title;
     JLabel imageLabel = null;
+    JButton highscore;
 
 
     public Menu(int width, int height) {
@@ -60,8 +61,27 @@ public class Menu extends JPanel {
             imageLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         }
 
-        ImageIcon startIcon = new ImageIcon(getClass().getResource("../button.png"));
-        startButton = new JButton(startIcon){
+        ImageIcon icon = new ImageIcon(getClass().getResource("../button.png"));
+
+
+        highscore = new JButton(icon){
+            {
+                setPreferredSize(new Dimension(400, 100));
+                setMaximumSize(new Dimension(400, 100));
+                setText("HIGH SCORE");
+                setHorizontalTextPosition(JButton.CENTER);
+                setAlignmentX(JButton.CENTER_ALIGNMENT);
+            }
+        };
+        highscore.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                option = Gamestate.HIGHSCORE;
+            }
+        });
+
+
+        startButton = new JButton(icon){
             {
                 setPreferredSize(new Dimension(400, 100));
                 setMaximumSize(new Dimension(400, 100));
@@ -77,8 +97,7 @@ public class Menu extends JPanel {
             }
         });
 
-        ImageIcon quitIcon = new ImageIcon(getClass().getResource("../button.png"));
-        quitButton = new JButton(quitIcon){
+        quitButton = new JButton(icon){
             {
                 setPreferredSize(new Dimension(400, 100));
                 setMaximumSize(new Dimension(400, 100));
@@ -104,6 +123,8 @@ public class Menu extends JPanel {
         }
         this.add(Box.createVerticalGlue());
         this.add(startButton);
+        this.add(Box.createVerticalGlue());
+        this.add(highscore);
         this.add(Box.createVerticalGlue());
         this.add(quitButton);
         this.add(Box.createVerticalGlue());
