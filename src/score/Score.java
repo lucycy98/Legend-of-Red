@@ -10,6 +10,10 @@ public class Score {
         score = 0;
     }
 
+    public void lost(){
+        score = 0;
+    }
+
     public void totalLevels(int levels){
         totalLevels = levels;
     }

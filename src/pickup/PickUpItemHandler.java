@@ -3,6 +3,7 @@ package pickup;
 import attacks.WeaponHandler;
 import being.Protagonist;
 import maps.MapHandler;
+import sound.SoundHandler;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,9 +28,11 @@ public class PickUpItemHandler {
     private HashMap<Integer, ArrayList> pickupIndices = new HashMap<>();
     private WeaponHandler weapon;
     private Protagonist player;
+    private SoundHandler sound;
 
     // Constructor initialises array of bullets
-    public PickUpItemHandler(MapHandler maps) {
+    public PickUpItemHandler(MapHandler maps, SoundHandler sound) {
+        this.sound = sound;
         this.maps = maps;
         itemsList = new ArrayList<>();
         currentPickUps = 0;
@@ -121,6 +124,9 @@ public class PickUpItemHandler {
             PickUpItem item = itemsList.get(i);
             Rectangle itemRec = item.getBounds();
             if (playerRec.intersects(itemRec)) {
+                if (sound != null) {
+                    sound.play("collect.wav");
+                }
                 item.collectItem();
                 itemsList.remove(i);
             }

@@ -16,6 +16,7 @@ import being.Protagonist;
 import maps.MapHandler;
 import pickup.Items;
 import graphics.TileShape;
+import sound.SoundHandler;
 
 public class WeaponHandler {
 
@@ -36,10 +37,12 @@ public class WeaponHandler {
     private Timer attack_timer;
     private Timer enemy_attack_timer;
     private int playerDim;
+    private SoundHandler sound;
 
 
     // Constructor initialises array of bullets
-    public WeaponHandler(MapHandler maps, ProjectileHandler projectiles, Protagonist player, EnemyHandler enemies, GamePanel panel) {
+    public WeaponHandler(MapHandler maps, ProjectileHandler projectiles, Protagonist player, EnemyHandler enemies, GamePanel panel, SoundHandler sound) {
+        this.sound = sound;
         canAttack = true;
         playerDim = player.getHeight();
         this.maps = maps;
@@ -143,6 +146,9 @@ public class WeaponHandler {
     public void attack() {
         if (!canAttack) {
             return;
+        }
+        if (currentWeapon.getSoundFile() != null){
+            sound.play(currentWeapon.getSoundFile());
         }
         currentWeapon.attack();
         if (currentWeapon.getItems() == Items.CUPIDBOW) {

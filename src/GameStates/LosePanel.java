@@ -16,7 +16,6 @@ public class LosePanel extends JPanel {
     JButton quitButton;
     Gamestate option;
     JLabel title;
-    JLabel scoreLabel;
     Score score;
     JLabel imageLabel = null;
     JButton menuButton;
@@ -42,18 +41,6 @@ public class LosePanel extends JPanel {
         title.setFont(new Font("Helvetica", Font.PLAIN, 50));
         title.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         title.setForeground(Color.pink);
-
-        //score
-        String scoreval;
-        if (score.getScore() < 0){
-            scoreval = "";
-        } else {
-            scoreval = Integer.toString(score.getScore());
-        }
-        scoreLabel = new JLabel("Score: " + scoreval);
-        scoreLabel.setFont(new Font("Helvetica", Font.PLAIN, 20));
-        scoreLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-        scoreLabel.setForeground(Color.pink);
 
         //image
         BufferedImage image = null;
@@ -114,7 +101,6 @@ public class LosePanel extends JPanel {
     private void addComponents() {
         this.add(Box.createVerticalGlue());
         this.add(title);
-        this.add(scoreLabel);
         this.add(Box.createVerticalGlue());
         if (imageLabel != null){
             this.add(imageLabel);

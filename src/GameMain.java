@@ -2,6 +2,7 @@ import GameStates.*;
 import GameStates.Menu;
 import score.Score;
 import score.ScoreHandler;
+import sound.SoundHandler;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,6 +28,7 @@ public class GameMain {
         HighScorePanel scorePanel;
         Score score = null;
         ScoreHandler scoreHandler = new ScoreHandler();
+        SoundHandler soundHandler = new SoundHandler();
 
         Gamestate state = Gamestate.MENU;
         while(state != Gamestate.QUIT){
@@ -58,7 +60,7 @@ public class GameMain {
                     break;
                 case GAME:
                     score = new Score();
-                    playScreen = new GamePanel(score);
+                    playScreen = new GamePanel(score, soundHandler);
                     playScreen.setBackground(Color.BLACK);
                     gameWindow.add(playScreen);
                     gameWindow.validate();

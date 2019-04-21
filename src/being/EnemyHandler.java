@@ -6,6 +6,8 @@ import game.Timers;
 import maps.MapHandler;
 import pickup.PickUpItemHandler;
 import graphics.TileShape;
+import sound.Sound;
+import sound.SoundHandler;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,9 +28,11 @@ public class EnemyHandler implements Timers {
     int totallevels;
     private Score score;
     private Timer velocity_timer;
+    private SoundHandler sound;
 
 
-    public EnemyHandler(int tileSize, MapHandler maps, Score score, PickUpItemHandler item) {
+    public EnemyHandler(int tileSize, MapHandler maps, Score score, PickUpItemHandler item, SoundHandler sound) {
+        this.sound = sound;
         this.item = item;
         enemies = new HashMap<>();
         this.maps = maps;
@@ -167,6 +171,7 @@ public class EnemyHandler implements Timers {
 
     public void damageEnemy(Enemy enemy) {
         enemy.damageHealth();
+        sound.play("damageEnemy.wav");
         if (!enemy.getIsAlive()) {
             score.killWolf(maps.getCurrentLevel());
             item.addEnemiesKilled(enemy.getLevel(), enemy.getX(), enemy.getY());

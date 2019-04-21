@@ -25,6 +25,7 @@ public class ProjectileHandler implements Weapon, Timers {
     private EnemyHandler enemies;
     private Items item;
     private int playerDim;
+    private String soundEffect = "bow_release.wav";
 
     // Constructor initialises array of bullets
     public ProjectileHandler(MapHandler maps, Protagonist player, EnemyHandler enemies, Items item) {
@@ -211,6 +212,11 @@ public class ProjectileHandler implements Weapon, Timers {
     @Override
     public void startTimers() {
         velocity_timer.start();
+    }
+
+    @Override
+    public String getSoundFile() {
+        return soundEffect;
     }
 
     @Override

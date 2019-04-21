@@ -8,6 +8,7 @@ import score.Score;
 import game.TutorialLevel;
 import maps.MapHandler;
 import pickup.PickUpItemHandler;
+import sound.SoundHandler;
 
 import javax.swing.*;
 import java.awt.*;
@@ -35,18 +36,20 @@ public class GamePanel extends JPanel implements KeyListener {
     String time;
     PickUpItemHandler item;
     TutorialLevel tutorial;
+    SoundHandler sound;
 
     // gameScreen Constructor
-    public GamePanel(Score score) {
+    public GamePanel(Score score, SoundHandler sound) {
+        this.sound = sound;
         option = Gamestate.GAME;
         maps = new MapHandler(this);
         this.score = score;
-        item = new PickUpItemHandler(maps);
-        enemies = new EnemyHandler(tileSize, maps, score, item);
+        item = new PickUpItemHandler(maps, sound);
+        enemies = new EnemyHandler(tileSize, maps, score, item, sound);
         maps.addEnemyHandler(enemies);
         player = new Protagonist(tileSize, tileSize, tileSize, tileSize, "player.png", tileSize * 2, maps, enemies);
         enemies.addPlayer(player);
-        weapons = new WeaponHandler(maps, projectiles, player, enemies, this);
+        weapons = new WeaponHandler(maps, projectiles, player, enemies, this, sound);
         enemies.addWeaponHandler(weapons);
         tutorial = new TutorialLevel(maps, item);
         player.addTutorialLevel(tutorial);
@@ -57,7 +60,7 @@ public class GamePanel extends JPanel implements KeyListener {
             public void actionPerformed(ActionEvent e) {
                 if (player.getHealth() <= 0) {
                     stopTimers();
-                    score.considerTimeRemaining(timeLeft);
+                    score.lost();
                     option = Gamestate.LOSE;
                 }
             }
@@ -73,6 +76,7 @@ public class GamePanel extends JPanel implements KeyListener {
                 time = df.format(timeLeft);
 
                 if (timeLeft <= 0) {
+                    score.lost();
                     option = Gamestate.LOSE;
                     gameTimer.stop();
                 }

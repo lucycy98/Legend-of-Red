@@ -61,6 +61,11 @@ public class Dagger extends TileShape implements Weapon, Timers {
     }
 
     @Override
+    public String getSoundFile() {
+        return null;
+    }
+
+    @Override
     public void attack() {
         player.canMove(false);
         this.setIsRenderable(true);

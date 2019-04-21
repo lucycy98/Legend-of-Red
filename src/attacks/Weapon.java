@@ -15,4 +15,5 @@ public interface Weapon {
     public Items getItems();
     public void stopTimers();
     public void startTimers();
+    public String getSoundFile();
 }
