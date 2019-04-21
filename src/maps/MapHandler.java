@@ -1,5 +1,6 @@
 package maps;
 
+import GameStates.GamePanel;
 import being.EnemyHandler;
 import graphics.TileShape;
 
@@ -17,9 +18,13 @@ public class MapHandler {
     int xTiles = 17;
     int yTiles = 12;
     private EnemyHandler enemies;
+    private Boolean gameComplete;
+    private GamePanel game;
 
     // Constructor initialises array of bullets
-    public MapHandler() {
+    public MapHandler(GamePanel game) {
+        this.game = game;
+        gameComplete = false;
         maps = new HashMap<>();
         for (int i = 0; i < totalLevels; i++) {
             int level = i;
@@ -57,9 +62,17 @@ public class MapHandler {
         }
     }
 
-    public int setNextLevel() {
-        currentLevel++;
-        return currentLevel;
+    public void setNextLevel() {
+        if (currentLevel + 1 < totalLevels){
+            currentLevel++;
+        } else {
+            gameComplete = true;
+            game.gameWon();
+        }
+    }
+
+    public boolean gameIsWon(){
+        return gameComplete;
     }
 
     public int setPreviousLevel() {

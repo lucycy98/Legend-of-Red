@@ -13,7 +13,6 @@ public class TutorialLevel implements Timers {
     private final MapHandler maps;
     private PickUpItemHandler item;
     private TileShape mumSprite;
-    private TileShape mumIcon;
     private ArrayList<String> tutorialMsg;
     private int currentMsg;
     private boolean messageFinished;
@@ -27,7 +26,7 @@ public class TutorialLevel implements Timers {
         createSprites();
         tutorialMsg = new ArrayList<>();
         tutorialMsg.add("Mum: Little Red Riding Hood, could you pay your grandma a visit?");
-        tutorialMsg.add("Mum: She hasn't seen you in ages and really misses you.");
+        tutorialMsg.add("Mum: She hasn't seen you in a long time and really misses you.");
         tutorialMsg.add("Mum: You'll have to go through the woods to see her.");
         tutorialMsg.add("Mum: Here is a dagger, so you can protect yourself.");
         tutorialMsg.add("Mum: You can walk towards it to pick it up.");

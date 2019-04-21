@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import being.Enemy;
@@ -22,6 +23,7 @@ public class WeaponHandler {
     private Weapon currentWeapon;
     private Weapon bossWeapon;
     private ArrayList<Weapon> availableWeapons;
+    private ArrayList<Items> requiredItems = new ArrayList<>(Arrays.asList(Items.PROJECTILE, Items.CUPIDBOW, Items.DAGGER));
     private Items currentItem;
     Timer velocity_timer;
     EnemyHandler enemies;
@@ -75,6 +77,24 @@ public class WeaponHandler {
         }));
         enemy_attack_timer.start();
 
+    }
+
+    public void obtainAllWeapons(){
+        for (Items item : requiredItems){
+            if (!containsWeapon(item)){
+                addWeapon(item);
+            }
+        }
+    }
+
+    private boolean containsWeapon(Items item){
+        Boolean contains = false;
+        for (Weapon weapon : availableWeapons){
+            if (weapon.getItems() == item){
+                contains = true;
+            }
+        }
+        return contains;
     }
 
     public void addWeapon(Items item) {

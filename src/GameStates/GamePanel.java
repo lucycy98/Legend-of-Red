@@ -37,10 +37,10 @@ public class GamePanel extends JPanel implements KeyListener {
     TutorialLevel tutorial;
 
     // gameScreen Constructor
-    public GamePanel() {
+    public GamePanel(Score score) {
         option = Gamestate.GAME;
-        maps = new MapHandler();
-        score = new Score();
+        maps = new MapHandler(this);
+        this.score = score;
         item = new PickUpItemHandler(maps);
         enemies = new EnemyHandler(tileSize, maps, score, item);
         maps.addEnemyHandler(enemies);
@@ -57,7 +57,7 @@ public class GamePanel extends JPanel implements KeyListener {
             public void actionPerformed(ActionEvent e) {
                 if (player.getHealth() <= 0) {
                     option = Gamestate.LOSE;
-                    updateHealth.stop();
+                    stopTimers();
                 }
             }
         }));
@@ -83,6 +83,11 @@ public class GamePanel extends JPanel implements KeyListener {
         this.addKeyListener(this);
         this.setFocusable(true);
         this.requestFocus();
+    }
+
+    public void gameWon(){
+        stopTimers();
+        option = Gamestate.WIN;
     }
 
     @Override
@@ -175,8 +180,10 @@ public class GamePanel extends JPanel implements KeyListener {
                     option = Gamestate.PAUSE;
                     break;
                 }
-            case KeyEvent.VK_B:
+            case KeyEvent.VK_PAGE_DOWN:
                 maps.setFinalLevel();
+                weapons.obtainAllWeapons();
+                tutorial.beginGame();
                 break;
             default:
                 player.keyPressed(evt);

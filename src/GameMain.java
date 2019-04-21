@@ -1,7 +1,6 @@
-import GameStates.GamePanel;
-import GameStates.Gamestate;
-import GameStates.Lose;
+import GameStates.*;
 import GameStates.Menu;
+import game.Score;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,7 +21,9 @@ public class GameMain {
 
         GameStates.Menu menu;
         GamePanel playScreen;
-        Lose lose;
+        LosePanel lose;
+        WinPanel win;
+        Score score = new Score();
 
         Gamestate state = Gamestate.MENU;
         while(state != Gamestate.QUIT){
@@ -40,7 +41,7 @@ public class GameMain {
                     state = menu.getOption();
                     break;
                 case GAME:
-                    playScreen = new GamePanel();
+                    playScreen = new GamePanel(score);
                     playScreen.setBackground(Color.BLACK);
                     gameWindow.add(playScreen);
                     gameWindow.validate();
@@ -52,7 +53,7 @@ public class GameMain {
                     state = playScreen.getOption();
                     break;
                 case LOSE:
-                    lose = new Lose(2,2);
+                    lose = new LosePanel(score);
                     lose.setBackground(Color.BLACK);
                     gameWindow.add(lose);
                     gameWindow.validate();
@@ -63,7 +64,18 @@ public class GameMain {
                     gameWindow.remove(lose);
                     state = lose.getOption();
                     break;
-
+                case WIN:
+                    win = new WinPanel(score);
+                    win.setBackground(Color.BLACK);
+                    gameWindow.add(win);
+                    gameWindow.validate();
+                    win.requestFocus();
+                    while (win.getOption() == null) {
+                        Thread.sleep(1);
+                    }
+                    gameWindow.remove(win);
+                    state = win.getOption();
+                    break;
             }
         }
         gameWindow.dispose();

@@ -102,9 +102,11 @@ public class Protagonist extends Being implements Timers {
                     tutorial.beginGame();
                 }
                 maps.setNextLevel();
-                enemies.setEnemy();
-                this.setX(tileSize + buffer);
-                this.setY(tileSize * 3 + buffer);
+                if (!maps.gameIsWon()){
+                    enemies.setEnemy();
+                    this.setX(tileSize + buffer);
+                    this.setY(tileSize * 3 + buffer);
+                }
             }
         }
         for (TileShape portal : maps.getCurrentBackwardPortal()) {
