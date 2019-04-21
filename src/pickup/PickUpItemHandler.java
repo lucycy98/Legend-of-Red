@@ -78,11 +78,6 @@ public class PickUpItemHandler {
                 break;
             case 4:
                 System.out.println("boss level");
-
-            case 1:
-                index = ThreadLocalRandom.current().nextInt(2, numberOfEnemies[level]);
-                indices.add(index);
-                break;
             case 2: //2 pick ups here
                 index = ThreadLocalRandom.current().nextInt(2, numberOfEnemies[level]);
                 int index_2 = index;
@@ -93,12 +88,9 @@ public class PickUpItemHandler {
                 indices.add(index_2);
                 System.out.println("assigning pickup for level" + level + " with index " + index + " " + index_2);
                 break;
-            default:
-                System.out.println("level breaking at default is " + level);
-
+            default: //levels 1, 3
                 index = ThreadLocalRandom.current().nextInt(2, numberOfEnemies[level]);
                 indices.add(index);
-                System.out.println("level breaking at default is " + level);
                 break;
         }
         pickupIndices.put(level, indices);

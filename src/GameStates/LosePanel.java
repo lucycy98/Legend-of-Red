@@ -1,6 +1,7 @@
 package GameStates;
 
 import score.Score;
+import sound.SoundHandler;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -19,11 +20,13 @@ public class LosePanel extends JPanel {
     Score score;
     JLabel imageLabel = null;
     JButton menuButton;
+    SoundHandler sound;
 
 
-    public LosePanel(Score score) {
+    public LosePanel(Score score, SoundHandler sound) {
 
         this.score = score;
+        this.sound = sound;
 
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
@@ -33,6 +36,7 @@ public class LosePanel extends JPanel {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        sound.play("loseGame.wav");
     }
 
     private void makeComponents() throws IOException {

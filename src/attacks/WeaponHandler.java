@@ -174,6 +174,13 @@ public class WeaponHandler {
     }
 
     public void changeWeapon() {
+        if (currentWeapon == null){
+            return;
+        }
+
+        if (availableWeapons.size() > 1){
+            sound.play("changeWeapon.wav");
+        }
         int index = availableWeapons.indexOf(currentWeapon);
         icons.get(currentWeapon.getItems()).setIsRenderable(false);
 

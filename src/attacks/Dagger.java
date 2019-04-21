@@ -25,6 +25,7 @@ public class Dagger extends TileShape implements Weapon, Timers {
     private Items item = Items.DAGGER;
     private javax.swing.Timer velocity_timer;
     private int playerDim;
+    private String weaponSound = "dagger.wav";
 
 
     public Dagger(Protagonist player, int x, int y, String img, Boolean r, EnemyHandler enemies) {
@@ -62,7 +63,7 @@ public class Dagger extends TileShape implements Weapon, Timers {
 
     @Override
     public String getSoundFile() {
-        return null;
+        return weaponSound;
     }
 
     @Override

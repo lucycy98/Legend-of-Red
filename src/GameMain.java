@@ -6,6 +6,7 @@ import sound.SoundHandler;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.logging.Handler;
 
 /**
  * where the game starts
@@ -75,7 +76,7 @@ public class GameMain {
                     if (score == null){
                         break;
                     }
-                    lose = new LosePanel(score);
+                    lose = new LosePanel(score, soundHandler);
                     scoreHandler.addGameScore(score.getScore());
                     lose.setBackground(Color.BLACK);
                     gameWindow.add(lose);
@@ -91,7 +92,7 @@ public class GameMain {
                     if (score == null){
                         break;
                     }
-                    win = new WinPanel(score);
+                    win = new WinPanel(score, soundHandler);
                     scoreHandler.addGameScore(score.getScore());
                     win.setBackground(Color.BLACK);
                     gameWindow.add(win);

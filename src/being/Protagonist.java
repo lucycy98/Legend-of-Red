@@ -5,6 +5,7 @@ import game.Timers;
 import game.TutorialLevel;
 import maps.MapHandler;
 import graphics.TileShape;
+import sound.SoundHandler;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
+import java.util.TimerTask;
 
 /**
  * keep incrementing x, y until key release OR another arrow is pressed.
@@ -38,10 +40,12 @@ public class Protagonist extends Being implements Timers {
     boolean isInvincible;
     private TutorialLevel tutorial;
     private Boolean canMove;
+    private SoundHandler sound;
 
 
-    public Protagonist(int xPos, int yPos, int width, int height, String image, int tile, MapHandler maps, EnemyHandler enemies) {
+    public Protagonist(int xPos, int yPos, int width, int height, String image, int tile, MapHandler maps, EnemyHandler enemies, SoundHandler sound) {
         super(xPos, yPos, width, height, 2, image);
+        this.sound = sound;
         canMove = true;
         this.tileSize = tile;
         this.maps = maps;
@@ -76,12 +80,23 @@ public class Protagonist extends Being implements Timers {
 
     public void setInvincible(int time) {
         isInvincible = true;
-        invincibleTime = time;
+        changeImage("transparentplayer.png");
+        java.util.Timer timer = new java.util.Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                // Your database code here
+                isInvincible = false;
+                changeImage("player.png");
+
+            }
+        }, 5000);
     }
 
 
     public void healthUp() {
         int up = 0;
+        sound.play("healthUp.wav");
         if (health < 30) {
             up = 40;
         } else if (health < 70) {
@@ -98,12 +113,12 @@ public class Protagonist extends Being implements Timers {
         if (fportal != null){
             Rectangle fportalRec = fportal.getBounds();
             if (playerRec.intersects(fportalRec)) {
-                System.out.println("intersecting portal");
                 if (maps.getCurrentLevel() == 0) {
                     tutorial.beginGame();
                 }
                 maps.setNextLevel();
                 if (!maps.gameIsWon()){
+                    sound.play("portal.wav");
                     enemies.setEnemy();
                     this.setX(tileSize + buffer);
                     this.setY(tileSize * 3 + buffer);
@@ -151,23 +166,18 @@ public class Protagonist extends Being implements Timers {
         Rectangle playerRec = this.getBounds();
         Rectangle obstacleRec = enemy.getBounds();
 
-        if (!isInvincible) {
-            if (playerRec.intersects(obstacleRec)) {
-                if (!enemy.attackStatus) {
-                    health -= 5;
-                    enemy.attackStatus = true;
-                }
-                return true;
-            } else {
-                enemy.attackStatus = false;
+        if (isInvincible) {
+            return false;
+        }
+        if (playerRec.intersects(obstacleRec)) {
+            if (!enemy.attackStatus) {
+                sound.play("loseHealth.wav");
+                health -= 5;
+                enemy.attackStatus = true;
             }
+            return true;
         } else {
-            this.changeImage("transparentplayer.png");
-            System.out.println(invincibleTime);
-            if (invincibleTime <= 0) {
-                isInvincible = false;
-                this.changeImage("player.png");
-            }
+            enemy.attackStatus = false;
         }
         return false;
     }
@@ -196,11 +206,8 @@ public class Protagonist extends Being implements Timers {
         } else if (pressRight) {
 
             currentDirection = Direction.EAST;
-
         } else if (pressLeft) {
-
             currentDirection = Direction.WEST;
-
         }
     }
 
@@ -229,7 +236,6 @@ public class Protagonist extends Being implements Timers {
     public void damageHealth() {
         System.out.println("bullet hit player");
         health -= 5;
-
     }
 
     public void keyReleased(KeyEvent e) {
