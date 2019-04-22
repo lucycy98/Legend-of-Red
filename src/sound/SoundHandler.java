@@ -19,7 +19,6 @@ public class SoundHandler {
         SoundEffect sound9 = new SoundEffect("winGame.wav");
         SoundEffect sound10 = new SoundEffect("healthUp.wav");
 
-
         sounds.put("bow_release.wav", sound1);
         sounds.put("damageEnemy.wav", sound2);
         sounds.put("collect.wav", sound3);
