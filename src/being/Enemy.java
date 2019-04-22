@@ -5,6 +5,8 @@ import game.Direction;
 import maps.MapHandler;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -19,6 +21,7 @@ public class Enemy extends Being {
     private int dx, dy;
     private int rx, ry;
     private int tileSize;
+    private javax.swing.Timer flash;
     private Direction currentDirection = Direction.NORTH_EAST;
     private Boolean isAlive = true;
     private MapHandler maps;
@@ -102,10 +105,24 @@ public class Enemy extends Being {
 
     @Override
     public void damageHealth() {
-        health --;
-        if (health == 0){
+        health--;
+        if (health == 0) {
             killWolf();
         }
+        flash();
+    }
+
+    public void flash() {
+        changeImage("redWolf.png");
+        java.util.Timer timer = new java.util.Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                // Your database code here
+                changeImage("wolf.png");
+
+            }
+        }, 200);
     }
 
     public void killWolf() {

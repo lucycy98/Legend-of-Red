@@ -31,7 +31,7 @@ public class Protagonist extends Being implements Timers {
     private Boolean pressLeft = false;
     private Boolean pressRight = false;
     private int health;
-    private int speed = 2;
+    private int speed = 4;
     private int buffer = 50;
     private boolean beingAttacked;
     private Timer velocity_timer;
@@ -88,6 +88,19 @@ public class Protagonist extends Being implements Timers {
 
             }
         }, 5000);
+    }
+
+    public void flash() {
+        changeImage("damagedPlayer.png");
+        java.util.Timer timer = new java.util.Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                // Your database code here
+                changeImage("player.png");
+
+            }
+        }, 200);
     }
 
 
@@ -175,6 +188,7 @@ public class Protagonist extends Being implements Timers {
             if (!enemy.isAttacking()) {
                 sound.play("loseHealth.wav");
                 health -= 5;
+                flash();
                 enemy.setAttackStatus(true);
             }
             return true;
@@ -238,6 +252,7 @@ public class Protagonist extends Being implements Timers {
     public void damageHealth() {
         System.out.println("bullet hit player");
         health -= 5;
+        flash();
     }
 
     public void keyReleased(KeyEvent e) {
