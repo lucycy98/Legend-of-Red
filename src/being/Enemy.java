@@ -62,7 +62,7 @@ public class Enemy extends Being {
         }
     }
 
-    private void killWolf() {
+    public void killWolf() {
         this.setIsRenderable(false);
         isAlive = false;
     }
@@ -144,11 +144,11 @@ public class Enemy extends Being {
         return canRangeAttack;
     }
 
-    public boolean getfriendly(){
+    public boolean isFriendly(){
         return friendly;
     }
 
-    public boolean getattackStatus(){
+    public boolean isAttacking(){
         return attackStatus;
     }
 

@@ -219,6 +219,7 @@ public class ProjectileHandler implements Weapon, Timers {
                         System.out.println("cupid not used");
                         enemies.damageEnemy(enemy);
                     } else {
+                        System.out.println("BECOME FRIENDLY");
                         enemy.becomeFriendly();
                         if (weapons != null){
                             weapons.cupidUsed();

@@ -117,6 +117,8 @@ public class EnemyHandler implements Timers {
         double shortestDistance = 999;
         Enemy closestEnemy = enemies.get(0);
         for (Enemy enemy : enemies) {
+            if (enemy.equals(subject))
+                continue;
             double dist = Math.abs(subject.getDistance(enemy));
             shortestDistance = (dist < shortestDistance & dist != 0) ? dist : shortestDistance;
             closestEnemy = enemy;
@@ -130,14 +132,53 @@ public class EnemyHandler implements Timers {
         }
         for (int i = 0; i < currentEnemies.size(); i++) {
             Enemy enemy = currentEnemies.get(i);
-            if (!player.checkEnemy(enemy)) {
 
-                if (enemy.getfriendly()) {
+            if (enemy.isFriendly()) {
+                Enemy closest = findClosestEnemy(enemy, currentEnemies);
+
+                enemy.losTracking(closest.getX(), closest.getY());
+                if (enemy.getBounds().intersects(closest.getBounds())) {
+                    damageEnemy(enemy);
+                    damageEnemy(closest);
+                }
+            }
+
+            if (player.enemyIsAttacking(enemy)){
+                continue;
+            }
+
+            if (enemy.getLevel() == 0) {
+                enemy.move();
+            } else if (enemy.getLevel() == 1) {
+                enemy.randomMovement();
+            } else {
+                enemy.losTracking(player.getX(), player.getY());
+            }
+
+        }
+    }
+
+    public void moveOld() {
+        if (player == null) {
+            return;
+        }
+        for (int i = 0; i < currentEnemies.size(); i++) {
+            Enemy enemy = currentEnemies.get(i);
+
+            if (!player.enemyIsAttacking(enemy)) {
+
+                if (enemy.isFriendly()) {
                     Enemy closest = findClosestEnemy(enemy, currentEnemies);
                     enemy.losTracking(closest.getX(), closest.getY());
                     if (enemy.getBounds().intersects(closest.getBounds())) {
-                        enemy.damageHealth();
-                        closest.damageHealth();
+                        damageEnemy(enemy);
+                        damageEnemy(closest);
+                        if (!enemy.getIsAlive()){
+                            System.out.println("killed enemy");
+                        }
+                        if (!closest.getIsAlive()){
+                            System.out.println("killed closet");
+                        }
                     }
                 } else {
                     if (enemy.getLevel() == 0) {

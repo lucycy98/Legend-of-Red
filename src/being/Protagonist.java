@@ -158,15 +158,16 @@ public class Protagonist extends Being implements Timers {
         setY(currentY + dy);
     }
 
-    public boolean checkEnemy(Enemy enemy) {
+    public boolean enemyIsAttacking(Enemy enemy) {
         Rectangle playerRec = this.getBounds();
         Rectangle obstacleRec = enemy.getBounds();
 
         if (isInvincible) {
             return false;
         }
+
         if (playerRec.intersects(obstacleRec)) {
-            if (!enemy.getattackStatus()) {
+            if (!enemy.isAttacking()) {
                 sound.play("loseHealth.wav");
                 health -= 5;
                 enemy.setAttackStatus(true);
