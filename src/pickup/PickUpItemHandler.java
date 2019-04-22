@@ -2,6 +2,7 @@ package pickup;
 
 import attacks.WeaponHandler;
 import being.Protagonist;
+import graphics.TileShape;
 import maps.MapHandler;
 import sound.SoundHandler;
 
@@ -103,6 +104,25 @@ public class PickUpItemHandler {
     public void paint(Graphics2D win){
         for (PickUpItem item: itemsList){
             item.paint(win);
+            if (item.getItem() == Items.DAGGER){
+                TileShape daggerIns = new TileShape(item.getX() + 60, item.getY() + 60, 900, 160, "dialogue/daggerIns.png", true);
+                daggerIns.renderShape(win);
+            } else if (item.getItem() == Items.KEY & maps.getCurrentLevel() == 1){
+                TileShape daggerIns = new TileShape(item.getX() + 60, item.getY() + 60, 900, 160, "dialogue/keyIns.png", true);
+                daggerIns.renderShape(win);
+            }else if (item.getItem() == Items.PROJECTILE){
+                TileShape daggerIns = new TileShape(item.getX() + 60, item.getY() + 60, 900, 160, "dialogue/bowIns.png", true);
+                daggerIns.renderShape(win);
+            }else if (item.getItem() == Items.HEALTH){
+                TileShape daggerIns = new TileShape(item.getX() + 60, item.getY() + 60, 900, 160, "dialogue/heartIns.png", true);
+                daggerIns.renderShape(win);
+            }else if (item.getItem() == Items.CUPIDBOW){
+                TileShape daggerIns = new TileShape(item.getX() + 60, item.getY() + 60, 900, 160, "dialogue/cupidIns.png", true);
+                daggerIns.renderShape(win);
+            }else if (item.getItem() == Items.WOLFSKIN){
+                TileShape daggerIns = new TileShape(item.getX() + 60, item.getY() + 60, 900, 160, "dialogue/skinIns.png", true);
+                daggerIns.renderShape(win);
+            }
         }
     }
 

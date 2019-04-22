@@ -31,6 +31,10 @@ public class PickUpItem extends TileShape {
         this.map = map;
     }
 
+    public Items getItem() {
+        return item;
+    }
+
     public void collectItem() {
         switch (item) {
             case KEY:

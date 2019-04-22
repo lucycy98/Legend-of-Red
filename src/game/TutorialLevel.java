@@ -16,7 +16,9 @@ public class TutorialLevel implements Timers {
     private ArrayList<String> tutorialMsg;
     private int currentMsg;
     private boolean messageFinished;
+    private boolean tutFinished;
     private TileShape dialogueBox;
+    private TileShape tutBox;
     private Boolean inTutorialLevel;
 
     public TutorialLevel(MapHandler maps, PickUpItemHandler item) {
@@ -25,22 +27,21 @@ public class TutorialLevel implements Timers {
         this.item = item;
         createSprites();
         tutorialMsg = new ArrayList<>();
-        tutorialMsg.add("Mum: Little Red Riding Hood, could you pay your grandma a visit?");
-        tutorialMsg.add("Mum: She hasn't seen you in a long time and really misses you.");
-        tutorialMsg.add("Mum: You'll have to go through the woods to see her.");
-        tutorialMsg.add("Mum: Here is a dagger, so you can protect yourself.");
-        tutorialMsg.add("Mum: You can walk towards it to pick it up.");
-        tutorialMsg.add("Mum: Be careful of the wolves!");
+        tutorialMsg.add("dialogue/tut1.png");
+        tutorialMsg.add("dialogue/tut2.png");
+        tutorialMsg.add("dialogue/tut3.png");
+        tutorialMsg.add("dialogue/tut4.png");
+        tutorialMsg.add("dialogue/tut5.png");
         tutorialMsg.add("");
         currentMsg = 0;
         messageFinished = false;
-        dialogueBox = new TileShape(60, 500, 900, 160, "dialogueBox.png", true);
+        tutFinished = false;
+        tutBox = new TileShape(100, 500, 900, 160, "dialogue/ins1.png", true);
     }
 
     public void createSprites() {
         if (maps.getCurrentLevel() == 0) {
             mumSprite = new TileShape(100, 400, 100, 100, "mum.png", true);
-//            mumIcon = new graphics.TileShape(100, 530, 30, 30, "mum.png", true);
             item.createItem(500, 200, Items.DAGGER);
         }
     }
@@ -63,22 +64,25 @@ public class TutorialLevel implements Timers {
 
     public void paint(Graphics2D win) {
         if (inTutorialLevel) {
-            win.setColor(Color.BLACK);
-            win.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+            dialogueBox = new TileShape(60, 500, 900, 160, tutorialMsg.get(currentMsg), true);
             if (!messageFinished) {
                 dialogueBox.renderShape(win);
-//            mumIcon.renderShape(win);
                 if (mumSprite != null) {
                     mumSprite.renderShape(win);
                 }
-                win.drawString("Press space to continue", 700, 680);
             }
-            win.setFont(new Font("TimesRoman", Font.BOLD, 20));
-            win.drawString(tutorialMsg.get(currentMsg), 100, 600);
+            else {
+                if (!tutFinished) {
+                    tutBox.renderShape(win);
+                }
+            }
         }
     }
 
     public void nextMessage() {
+        if (messageFinished){
+            tutFinished = true;
+        }
         if (currentMsg < tutorialMsg.size() - 1) {
             currentMsg++;
         } else {
