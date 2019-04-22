@@ -150,9 +150,6 @@ public class Protagonist extends Being implements Timers {
 
     public void paint(Graphics2D win) {
         renderShape(win);
-        if (smallplayerRec != null){
-            win.drawRect((int)smallplayerRec.getX(),(int)smallplayerRec.getY(), (int)smallplayerRec.getWidth(), (int)smallplayerRec.getHeight());
-        }
     }
 
     public void movePlayer() {

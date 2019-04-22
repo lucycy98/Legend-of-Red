@@ -28,6 +28,7 @@ public class Dagger extends TileShape implements Weapon, Timers {
     private String weaponSound = "dagger.wav";
     private Direction lastWeaponDir;
     private Boolean isAttacking;
+    Rectangle daggerRec;
 
 
     public Dagger(Protagonist player, int x, int y, String img, Boolean r, EnemyHandler enemies) {
@@ -45,8 +46,31 @@ public class Dagger extends TileShape implements Weapon, Timers {
         velocity_timer.start();
     }
 
+    @Override
     public Rectangle getBounds() {
-        return new Rectangle(currentXPos, currentYPos, 40, 40);
+        int x = currentXPos;
+        int y = currentYPos;
+        int buffer = 10;
+        System.out.println(lastWeaponDir);
+        switch(lastWeaponDir){
+            case NORTH:
+                y = y + buffer;
+                x = x - buffer/2;
+                break;
+            case EAST:
+                x = x - buffer*2;
+                y = y - buffer - buffer/2;
+                break;
+            case WEST:
+                x = x + buffer/2;
+                y = y - buffer - buffer/2;
+                break;
+            case SOUTH:
+                y = y - buffer - buffer/2;
+                x = x - buffer/2;
+                break;
+        }
+        return new Rectangle(x, y, 60, 60);
     }
 
     @Override
@@ -105,18 +129,15 @@ public class Dagger extends TileShape implements Weapon, Timers {
     @Override
     public void checkCollision() {
         if (this.isRenderable()) {
-            Rectangle daggerRec = this.getBounds();
+            daggerRec = this.getBounds();
             ArrayList<Enemy> es = enemies.getCurrentEnemies();
             for (int i = 0; i < es.size(); i++) {
                 Enemy enemy = es.get(i);
                 Rectangle enemyRec = es.get(i).getBounds();
                 if (daggerRec.intersects(enemyRec)) {
                     if (!enemy.isBeingAttacked()){
-                        System.out.println("damaging");
                         enemies.damageEnemy(enemy, lastWeaponDir);
                         enemy.setbeingAttacked(true);
-                    } else {
-                        System.out.println("           not damaing!!!!!!!!!  ");
                     }
                 } else {
                     enemy.setbeingAttacked(false);
@@ -137,6 +158,8 @@ public class Dagger extends TileShape implements Weapon, Timers {
             }
         }
     }
+
+
 
 
 
@@ -189,7 +212,7 @@ public class Dagger extends TileShape implements Weapon, Timers {
                 currentYPos = yPos + 20;
                 break;
             case WEST:
-                lastWeaponDir = Direction.EAST;
+                lastWeaponDir = Direction.WEST;
                 this.changeImage("daggerWest.png");
                 currentXPos = xPos - playerDim + 30;
                 currentYPos = yPos + 20;

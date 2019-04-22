@@ -52,6 +52,7 @@ public class EnemyHandler implements Timers {
             @Override
             public void actionPerformed(ActionEvent e) {
                 move();
+                //checkPlayerCollision();
             }
         }));
         velocity_timer.start();
@@ -127,6 +128,13 @@ public class EnemyHandler implements Timers {
         return closestEnemy;
     }
 
+    public void checkPlayerCollision(){
+        for (int i = 0; i < currentEnemies.size(); i++) {
+            Enemy enemy = currentEnemies.get(i);
+            enemy.checkCollision(player);
+        }
+    }
+
     public void move() {
         if (player == null) {
             return;
@@ -139,11 +147,12 @@ public class EnemyHandler implements Timers {
 
                 enemy.losTracking(closest.getX(), closest.getY());
                 if (enemy.getBounds().intersects(closest.getBounds())) {
-                    damageEnemy(closest, null); //todo update
+                    damageEnemy(closest, null);
                     if(!closest.getIsAlive()){
                         enemy.incrementKilledWolf();
                     }
                 }
+                continue;
             }
 
             if (enemy.isMovingBack()){

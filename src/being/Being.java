@@ -61,6 +61,29 @@ public class Being extends TileShape {
         return false;
     }
 
+    public void checkCollision(TileShape obstacle) {
+
+        Rectangle playerRec = this.getBounds();
+        Rectangle obstacleRec = obstacle.getBounds();
+        if (playerRec.intersects(obstacleRec)) {
+
+            if (this.getY() + 10 > obstacle.getY() + obstacle.getHeight()) { //intersects top
+                this.setY(obstacle.getY() + obstacle.getHeight());
+            }
+            if (this.getX() - 10 < obstacle.getX() - this.getWidth()) {//intersects left
+                this.setX(obstacle.getX() - this.getWidth());
+            }
+
+            if (this.getX() + 10 > obstacle.getX() + obstacle.getWidth()) { //intersects right
+                this.setX(obstacle.getX() + obstacle.getWidth());
+            }
+
+            if (this.getY() - 10 < obstacle.getY() - this.getHeight()) { //intersect bottom
+                this.setY(obstacle.getY() - this.getHeight());
+            }
+        }
+    }
+
     /**
      * returns what location w/ respect to the being, the obstacle is.
      * will be more computer friendly if we changed this to look at map tiles instead.
