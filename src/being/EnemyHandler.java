@@ -101,9 +101,7 @@ public class EnemyHandler implements Timers {
                 }
             }
         } else { //boss level
-            int x = ThreadLocalRandom.current().nextInt(1, maps.getxTiles() - 1);
-            int y = ThreadLocalRandom.current().nextInt(1, maps.getyTiles() - 1);
-            enemies.add(new Enemy(x * tileSize, y * tileSize, tileSize * 2, tileSize * 2, "wolf.png", tileSize, maps, level, true, 10));
+            enemies.add(new Enemy(10 * tileSize, 5 * tileSize, tileSize * 2, tileSize * 2, "wolf.png", tileSize, maps, level, true, 10));
         }
         System.out.println("level created " + level);
         System.out.println("enemise in level" + level + enemiesPerLevel[level]);
