@@ -34,7 +34,7 @@ public class Enemy extends Being {
     private Direction movingBackDirection;
     private Boolean beingAttacked;
 
-    public Enemy(int xPos, int yPos, int width, int height, String image, int tile, MapHandler maps, int level, boolean canRangeAttack, int health) {
+    public Enemy(int xPos, int yPos, int width, int height, String image, int tile, MapHandler maps, int level, boolean canRangeAttack, int health, int difficulty) {
         super(xPos, yPos, width, height, 1, image);
         this.tileSize = tile;
         this.maps = maps;
@@ -50,7 +50,7 @@ public class Enemy extends Being {
         this.canRangeAttack = canRangeAttack;
         friendly = false;
         attackStatus = false;
-        this.health = health;
+        this.health = health * difficulty;
     }
 
     public Boolean isMovingBack(){

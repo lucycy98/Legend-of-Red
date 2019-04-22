@@ -29,9 +29,10 @@ public class EnemyHandler implements Timers {
     private Score score;
     private Timer velocity_timer;
     private SoundHandler sound;
+    private int difficulty;
 
 
-    public EnemyHandler(int tileSize, MapHandler maps, Score score, PickUpItemHandler item, SoundHandler sound) {
+    public EnemyHandler(int tileSize, MapHandler maps, Score score, PickUpItemHandler item, SoundHandler sound, int difficulty) {
         this.sound = sound;
         this.item = item;
         enemies = new HashMap<>();
@@ -40,6 +41,7 @@ public class EnemyHandler implements Timers {
         this.tileSize = tileSize;
         this.score = score;
         score.totalLevels(totallevels);
+        this.difficulty = difficulty;
 
         for (int i = 0; i < totallevels; i++) {
             int level = i;
@@ -95,13 +97,13 @@ public class EnemyHandler implements Timers {
                     }
                 }
                 if (!overlap) {
-                    enemies.add(new Enemy(x * tileSize, y * tileSize, tileSize, tileSize, "wolf.png", tileSize, maps, level, false, 2));
+                    enemies.add(new Enemy(x * tileSize, y * tileSize, tileSize, tileSize, "wolf.png", tileSize, maps, level, false, 1,  difficulty));
                 } else {
                     i--;
                 }
             }
         } else { //boss level
-            enemies.add(new Enemy(10 * tileSize, 5 * tileSize, tileSize * 2, tileSize * 2, "wolf.png", tileSize, maps, level, true, 10));
+            enemies.add(new Enemy(10 * tileSize, 5 * tileSize, tileSize * 2, tileSize * 2, "wolf.png", tileSize, maps, level, true, 5, difficulty));
         }
         System.out.println("level created " + level);
         System.out.println("enemise in level" + level + enemiesPerLevel[level]);

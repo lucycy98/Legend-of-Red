@@ -5,9 +5,11 @@ public class Score {
     private int score;
     private int totalLevels;
     int maxLevels = 5;
+    int difficulty;
 
-    public Score(){
+    public Score(int difficulty){
         score = 0;
+        this.difficulty = difficulty;
     }
 
     public void lost(){
@@ -20,28 +22,28 @@ public class Score {
 
     public void killWolf(int level){
         if (level < maxLevels / 2){
-            score = score + 30;
+            score = score + 30 * difficulty;
         } else if (level == maxLevels - 1) { //boss level
-            score = score + 100;
+            score = score + 100 * difficulty;
         } else {
-            score = score + 50;
+            score = score + 50 * difficulty;
         }
     }
 
     public void damageWolf(int level){
         if (level < maxLevels / 2){
-            score = score + 5;
+            score = score + 5 * difficulty;
         } else {
-            score = score + 10;
+            score = score + 10 * difficulty;
         }
     }
 
     public void considerHealth(int health){
-        score = score - (99 - (int)(health * 1.2));
+        score = score - (99 - (int)(health * 1.2) * difficulty);
     }
 
     public void considerTimeRemaining(int time){
-        score = score + time/1000;
+        score = score + time/1000 * difficulty;
     }
 
     public int getScore(){

@@ -8,5 +8,6 @@ public enum Gamestate {
     LOSE,
     WIN,
     PAUSE,
-    HIGHSCORE
+    HIGHSCORE,
+    DIFFICULTY
 }

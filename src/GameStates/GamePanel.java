@@ -38,15 +38,17 @@ public class GamePanel extends JPanel implements KeyListener {
     private PickUpItemHandler item;
     private TutorialLevel tutorial;
     private SoundHandler sound;
+    private int difficulty;
 
     // gameScreen Constructor
-    public GamePanel(Score score, SoundHandler sound) {
+    public GamePanel(Score score, SoundHandler sound, int difficulty) {
         this.sound = sound;
         option = Gamestate.GAME;
         maps = new MapHandler(this);
         this.score = score;
+        this.difficulty = difficulty;
         item = new PickUpItemHandler(maps, sound);
-        enemies = new EnemyHandler(tileSize, maps, score, item, sound);
+        enemies = new EnemyHandler(tileSize, maps, score, item, sound, difficulty);
         maps.addEnemyHandler(enemies);
         player = new Protagonist(tileSize, tileSize, tileSize, tileSize, "player.png", tileSize * 2, maps, enemies, sound);
         enemies.addPlayer(player);

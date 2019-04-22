@@ -23,6 +23,7 @@ public class GameMain {
         gameWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         GameStates.Menu menu;
+        DifficultyPanel difficulty;
         GamePanel playScreen;
         LosePanel lose;
         WinPanel win;
@@ -30,6 +31,7 @@ public class GameMain {
         Score score = null;
         ScoreHandler scoreHandler = new ScoreHandler();
         SoundHandler soundHandler = new SoundHandler();
+        int diff = 1;
 
         Gamestate state = Gamestate.MENU;
         while(state != Gamestate.QUIT){
@@ -46,6 +48,20 @@ public class GameMain {
                     gameWindow.remove(menu);
                     state = menu.getOption();
                     break;
+                case DIFFICULTY:
+                    System.out.println("difficulty chooser");
+                    difficulty = new DifficultyPanel(2,2, diff);
+                    difficulty.setBackground(Color.BLACK);
+                    gameWindow.add(difficulty);
+                    gameWindow.validate();
+                    difficulty.requestFocus();
+                    while (difficulty.getOption() == null) {
+                        Thread.sleep(1);
+                    }
+                    gameWindow.remove(difficulty);
+                    state = difficulty.getOption();
+                    diff = difficulty.getDiff();
+                    break;
                 case HIGHSCORE:
                     System.out.println("highscore");
                     scorePanel = new HighScorePanel(scoreHandler);
@@ -60,8 +76,8 @@ public class GameMain {
                     state = scorePanel.getOption();
                     break;
                 case GAME:
-                    score = new Score();
-                    playScreen = new GamePanel(score, soundHandler);
+                    score = new Score(diff);
+                    playScreen = new GamePanel(score, soundHandler, diff);
                     playScreen.setBackground(Color.BLACK);
                     gameWindow.add(playScreen);
                     gameWindow.validate();

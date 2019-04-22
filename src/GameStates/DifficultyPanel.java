@@ -8,23 +8,24 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class Menu extends JPanel {
+public class DifficultyPanel extends JPanel {
 
     private  int height;
     private int width;
-    private JButton startButton;
-    private JButton difficultyButton;
-    private JButton quitButton;
+    private JButton easy;
+    private JButton medium;
+    private JButton hard;
     private Gamestate option;
     private JLabel title;
     private JLabel imageLabel = null;
     private JButton highscore;
+    private int diff;
 
 
-    public Menu(int width, int height) {
+    public DifficultyPanel(int width, int height, int diff) {
         this.height = height;
         this.width = width;
-
+        this.diff = diff;
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
         try {
@@ -37,7 +38,7 @@ public class Menu extends JPanel {
 
     private void makeComponents() throws IOException {
 
-        title = new JLabel("MAIN MENU");
+        title = new JLabel("DIFFICULTY MENU");
         title.setFont(new Font("Helvetica", Font.PLAIN, 50));
         title.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         title.setForeground(Color.pink);
@@ -64,68 +65,55 @@ public class Menu extends JPanel {
         ImageIcon icon = new ImageIcon(getClass().getResource("../button.png"));
 
 
-        highscore = new JButton(icon){
+        easy = new JButton(icon){
             {
                 setPreferredSize(new Dimension(300, 100));
                 setMaximumSize(new Dimension(300, 100));
-                setText("HIGH SCORE");
+                setText("EASY");
                 setHorizontalTextPosition(JButton.CENTER);
                 setAlignmentX(JButton.CENTER_ALIGNMENT);
             }
         };
-        highscore.addMouseListener(new MouseAdapter() {
+        easy.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                option = Gamestate.HIGHSCORE;
+                diff = 1;
+                option = Gamestate.MENU;
             }
         });
 
 
-        startButton = new JButton(icon){
+        medium = new JButton(icon){
             {
                 setPreferredSize(new Dimension(300, 100));
                 setMaximumSize(new Dimension(300, 100));
-                setText("START");
+                setText("MEDIUM");
                 setHorizontalTextPosition(JButton.CENTER);
                 setAlignmentX(JButton.CENTER_ALIGNMENT);
             }
         };
-        startButton.addMouseListener(new MouseAdapter() {
+        medium.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                option = Gamestate.GAME;
+                diff = 2;
+                option = Gamestate.MENU;
             }
         });
 
-        quitButton = new JButton(icon){
+        hard = new JButton(icon){
             {
                 setPreferredSize(new Dimension(300, 100));
                 setMaximumSize(new Dimension(300, 100));
-                setText("QUIT");
+                setText("HARD");
                 setHorizontalTextPosition(JButton.CENTER);
                 setAlignmentX(JButton.CENTER_ALIGNMENT);
             }
         };
-        quitButton.addMouseListener(new MouseAdapter() {
+        hard.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                option = Gamestate.QUIT;
-            }
-        });
-
-        difficultyButton = new JButton(icon){
-            {
-                setPreferredSize(new Dimension(300, 100));
-                setMaximumSize(new Dimension(300, 100));
-                setText("DIFFICULTY");
-                setHorizontalTextPosition(JButton.CENTER);
-                setAlignmentX(JButton.CENTER_ALIGNMENT);
-            }
-        };
-        difficultyButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                option = Gamestate.DIFFICULTY;
+                diff = 3;
+                option = Gamestate.MENU;
             }
         });
     }
@@ -138,16 +126,17 @@ public class Menu extends JPanel {
             this.add(imageLabel);
         }
         this.add(Box.createVerticalGlue());
-        this.add(startButton);
+        this.add(easy);
         this.add(Box.createVerticalGlue());
-        this.add(difficultyButton);
+        this.add(medium);
         this.add(Box.createVerticalGlue());
-        this.add(highscore);
-        this.add(Box.createVerticalGlue());
-        this.add(quitButton);
+        this.add(hard);
         this.add(Box.createVerticalGlue());
     }
 
+    public int getDiff(){
+        return diff;
+    }
 
     public Gamestate getOption(){
         return option;
