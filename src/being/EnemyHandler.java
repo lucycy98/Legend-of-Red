@@ -1,6 +1,7 @@
 package being;
 
 import attacks.WeaponHandler;
+import game.Direction;
 import score.Score;
 import game.Timers;
 import maps.MapHandler;
@@ -47,7 +48,7 @@ public class EnemyHandler implements Timers {
         }
         this.currentEnemies = enemies.get(maps.getCurrentLevel());
 
-        this.velocity_timer = new Timer(1000 / 300, (new ActionListener() {
+        this.velocity_timer = new Timer(1000 / 100, (new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 move();
@@ -138,11 +139,16 @@ public class EnemyHandler implements Timers {
 
                 enemy.losTracking(closest.getX(), closest.getY());
                 if (enemy.getBounds().intersects(closest.getBounds())) {
-                    damageEnemy(closest);
+                    damageEnemy(closest, null); //todo update
                     if(!closest.getIsAlive()){
                         enemy.incrementKilledWolf();
                     }
                 }
+            }
+
+            if (enemy.isMovingBack()){
+                enemy.moveEnemyBack();
+                continue;
             }
 
             if (player.enemyIsAttacking(enemy)){
@@ -186,7 +192,7 @@ public class EnemyHandler implements Timers {
         item.paint(win);
     }
 
-    public void damageEnemy(Enemy enemy) {
+    public void damageEnemy(Enemy enemy, Direction dir) {
         enemy.damageHealth();
         sound.play("damageEnemy.wav");
         if (!enemy.getIsAlive()) {
@@ -195,7 +201,23 @@ public class EnemyHandler implements Timers {
             currentEnemies.remove(enemy); //todo update the hashmap
         } else { //not kill just damage
             score.damageWolf(maps.getCurrentLevel());
+            if (dir != null){
+                System.out.println("SETTING MOVING BAK");
+                enemy.setMovingBack(dir);
 
+            }
+        }
+    }
+
+    public void damageEnemyOld(Enemy enemy) {
+        enemy.damageHealth();
+        sound.play("damageEnemy.wav");
+        if (!enemy.getIsAlive()) {
+            score.killWolf(maps.getCurrentLevel());
+            item.addEnemiesKilled(enemy.getLevel(), enemy.getX(), enemy.getY());
+            currentEnemies.remove(enemy); //todo update the hashmap
+        } else { //not kill just damage
+            score.damageWolf(maps.getCurrentLevel());
         }
     }
 

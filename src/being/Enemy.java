@@ -5,6 +5,9 @@ import game.Direction;
 import maps.MapHandler;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -27,12 +30,17 @@ public class Enemy extends Being {
     private int health;
     private int maxCanKill = 3;
     private int currentKilled;
+    private boolean movingBack;
+    private Direction movingBackDirection;
+    private Boolean beingAttacked;
 
     public Enemy(int xPos, int yPos, int width, int height, String image, int tile, MapHandler maps, int level, boolean canRangeAttack, int health) {
         super(xPos, yPos, width, height, 1, image);
         this.tileSize = tile;
         this.maps = maps;
         currentKilled = 0;
+        beingAttacked = false;
+        movingBack = false;
         dy = tileSize / 32;
         ry = tileSize / 32;
         dx = tileSize / 32;
@@ -43,6 +51,32 @@ public class Enemy extends Being {
         friendly = false;
         attackStatus = false;
         this.health = health;
+    }
+
+    public Boolean isMovingBack(){
+        return movingBack;
+    }
+
+    public Boolean isBeingAttacked(){
+        return beingAttacked;
+    }
+
+    public void setbeingAttacked(Boolean bool){
+        beingAttacked = bool;
+    }
+
+    public void setMovingBack(Direction dir){
+        System.out.println(dir);
+        movingBack = true;
+        movingBackDirection = dir;
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                // Your database code here
+                movingBack = false;
+            }
+        }, 1000);
     }
 
     public void incrementKilledWolf(){
@@ -86,6 +120,37 @@ public class Enemy extends Being {
     public void becomeFriendly() {
         friendly = true;
         changeImage("friendlyWolf.png");
+    }
+
+    public void moveEnemyBack(){
+        int currentX = getX();
+        int currentY = getY();
+        ArrayList<Direction> collidingobs = checkCollisionDirection(maps.getCurrentObstacles());
+        System.out.println(dx);
+
+        switch(movingBackDirection){
+            case NORTH:
+                if (!collidingobs.contains(Direction.NORTH)) {
+                    setY(currentY - dy);
+                }
+                break;
+            case EAST:
+                if (!collidingobs.contains(Direction.EAST)) {
+                    setX(currentX + dx);
+                }
+                break;
+            case WEST:
+                if (!collidingobs.contains(Direction.WEST)) {
+                    setX(currentX - dx);
+                }
+                break;
+            case SOUTH:
+                if (!collidingobs.contains(Direction.SOUTH)) {
+                    setY(currentY + dy);
+                }
+                break;
+        }
+        checkCollision(maps.getCurrentObstacles());
     }
 
     public void move() {

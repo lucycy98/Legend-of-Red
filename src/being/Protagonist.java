@@ -51,7 +51,7 @@ public class Protagonist extends Being implements Timers {
         this.enemies = enemies;
         health = 99;
         beingAttacked = false;
-        this.velocity_timer = new Timer(1, (new ActionListener() {
+        this.velocity_timer = new Timer(1000/500, (new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 checkCollision(maps.getCurrentObstacles());

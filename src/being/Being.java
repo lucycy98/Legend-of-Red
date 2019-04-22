@@ -1,5 +1,6 @@
 package being;
 
+import game.Direction;
 import graphics.TileShape;
 
 import java.awt.*;
@@ -58,6 +59,34 @@ public class Being extends TileShape {
             }
         }
         return false;
+    }
+
+    /**
+     * returns what location w/ respect to the being, the obstacle is.
+     * will be more computer friendly if we changed this to look at map tiles instead.
+     */
+    public ArrayList<Direction> checkCollisionDirection(ArrayList<TileShape> obstacles) {
+        ArrayList<Direction> obs = new ArrayList<>();
+        Rectangle playerRec = this.getBounds();
+        for (TileShape obstacle : obstacles) {
+            Rectangle obstacleRec = obstacle.getBounds();
+            if (playerRec.intersects(obstacleRec)) {
+                obs = new ArrayList<>();
+                if (this.getY() + 10 > obstacle.getY() + obstacle.getHeight()) { //intersects top
+                    obs.add(Direction.NORTH);
+                }
+                if (this.getX() - 10 < obstacle.getX() - this.getWidth()) {//intersects left
+                    obs.add(Direction.WEST);
+                }
+                if (this.getX() + 10 > obstacle.getX() + obstacle.getWidth()) { //intersects right
+                    obs.add(Direction.EAST);
+                }
+                if (this.getY() - 10 < obstacle.getY() - this.getHeight()) { //intersect bottom
+                    obs.add(Direction.SOUTH);
+                }
+            }
+        }
+        return obs;
     }
 
 //    /**

@@ -143,7 +143,6 @@ public class ProjectileHandler implements Weapon, Timers {
             default:
                 break;
         }
-        //attacks.Projectile projectile = new attacks.Projectile(dir, xPos, yPos, projectileSpeed, maps);
         if (!image.equals("")) {
             Projectile projectile = new Projectile(dir, xPos, yPos, projectileSpeed, maps, image, w, h);
             projectiles.add(projectile);
@@ -217,7 +216,7 @@ public class ProjectileHandler implements Weapon, Timers {
                     //if projectile, or boss level, or only 2 enemies in level....
                     if (item == Items.PROJECTILE || enemy.getLevel() == totalLevels - 1 || enemies.getCurrentEnemies().size() < 2) {
                         System.out.println("cupid not used");
-                        enemies.damageEnemy(enemy);
+                        enemies.damageEnemy(enemy, null);
                     } else {
                         System.out.println("BECOME FRIENDLY");
                         enemy.becomeFriendly();

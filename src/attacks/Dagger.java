@@ -26,11 +26,14 @@ public class Dagger extends TileShape implements Weapon, Timers {
     private javax.swing.Timer velocity_timer;
     private int playerDim;
     private String weaponSound = "dagger.wav";
+    private Direction lastWeaponDir;
+    private Boolean isAttacking;
 
 
     public Dagger(Protagonist player, int x, int y, String img, Boolean r, EnemyHandler enemies) {
         super(x, y, 40, 40, img, false);
         this.player = player;
+        isAttacking = false;
         playerDim = player.getHeight();
         this.enemies = enemies;
         this.velocity_timer = new javax.swing.Timer(1000 / 300, (new ActionListener() {
@@ -105,13 +108,38 @@ public class Dagger extends TileShape implements Weapon, Timers {
             Rectangle daggerRec = this.getBounds();
             ArrayList<Enemy> es = enemies.getCurrentEnemies();
             for (int i = 0; i < es.size(); i++) {
+                Enemy enemy = es.get(i);
                 Rectangle enemyRec = es.get(i).getBounds();
                 if (daggerRec.intersects(enemyRec)) {
-                    enemies.damageEnemy(es.get(i));
+                    if (!enemy.isBeingAttacked()){
+                        System.out.println("damaging");
+                        enemies.damageEnemy(enemy, lastWeaponDir);
+                        enemy.setbeingAttacked(true);
+                    } else {
+                        System.out.println("           not damaing!!!!!!!!!  ");
+                    }
+                } else {
+                    enemy.setbeingAttacked(false);
                 }
             }
         }
     }
+
+    public void checkCollisionOLD() {
+        if (this.isRenderable()) {
+            Rectangle daggerRec = this.getBounds();
+            ArrayList<Enemy> es = enemies.getCurrentEnemies();
+            for (int i = 0; i < es.size(); i++) {
+                Rectangle enemyRec = es.get(i).getBounds();
+                if (daggerRec.intersects(enemyRec)) {
+                    enemies.damageEnemy(es.get(i), lastWeaponDir);
+                }
+            }
+        }
+    }
+
+
+
 
     private void showDagger() {
         direction = player.getDir();
@@ -119,41 +147,49 @@ public class Dagger extends TileShape implements Weapon, Timers {
         int yPos = player.getY();
         switch (direction) {
             case NORTH:
+                lastWeaponDir = Direction.NORTH;
                 this.changeImage("daggerNorth.png");
                 currentXPos = xPos + 10;
                 currentYPos = yPos - playerDim + 20;
                 break;
             case NORTH_EAST:
+                lastWeaponDir = Direction.NORTH;
                 this.changeImage("daggerNorth.png");
                 currentXPos = xPos + 10;
                 currentYPos = yPos - playerDim + 20;
                 break;
             case NORTH_WEST:
+                lastWeaponDir = Direction.NORTH;
                 this.changeImage("daggerNorth.png");
                 currentXPos = xPos + 10;
                 currentYPos = yPos - playerDim + 20;
                 break;
             case SOUTH:
+                lastWeaponDir = Direction.SOUTH;
                 this.changeImage("daggerSouth.png");
                 currentXPos = xPos + 10;
                 currentYPos = yPos + playerDim - 10;
                 break;
             case SOUTH_EAST:
+                lastWeaponDir = Direction.SOUTH;
                 this.changeImage("daggerSouth.png");
                 currentXPos = xPos + 10;
                 currentYPos = yPos + playerDim - 10;
                 break;
             case SOUTH_WEST:
+                lastWeaponDir = Direction.SOUTH;
                 this.changeImage("daggerSouth.png");
                 currentXPos = xPos + 10;
                 currentYPos = yPos + playerDim - 10;
                 break;
             case EAST:
+                lastWeaponDir = Direction.EAST;
                 this.changeImage("daggerEast.png");
                 currentXPos = xPos + playerDim - 10;
                 currentYPos = yPos + 20;
                 break;
             case WEST:
+                lastWeaponDir = Direction.EAST;
                 this.changeImage("daggerWest.png");
                 currentXPos = xPos - playerDim + 30;
                 currentYPos = yPos + 20;
@@ -164,7 +200,6 @@ public class Dagger extends TileShape implements Weapon, Timers {
         }
         this.setX(currentXPos);
         this.setY(currentYPos);
-
     }
 
 }
