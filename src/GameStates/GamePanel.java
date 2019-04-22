@@ -177,6 +177,15 @@ public class GamePanel extends JPanel implements KeyListener {
                 break;
             case KeyEvent.VK_T:
                 weapons.addWeapon(Items.CUPIDBOW);
+                break;
+            case KeyEvent.VK_M:
+                int x = maps.getCurrentForwardPortal().getX();
+                int y = maps.getCurrentForwardPortal().getY();
+                System.out.println("DIM IS " + x + " " + y);
+                int hi = player.getX();
+                int my = player.getY();
+                System.out.println("PLAYER IS " + hi + " " + my);
+                break;
             case KeyEvent.VK_S:
                 weapons.changeWeapon();
                 break;
@@ -199,6 +208,7 @@ public class GamePanel extends JPanel implements KeyListener {
                 break;
             default:
                 player.keyPressed(evt);
+                break;
         }
     }
 }

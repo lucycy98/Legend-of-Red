@@ -138,8 +138,10 @@ public class EnemyHandler implements Timers {
 
                 enemy.losTracking(closest.getX(), closest.getY());
                 if (enemy.getBounds().intersects(closest.getBounds())) {
-                    damageEnemy(enemy);
                     damageEnemy(closest);
+                    if(!closest.getIsAlive()){
+                        enemy.incrementKilledWolf();
+                    }
                 }
             }
 

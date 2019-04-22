@@ -25,11 +25,14 @@ public class Enemy extends Being {
     private boolean friendly;
     private boolean attackStatus;
     private int health;
+    private int maxCanKill = 3;
+    private int currentKilled;
 
     public Enemy(int xPos, int yPos, int width, int height, String image, int tile, MapHandler maps, int level, boolean canRangeAttack, int health) {
         super(xPos, yPos, width, height, 1, image);
         this.tileSize = tile;
         this.maps = maps;
+        currentKilled = 0;
         dy = tileSize / 32;
         ry = tileSize / 32;
         dx = tileSize / 32;
@@ -40,6 +43,15 @@ public class Enemy extends Being {
         friendly = false;
         attackStatus = false;
         this.health = health;
+    }
+
+    public void incrementKilledWolf(){
+        if (currentKilled + 1 > maxCanKill){
+            friendly = false;
+            changeImage("wolf.png");
+        } else {
+            currentKilled = currentKilled + 1;
+        }
     }
 
     public int getLevel() {
@@ -73,6 +85,7 @@ public class Enemy extends Being {
 
     public void becomeFriendly() {
         friendly = true;
+        changeImage("friendlyWolf.png");
     }
 
     public void move() {
