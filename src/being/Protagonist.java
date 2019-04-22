@@ -39,6 +39,7 @@ public class Protagonist extends Being implements Timers {
     private TutorialLevel tutorial;
     private Boolean canMove;
     private SoundHandler sound;
+    Rectangle smallplayerRec;
 
 
     public Protagonist(int xPos, int yPos, int width, int height, String image, int tile, MapHandler maps, EnemyHandler enemies, SoundHandler sound) {
@@ -149,6 +150,9 @@ public class Protagonist extends Being implements Timers {
 
     public void paint(Graphics2D win) {
         renderShape(win);
+        if (smallplayerRec != null){
+            win.drawRect((int)smallplayerRec.getX(),(int)smallplayerRec.getY(), (int)smallplayerRec.getWidth(), (int)smallplayerRec.getHeight());
+        }
     }
 
     public void movePlayer() {
@@ -158,15 +162,19 @@ public class Protagonist extends Being implements Timers {
         setY(currentY + dy);
     }
 
+    public boolean isInvincible(){
+        return isInvincible;
+    }
+
     public boolean enemyIsAttacking(Enemy enemy) {
-        Rectangle playerRec = this.getBounds();
+        smallplayerRec = this.getSmallerBounds();
         Rectangle obstacleRec = enemy.getBounds();
 
         if (isInvincible) {
             return false;
         }
 
-        if (playerRec.intersects(obstacleRec)) {
+        if (smallplayerRec.intersects(obstacleRec)) {
             if (!enemy.isAttacking()) {
                 sound.play("loseHealth.wav");
                 health -= 5;

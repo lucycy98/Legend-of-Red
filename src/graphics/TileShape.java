@@ -15,7 +15,9 @@ public class TileShape {
     private int width;
     private int height;
     private Boolean isRenderable;
-    private int buffer = 50;
+    private int buffer = 40;
+
+    private int small = 40;
 
     public TileShape() {
 
@@ -65,6 +67,10 @@ public class TileShape {
 
     public Rectangle getBounds() {
         return new Rectangle(x, y, width, height);
+    }
+
+    public Rectangle getSmallerBounds() {
+        return new Rectangle(x+10, y+10, small, small);
     }
 
     public void changeImage(String img) {

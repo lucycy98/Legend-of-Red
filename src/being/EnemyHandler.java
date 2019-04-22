@@ -149,48 +149,23 @@ public class EnemyHandler implements Timers {
                 continue;
             }
 
-            if (enemy.getLevel() == 0) {
-                enemy.move();
-            } else if (enemy.getLevel() == 1) {
+            if (player.isInvincible()){
                 enemy.randomMovement();
-            } else {
-                enemy.losTracking(player.getX(), player.getY());
+                continue;
             }
 
-        }
-    }
-
-    public void moveOld() {
-        if (player == null) {
-            return;
-        }
-        for (int i = 0; i < currentEnemies.size(); i++) {
-            Enemy enemy = currentEnemies.get(i);
-
-            if (!player.enemyIsAttacking(enemy)) {
-
-                if (enemy.isFriendly()) {
-                    Enemy closest = findClosestEnemy(enemy, currentEnemies);
-                    enemy.losTracking(closest.getX(), closest.getY());
-                    if (enemy.getBounds().intersects(closest.getBounds())) {
-                        damageEnemy(enemy);
-                        damageEnemy(closest);
-                        if (!enemy.getIsAlive()){
-                            System.out.println("killed enemy");
-                        }
-                        if (!closest.getIsAlive()){
-                            System.out.println("killed closet");
-                        }
-                    }
-                } else {
-                    if (enemy.getLevel() == 0) {
-                        enemy.move();
-                    } else if (enemy.getLevel() == 1) {
-                        enemy.randomMovement();
-                    } else {
-                        enemy.losTracking(player.getX(), player.getY());
-                    }
-                }
+            switch(enemy.getLevel()){
+                case 0:
+                    break;
+                case 1:
+                    enemy.move();
+                    break;
+                case 2:
+                    enemy.randomMovement();
+                    break;
+                default:
+                    enemy.losTracking(player.getX(), player.getY());
+                    break;
             }
         }
     }

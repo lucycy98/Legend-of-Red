@@ -13,8 +13,6 @@ public class Map {
     private TileShape[][] _map = new TileShape[xTiles][yTiles];
     private ArrayList<TileShape> _grass = new ArrayList<>();
     private ArrayList<TileShape> _obstacles = new ArrayList<>();
-    private ArrayList<TileShape> _bportals = new ArrayList<>();
-    private ArrayList<TileShape> _fportals = new ArrayList<>();
 
     private TileShape fportal;
     private TileShape bportal;
@@ -54,7 +52,7 @@ public class Map {
         for (int k = 0; k < num_obs; k++) {
             int x = new Random().nextInt(xTiles);
             int y = new Random().nextInt(yTiles);
-            if (x != (xTiles - 2) * tileSize & y != yTiles / 2 * tileSize) {
+            if ((x != (xTiles - 2) && y != yTiles / 2) || (x != 1 && y != yTiles / 2 )) { //todo make sure you dont include the TILESIZE when checking.
                 TileShape tile = new TileShape(x * tileSize, y * tileSize, tileSize, tileSize, obs, true);
                 _obstacles.add(tile);
             } else {
@@ -63,18 +61,15 @@ public class Map {
         }
     }
 
-
     public void addForwardsPortal() {
         System.out.println("forwards portal added");
         TileShape portal = new TileShape((xTiles - 2) * tileSize, yTiles / 2 * tileSize, tileSize, tileSize, "portal.png", true);
-        _fportals.add(portal);
         fportal = portal;
     }
 
     public void addBackwardsPortal() {
         System.out.println("backwards portal added");
         TileShape portal = new TileShape(tileSize, yTiles / 2 * tileSize, tileSize, tileSize, "portal.png", true);
-        _bportals.add(portal);
         bportal = portal;
     }
 
@@ -87,11 +82,11 @@ public class Map {
         for (TileShape obs : _obstacles) {
             obs.renderShape(g);
         }
-        for (TileShape portal : _fportals) {
-            portal.renderShape(g);
+        if (fportal != null){
+            fportal.renderShape(g);
         }
-        for (TileShape portal : _bportals) {
-            portal.renderShape(g);
+        if (bportal != null){
+            bportal.renderShape(g);
         }
 
     }
