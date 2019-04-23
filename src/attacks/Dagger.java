@@ -189,19 +189,19 @@ public class Dagger extends TileShape implements Weapon, Timers {
                 break;
             case SOUTH:
                 lastWeaponDir = Direction.SOUTH;
-                this.changeImage("daggerSouth.png");
+                this.changeImage("DaggerSouth.png");
                 currentXPos = xPos + 10;
                 currentYPos = yPos + playerDim - 10;
                 break;
             case SOUTH_EAST:
                 lastWeaponDir = Direction.SOUTH;
-                this.changeImage("daggerSouth.png");
+                this.changeImage("DaggerSouth.png");
                 currentXPos = xPos + 10;
                 currentYPos = yPos + playerDim - 10;
                 break;
             case SOUTH_WEST:
                 lastWeaponDir = Direction.SOUTH;
-                this.changeImage("daggerSouth.png");
+                this.changeImage("DaggerSouth.png");
                 currentXPos = xPos + 10;
                 currentYPos = yPos + playerDim - 10;
                 break;
@@ -213,7 +213,7 @@ public class Dagger extends TileShape implements Weapon, Timers {
                 break;
             case WEST:
                 lastWeaponDir = Direction.WEST;
-                this.changeImage("daggerWest.png");
+                this.changeImage("DaggerWest.png");
                 currentXPos = xPos - playerDim + 30;
                 currentYPos = yPos + 20;
                 break;

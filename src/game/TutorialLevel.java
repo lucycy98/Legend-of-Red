@@ -64,11 +64,14 @@ public class TutorialLevel implements Timers {
 
     public void paint(Graphics2D win) {
         if (inTutorialLevel) {
-            dialogueBox = new TileShape(60, 500, 900, 160, tutorialMsg.get(currentMsg), true);
-            if (!messageFinished) {
-                dialogueBox.renderShape(win);
-                if (mumSprite != null) {
-                    mumSprite.renderShape(win);
+
+            if (tutorialMsg.get(currentMsg) != "" && tutorialMsg.get(currentMsg) != null){
+                dialogueBox = new TileShape(60, 500, 900, 160, tutorialMsg.get(currentMsg), true);
+                if (!messageFinished) {
+                    dialogueBox.renderShape(win);
+                    if (mumSprite != null) {
+                        mumSprite.renderShape(win);
+                    }
                 }
             }
             else {
