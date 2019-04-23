@@ -62,7 +62,7 @@ public class DifficultyPanel extends JPanel {
             imageLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         }
 
-        ImageIcon icon = new ImageIcon(getClass().getResource("../button.png"));
+        ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("button.png"));
 
 
         easy = new JButton(icon){

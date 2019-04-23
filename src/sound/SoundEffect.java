@@ -12,7 +12,7 @@ public class SoundEffect implements Runnable {
     private Clip clip = null;
 
     public SoundEffect(String filename) {
-        this.file = "../audio/" + filename;
+        this.file = "audio/" + filename;
     }
 
     public void play() {
@@ -23,7 +23,9 @@ public class SoundEffect implements Runnable {
     private void playSound() {
         AudioInputStream audioInput = null;
         try {
-            URL url = this.getClass().getResource(file);
+            URL url = getClass().getClassLoader().getResource(file);
+
+
 
             System.out.println(url);
             InputStream input = url.openStream();

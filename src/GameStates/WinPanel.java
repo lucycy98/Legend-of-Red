@@ -62,7 +62,7 @@ public class WinPanel extends JPanel {
         //image
         BufferedImage image = null;
         try {
-            image = ImageIO.read(getClass().getResource("../grandma.png"));
+            image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("grandma.png"));
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -80,7 +80,7 @@ public class WinPanel extends JPanel {
         }
 
         //buttons
-        ImageIcon icon = new ImageIcon(getClass().getResource("../button.png"));
+        ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("button.png"));
         startButton = new JButton(icon);
         buttonSettings(startButton, "START");
         startButton.addMouseListener(new MouseAdapter() {

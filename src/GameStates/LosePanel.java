@@ -49,7 +49,7 @@ public class LosePanel extends JPanel {
         //image
         BufferedImage image = null;
         try {
-            image = ImageIO.read(getClass().getResource("../wolf.png"));
+            image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("wolf.png"));
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -65,7 +65,7 @@ public class LosePanel extends JPanel {
         }
 
         //buttons
-        ImageIcon icon = new ImageIcon(getClass().getResource("../button.png"));
+        ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("button.png"));
         startButton = new JButton(icon);
         buttonSettings(startButton, "START");
         startButton.addMouseListener(new MouseAdapter() {

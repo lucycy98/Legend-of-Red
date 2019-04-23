@@ -72,7 +72,7 @@ public class HighScorePanel extends JPanel {
         createScores(score2);
         createScores(score3);
 
-        ImageIcon icon = new ImageIcon(getClass().getResource("../button.png"));
+        ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("button.png"));
         menuButton = new JButton(icon){
             {
                 setPreferredSize(new Dimension(400, 100));

@@ -1,5 +1,7 @@
 package GameStates;
 
+import graphics.TileShape;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -7,6 +9,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.net.URL;
 
 public class Menu extends JPanel {
 
@@ -44,7 +47,10 @@ public class Menu extends JPanel {
 
         BufferedImage image = null;
         try {
-            image = ImageIO.read(getClass().getResource("../player.png"));
+            System.out.println("classpath is: " + System.getProperty("java.class.path"));
+            URL location = getClass().getResource("player.png");
+            System.out.println(getClass().getClassLoader().getResource("player.png"));
+            image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player.png"));
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -61,7 +67,7 @@ public class Menu extends JPanel {
             imageLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         }
 
-        ImageIcon icon = new ImageIcon(getClass().getResource("../button.png"));
+        ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("button.png"));
 
 
         highscore = new JButton(icon){

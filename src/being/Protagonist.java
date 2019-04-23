@@ -77,15 +77,13 @@ public class Protagonist extends Being implements Timers {
 
     public void setInvincible(int time) {
         isInvincible = true;
-        changeImage("transparentplayer.png");
-        java.util.Timer timer = new java.util.Timer();
+        changeImage("transparentplayer.png");java.util.Timer timer = new java.util.Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 // Your database code here
                 isInvincible = false;
                 changeImage("player.png");
-
             }
         }, 5000);
     }
