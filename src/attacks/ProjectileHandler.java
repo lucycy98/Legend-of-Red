@@ -180,7 +180,7 @@ public class ProjectileHandler implements Weapon, Timers {
         String image = "circle.png";
 
         if (dir != null) {
-            Projectile projectile = new Projectile(dir, enemy.getX(), enemy.getY(), projectileSpeed, maps, image, 5, 5);
+            Projectile projectile = new Projectile(dir, enemy.getX(), enemy.getY(), projectileSpeed, maps, image, 40, 40);
             enemyProjectiles.add(projectile);
         }
     }

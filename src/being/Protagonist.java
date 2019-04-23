@@ -31,7 +31,7 @@ public class Protagonist extends Being implements Timers {
     private Boolean pressLeft = false;
     private Boolean pressRight = false;
     private int health;
-    private int speed = 4;
+    private int speed = 2;
     private int buffer = 50;
     private boolean beingAttacked;
     private Timer velocity_timer;
