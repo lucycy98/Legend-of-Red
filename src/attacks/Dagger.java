@@ -37,7 +37,7 @@ public class Dagger extends TileShape implements Weapon, Timers {
         isAttacking = false;
         playerDim = player.getHeight();
         this.enemies = enemies;
-        this.velocity_timer = new javax.swing.Timer(1000 / 300, (new ActionListener() {
+        this.velocity_timer = new javax.swing.Timer(1000 / 100, (new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 showDagger();

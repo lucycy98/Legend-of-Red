@@ -54,7 +54,7 @@ public class WeaponHandler {
         this.enemies = enemies;
         this.player = player;
 
-        this.velocity_timer = new Timer(1000 / 300, (new ActionListener() {
+        this.velocity_timer = new Timer(1000 / 100, (new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 checkCollision();

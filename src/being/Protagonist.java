@@ -31,7 +31,7 @@ public class Protagonist extends Being implements Timers {
     private Boolean pressLeft = false;
     private Boolean pressRight = false;
     private int health;
-    private int speed = 2;
+    private int speed = 1;
     private int buffer = 50;
     private boolean beingAttacked;
     private Timer velocity_timer;
@@ -43,7 +43,7 @@ public class Protagonist extends Being implements Timers {
 
 
     public Protagonist(int xPos, int yPos, int width, int height, String image, int tile, MapHandler maps, EnemyHandler enemies, SoundHandler sound) {
-        super(xPos, yPos, width, height, 2, image);
+        super(xPos, yPos, width, height, 1, image);
         this.sound = sound;
         canMove = true;
         this.tileSize = tile;
@@ -51,7 +51,7 @@ public class Protagonist extends Being implements Timers {
         this.enemies = enemies;
         health = 99;
         beingAttacked = false;
-        this.velocity_timer = new Timer(1000/500, (new ActionListener() {
+        this.velocity_timer = new Timer(1000/150, (new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 checkCollision(maps.getCurrentObstacles());

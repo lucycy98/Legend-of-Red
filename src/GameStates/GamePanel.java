@@ -33,7 +33,7 @@ public class GamePanel extends JPanel implements KeyListener {
     private Timer updateHealth;
     private Timer gameTimer;
     private Score score;
-    private  int timeLeft = 1000 * 180;
+    private  int timeLeft = 1000 * 300;
     private String time;
     private PickUpItemHandler item;
     private TutorialLevel tutorial;

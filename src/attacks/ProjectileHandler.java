@@ -39,7 +39,7 @@ public class ProjectileHandler implements Weapon, Timers {
         projectiles = new ArrayList<>();
         enemyProjectiles = new ArrayList<>();
         this.enemies = enemies;
-        this.velocity_timer = new Timer(1000 / 300, (new ActionListener() {
+        this.velocity_timer = new Timer(1000 / 100, (new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 move();
@@ -58,7 +58,7 @@ public class ProjectileHandler implements Weapon, Timers {
         projectiles = new ArrayList<>();
         enemyProjectiles = new ArrayList<>();
         this.enemies = enemies;
-        this.velocity_timer = new Timer(1000 / 300, (new ActionListener() {
+        this.velocity_timer = new Timer(1000 / 100, (new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 move();
