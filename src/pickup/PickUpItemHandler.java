@@ -49,6 +49,14 @@ public class PickUpItemHandler {
         velocity_timer.start();
     }
 
+    public void collectDagger(){
+        for (PickUpItem item : itemsList){
+            if (item.getItem() == Items.DAGGER){
+                item.collectItem();
+            }
+        }
+    }
+
     public void addWeaponHandler(WeaponHandler weapon){
         this.weapon = weapon;
     }

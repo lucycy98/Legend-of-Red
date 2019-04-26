@@ -41,7 +41,7 @@ public class WeaponHandler {
 
 
     // Constructor initialises array of bullets
-    public WeaponHandler(MapHandler maps, ProjectileHandler projectiles, Protagonist player, EnemyHandler enemies, GamePanel panel, SoundHandler sound) {
+    public WeaponHandler(MapHandler maps, Protagonist player, EnemyHandler enemies, GamePanel panel, SoundHandler sound) {
         this.sound = sound;
         canAttack = true;
         playerDim = player.getHeight();

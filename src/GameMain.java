@@ -6,7 +6,6 @@ import sound.SoundHandler;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.logging.Handler;
 
 /**
  * where the game starts
@@ -16,8 +15,10 @@ public class GameMain {
     public static void main(String[] args) throws InterruptedException {
 
 
+        int width = 1040;
+        int height = 850;
         JFrame gameWindow = new JFrame("Game of Red");
-        gameWindow.setSize(1040, 850);
+        gameWindow.setSize(width, height);
         gameWindow.setVisible(true);
         gameWindow.setResizable(false);
         gameWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -77,7 +78,7 @@ public class GameMain {
                     break;
                 case GAME:
                     score = new Score(diff);
-                    playScreen = new GamePanel(score, soundHandler, diff);
+                    playScreen = new GamePanel(width, height, score, soundHandler, diff);
                     playScreen.setBackground(Color.BLACK);
                     gameWindow.add(playScreen);
                     gameWindow.validate();

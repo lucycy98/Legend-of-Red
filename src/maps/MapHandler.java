@@ -63,8 +63,12 @@ public class MapHandler {
     }
 
     public void setNextLevel() {
+
         if (currentLevel + 1 < totalLevels){
             currentLevel++;
+            if (currentLevel == 1){
+                game.startGameTimer();
+            }
         } else {
             gameComplete = true;
             game.gameWon();
