@@ -57,7 +57,7 @@ public class TileShape {
                 image = "heart.png";
                 break;
             case DAGGER:
-                image = "spear.png";
+                image = "daggerIcon.png";
                 break;
             default:
                 image = "key.png";

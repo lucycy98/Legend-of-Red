@@ -203,8 +203,8 @@ public class WeaponHandler {
 
     public void createImages(int x, int y, int width, int height) {
         icons = new HashMap<>();
-        icons.put(Items.DAGGER, new TileShape(x, y, width, height, "daggerNorth.png", false));
-        icons.put(Items.PROJECTILE, new TileShape(x, y, width, height, "arrowNorth.png", false));
+        icons.put(Items.DAGGER, new TileShape(x, y, width, height, "daggerIcon.png", false));
+        icons.put(Items.PROJECTILE, new TileShape(x, y, width, height, "bow.png", false));
         icons.put(Items.CUPIDBOW, new TileShape(x, y, width, height, "cupid.png", false));
     }
 
