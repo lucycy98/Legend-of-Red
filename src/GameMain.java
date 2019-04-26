@@ -17,9 +17,9 @@ public class GameMain {
 
 
         JFrame gameWindow = new JFrame("Game of Red");
-        gameWindow.setSize(1040, 900);
+        gameWindow.setSize(1040, 850);
         gameWindow.setVisible(true);
-        gameWindow.setResizable(true);
+        gameWindow.setResizable(false);
         gameWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         GameStates.Menu menu;
