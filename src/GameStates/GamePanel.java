@@ -227,43 +227,37 @@ public class GamePanel extends JPanel implements KeyListener {
                     weapons.attack();
                 }
                 break;
-            case KeyEvent.VK_T:
+            case KeyEvent.VK_C: //FOR TESTING!!!!!
+                if (maps.getCurrentLevel() == 0){
+                    break;
+                }
+                weapons.obtainAllWeapons();
                 weapons.addWeapon(Items.CUPIDBOW);
                 break;
-            case KeyEvent.VK_M:
-                int x = maps.getCurrentForwardPortal().getX();
-                int y = maps.getCurrentForwardPortal().getY();
-                System.out.println("DIM IS " + x + " " + y);
-                int hi = player.getX();
-                int my = player.getY();
-                System.out.println("PLAYER IS " + hi + " " + my);
+            case KeyEvent.VK_W: //FOR TESTING!!!!!
+                if (maps.getCurrentLevel() == 0){
+                    break;
+                }
+                weapons.obtainAllWeapons();
+
+                item.createItem(player.getX(), player.getY()+tileSize, Items.WOLFSKIN);
                 break;
+            case KeyEvent.VK_H:
+                if (maps.getCurrentLevel() == 0){
+                    break;
+                }
+                weapons.obtainAllWeapons();
+                item.createItem(player.getX()+tileSize, player.getY(), Items.HEALTH);
             case KeyEvent.VK_ENTER:
                 if (maps.getCurrentLevel() == 0){
                     tutorial.skip();
                 }
                 break;
             case KeyEvent.VK_S:
-
-
-
-
-
-                maps.setLevel(1);
-                weapons.obtainAllWeapons();
-                tutorial.beginGame();
-                item.collectDagger();
-
-
-
-
-
-
                 weapons.changeWeapon();
                 break;
             case KeyEvent.VK_P:
                 if (option == Gamestate.PAUSE) { //play game
-
                     startTimers();
                     option = Gamestate.GAME;
                     break;

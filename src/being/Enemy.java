@@ -20,9 +20,6 @@ public class Enemy extends Being {
 
     // co-ordinates of player
     private int dx, dy;
-    private int rx, ry;
-    private int tileSize;
-    private javax.swing.Timer flash;
     private Direction currentDirection = Direction.NORTH_EAST;
     private Boolean isAlive = true;
     private MapHandler maps;
@@ -37,24 +34,53 @@ public class Enemy extends Being {
     private boolean movingBack;
     private Direction movingBackDirection;
     private Boolean beingAttacked;
+    private int difficulty;
 
     public Enemy(int xPos, int yPos, int width, int height, String image, int tile, MapHandler maps, int level, boolean canRangeAttack, int health, int difficulty) {
         super(xPos, yPos, width, height, 1, image);
-        this.tileSize = tile;
         this.maps = maps;
+        this.difficulty = difficulty;
+        assignSpeed();
         currentKilled = 0;
         beingAttacked = false;
         movingBack = false;
-        dy = tileSize / 32;
-        ry = tileSize / 32;
-        dx = tileSize / 32;
-        rx = tileSize / 32;
-        timeLeft = 0;
+        timeLeft = 200;
         this.level = level;
         this.canRangeAttack = canRangeAttack;
         friendly = false;
         attackStatus = false;
         this.health = health * difficulty;
+    }
+
+    private void assignSpeed() {
+        switch (level) {
+            case 1:
+                dy = 0;
+                dx = 0;
+                while (dy == 0) {
+                    if (difficulty == 3) {
+                        dy = ThreadLocalRandom.current().nextInt(-2, 2);
+                    } else {
+                        dy = ThreadLocalRandom.current().nextInt(-1, 1);
+                    }
+                }
+                while (dx == 0) {
+                    if (difficulty == 3) {
+                        dx = ThreadLocalRandom.current().nextInt(-2, 2);
+                    } else {
+                        dx = ThreadLocalRandom.current().nextInt(-1, 1);
+                    }
+                }
+                break;
+            case 2:
+                dy = ThreadLocalRandom.current().nextInt(-1, 1);
+                dx = ThreadLocalRandom.current().nextInt(-1, 1);
+                break;
+            default:
+                dy = 2;
+                dx = 2;
+                break;
+        }
     }
 
     public Boolean isMovingBack() {
@@ -80,7 +106,7 @@ public class Enemy extends Being {
                 // Your database code here
                 movingBack = false;
             }
-        }, 1000);
+        }, 800);
     }
 
     public void incrementKilledWolf() {
@@ -143,6 +169,34 @@ public class Enemy extends Being {
     public void moveEnemyBack() {
         int currentX = getX();
         int currentY = getY();
+
+        switch (movingBackDirection) {
+            case NORTH:
+                if (isValidMove(maps.getCurrentObstacles(), currentX, currentY - 2)) {
+                    setY(currentY - 2);
+                }
+                break;
+            case EAST:
+                if (isValidMove(maps.getCurrentObstacles(), currentX + 2, currentY)) {
+                    setX(currentX + 2);
+                }
+                break;
+            case WEST:
+                if (isValidMove(maps.getCurrentObstacles(), currentX - 2, currentY)) {
+                    setX(currentX - 2);
+                }
+                break;
+            case SOUTH:
+                if (isValidMove(maps.getCurrentObstacles(), currentX, currentY + 2)) {
+                    setY(currentY + 2);
+                }
+                break;
+        }
+    }
+
+    public void moveEnemyBackOld() {
+        int currentX = getX();
+        int currentY = getY();
         ArrayList<Direction> collidingobs = checkCollisionDirection(maps.getCurrentObstacles());
         System.out.println(dx);
 
@@ -175,7 +229,8 @@ public class Enemy extends Being {
         int currentX = getX();
         int currentY = getY();
 
-        int finalX; int finalY;
+        int finalX;
+        int finalY;
         ArrayList<TileShape> obs = maps.getCurrentObstacles();
 
         if (isValidMove(obs, currentX + dx, currentY + dy)) { //NE
@@ -211,34 +266,40 @@ public class Enemy extends Being {
         } else {
             return;
         }
-        setX(finalX); setY(finalY);
+        setX(finalX);
+        setY(finalY);
     }
 
     public void randomMovement() {
-        int currentX = getX();
-        int currentY = getY();
-
-        int countDown = 50;
-        int randX = ThreadLocalRandom.current().nextInt(-2, 2);
-        int randY = ThreadLocalRandom.current().nextInt(-1, 1);
-
         if (timeLeft > 0) {
-            //move
-            setX(currentX + rx);
-            setY(currentY + ry);
             timeLeft--;
+        } else {
+            int randX;
+            int randY;
+            switch (difficulty) {
+                case 1:
+                    randX = ThreadLocalRandom.current().nextInt(-2, 2);
+                    randY = ThreadLocalRandom.current().nextInt(-1, 1);
+                    break;
+                case 2:
+                    randX = ThreadLocalRandom.current().nextInt(-3, 3);
+                    randY = ThreadLocalRandom.current().nextInt(-2, 2);
+                    break;
+                default:
+                    randX = ThreadLocalRandom.current().nextInt(-3, 3);
+                    randY = ThreadLocalRandom.current().nextInt(-2, 2);
+                    break;
+            }
+            dx = randX;
+            dy = randY;
+            timeLeft = 200;
         }
-
-        if (checkCollision(maps.getCurrentObstacles()) | timeLeft == 0) {
-            timeLeft = countDown;
-            rx = randX;
-            ry = randY;
-        }
-
+        move();
     }
 
     //line of sight tracking movement
-    public void losTracking(int playerX, int playerY) {
+    public void losTracking(int playerX, int playerY, Boolean friendly) {
+
         int currentX = getX();
         int currentY = getY();
 
@@ -246,9 +307,6 @@ public class Enemy extends Being {
         int distY = playerY - currentY;
 
         int scale = Math.max(Math.abs(distX), Math.abs(distY));
-
-        int dx;
-        int dy;
 
         if (scale != 0) {
             dx = (distX / scale);
@@ -258,9 +316,11 @@ public class Enemy extends Being {
             dy = 0;
         }
 
-        if (!checkCollision(maps.getCurrentObstacles())) {
+        if (friendly){
             setX(currentX + dx);
             setY(currentY + dy);
+        } else {
+            move();
         }
     }
 
