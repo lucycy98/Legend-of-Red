@@ -54,9 +54,8 @@ public class MapHandler {
         return maps.get(level);
     }
 
-
-    public void setFinalLevel() {
-        currentLevel = bossLevel;
+    public void setLevel(int level){
+        currentLevel = level;
         if (enemies != null) {
             enemies.setEnemy();
         }

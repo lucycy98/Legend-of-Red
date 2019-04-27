@@ -61,6 +61,53 @@ public class Being extends TileShape {
         return false;
     }
 
+    public boolean isValidMove(ArrayList<TileShape> obstacles, int x, int y) {
+
+        Rectangle playerRec = this.getBounds(x, y);
+
+        for (TileShape obstacle : obstacles) {
+            Rectangle obstacleRec = obstacle.getBounds();
+
+            if (playerRec.intersects(obstacleRec)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+    public void hi(TileShape obs, int x, int y){
+        if ((x >= obs.getX() && x <= obs.getWidth() + obs.getX()) && (y >= obs.getY() && y <= obs.getY() + obs.getHeight())){
+
+        }
+    }
+
+    public Boolean[] freeDirections(ArrayList<TileShape> obstacles) {
+        Boolean[] directions = {true,true,true,true}; //north, east, south, west
+
+        Rectangle playerRec = this.getBounds();
+
+        for (TileShape obstacle : obstacles) {
+            Rectangle obstacleRec = obstacle.getBounds();
+
+            if (playerRec.intersects(obstacleRec)) {
+                if (this.getY() + 10 > obstacle.getY() + obstacle.getHeight()) { //intersects top
+                    directions[0] = false;
+                }
+                if (this.getX() + 10 > obstacle.getX() + obstacle.getWidth()) { //intersects right
+                    directions[1] = false;
+                }
+                if (this.getX() + 10 > obstacle.getX() + obstacle.getWidth()) { //intersect bottom
+                    directions[2] = false;
+
+                }if (this.getY() - 10 < obstacle.getY() - this.getHeight()) {//intersects left
+                    directions[3] = false;
+                }
+            }
+        }
+        return directions;
+    }
+
     public void checkCollision(TileShape obstacle) {
 
         Rectangle playerRec = this.getBounds();
@@ -111,6 +158,7 @@ public class Being extends TileShape {
         }
         return obs;
     }
+
 
 //    /**
 //     * returns a boolean whether it has collided with an obstacle.

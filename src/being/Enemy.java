@@ -2,6 +2,7 @@ package being;
 
 import being.Being;
 import game.Direction;
+import graphics.TileShape;
 import maps.MapHandler;
 
 import java.awt.*;
@@ -56,19 +57,19 @@ public class Enemy extends Being {
         this.health = health * difficulty;
     }
 
-    public Boolean isMovingBack(){
+    public Boolean isMovingBack() {
         return movingBack;
     }
 
-    public Boolean isBeingAttacked(){
+    public Boolean isBeingAttacked() {
         return beingAttacked;
     }
 
-    public void setbeingAttacked(Boolean bool){
+    public void setbeingAttacked(Boolean bool) {
         beingAttacked = bool;
     }
 
-    public void setMovingBack(Direction dir){
+    public void setMovingBack(Direction dir) {
         System.out.println(dir);
         movingBack = true;
         movingBackDirection = dir;
@@ -82,8 +83,8 @@ public class Enemy extends Being {
         }, 1000);
     }
 
-    public void incrementKilledWolf(){
-        if (currentKilled + 1 > maxCanKill){
+    public void incrementKilledWolf() {
+        if (currentKilled + 1 > maxCanKill) {
             friendly = false;
             changeImage("wolf.png");
         } else {
@@ -139,13 +140,13 @@ public class Enemy extends Being {
         changeImage("friendlyWolf.png");
     }
 
-    public void moveEnemyBack(){
+    public void moveEnemyBack() {
         int currentX = getX();
         int currentY = getY();
         ArrayList<Direction> collidingobs = checkCollisionDirection(maps.getCurrentObstacles());
         System.out.println(dx);
 
-        switch(movingBackDirection){
+        switch (movingBackDirection) {
             case NORTH:
                 if (!collidingobs.contains(Direction.NORTH)) {
                     setY(currentY - dy);
@@ -174,15 +175,43 @@ public class Enemy extends Being {
         int currentX = getX();
         int currentY = getY();
 
-        if (checkCollision(maps.getCurrentObstacles())) {
-            dx = dx * -1;
-        }
+        int finalX; int finalY;
+        ArrayList<TileShape> obs = maps.getCurrentObstacles();
 
-        if (checkCollision(maps.getCurrentObstacles())) {
+        if (isValidMove(obs, currentX + dx, currentY + dy)) { //NE
+            finalX = currentX + dx;
+            finalY = currentY + dy;
+        } else if (isValidMove(obs, currentX - dx, currentY + dy)) { //NW
+            finalX = currentX - dx;
+            finalY = currentY + dy;
+            dx = dx * -1;
+        } else if (isValidMove(obs, currentX + dx, currentY - dy)) { //SE
+            finalX = currentX + dx;
+            finalY = currentY - dy;
             dy = dy * -1;
+        } else if (isValidMove(obs, currentX - dx, currentY - dy)) { //SW
+            finalX = currentX - dx;
+            finalY = currentY - dy;
+            dy = dy * -1;
+            dx = dx * -1;
+        } else if (isValidMove(obs, currentX, currentY - dy)) { //S
+            finalX = currentX;
+            finalY = currentY - dy;
+            dy = dy * -1;
+        } else if (isValidMove(obs, currentX, currentY + dy)) { //N
+            finalX = currentX;
+            finalY = currentY + dy;
+        } else if (isValidMove(obs, currentX + dx, currentY)) { //E
+            finalX = currentX + dx;
+            finalY = currentY;
+        } else if (isValidMove(obs, currentX - dx, currentY)) { //W
+            finalX = currentX - dx;
+            finalY = currentY;
+            dx = dx * -1;
+        } else {
+            return;
         }
-        setX(currentX + dx);
-        setY(currentY + dy);
+        setX(finalX); setY(finalY);
     }
 
     public void randomMovement() {
@@ -235,19 +264,19 @@ public class Enemy extends Being {
         }
     }
 
-    public Boolean getcanRangeAttack(){
+    public Boolean getcanRangeAttack() {
         return canRangeAttack;
     }
 
-    public boolean isFriendly(){
+    public boolean isFriendly() {
         return friendly;
     }
 
-    public boolean isAttacking(){
+    public boolean isAttacking() {
         return attackStatus;
     }
 
-    public void setAttackStatus(Boolean bool){
+    public void setAttackStatus(Boolean bool) {
         attackStatus = bool;
     }
 }

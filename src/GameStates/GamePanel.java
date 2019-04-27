@@ -244,6 +244,21 @@ public class GamePanel extends JPanel implements KeyListener {
                 }
                 break;
             case KeyEvent.VK_S:
+
+
+
+
+
+                maps.setLevel(1);
+                weapons.obtainAllWeapons();
+                tutorial.beginGame();
+                item.collectDagger();
+
+
+
+
+
+
                 weapons.changeWeapon();
                 break;
             case KeyEvent.VK_P:
@@ -259,7 +274,7 @@ public class GamePanel extends JPanel implements KeyListener {
                     break;
                 }
             case KeyEvent.VK_PAGE_DOWN:
-                maps.setFinalLevel();
+                maps.setLevel(4);
                 weapons.obtainAllWeapons();
                 tutorial.beginGame();
                 item.collectDagger();

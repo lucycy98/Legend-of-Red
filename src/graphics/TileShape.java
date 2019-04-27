@@ -69,6 +69,10 @@ public class TileShape {
         return new Rectangle(x, y, width, height);
     }
 
+    public Rectangle getBounds(int x, int y){
+        return new Rectangle(x+1, y+1, width-1, height-1);
+    }
+
     public Rectangle getSmallerBounds() {
         return new Rectangle(x+10, y+10, small, small);
     }

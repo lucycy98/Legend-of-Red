@@ -128,19 +128,14 @@ public class EnemyHandler implements Timers {
         return closestEnemy;
     }
 
-    public void checkPlayerCollision(){
-        for (int i = 0; i < currentEnemies.size(); i++) {
-            Enemy enemy = currentEnemies.get(i);
-            enemy.checkCollision(player);
-        }
-    }
-
     public void move() {
         if (player == null) {
             return;
         }
         for (int i = 0; i < currentEnemies.size(); i++) {
             Enemy enemy = currentEnemies.get(i);
+            enemy.move();
+
 
             if (enemy.isFriendly()) {
                 Enemy closest = findClosestEnemy(enemy, currentEnemies);
@@ -173,7 +168,7 @@ public class EnemyHandler implements Timers {
                 case 0:
                     break;
                 case 1:
-                    enemy.move();
+                    //enemy.move();
                     break;
                 case 2:
                     enemy.randomMovement();
