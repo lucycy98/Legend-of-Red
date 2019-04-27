@@ -1,5 +1,9 @@
 package score;
 
+/**
+ * this class represents the score of the player
+ * final score depends on difficulty, wolves killed, health and time remaining
+ */
 public class Score {
 
     private int score;

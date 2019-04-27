@@ -15,6 +15,9 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * this class represents a dagger - a weapon for the player.
+ */
 public class Dagger extends TileShape implements Weapon, Timers {
 
     private int currentXPos;
@@ -27,14 +30,12 @@ public class Dagger extends TileShape implements Weapon, Timers {
     private int playerDim;
     private String weaponSound = "dagger.wav";
     private Direction lastWeaponDir;
-    private Boolean isAttacking;
     Rectangle daggerRec;
 
 
     public Dagger(Protagonist player, int x, int y, String img, Boolean r, EnemyHandler enemies) {
         super(x, y, 40, 40, img, false);
         this.player = player;
-        isAttacking = false;
         playerDim = player.getHeight();
         this.enemies = enemies;
         this.velocity_timer = new javax.swing.Timer(1000 / 100, (new ActionListener() {
@@ -44,53 +45,6 @@ public class Dagger extends TileShape implements Weapon, Timers {
             }
         }));
         velocity_timer.start();
-    }
-
-    @Override
-    public Rectangle getBounds() {
-        int x = currentXPos;
-        int y = currentYPos;
-        int buffer = 10;
-        System.out.println(lastWeaponDir);
-        switch(lastWeaponDir){
-            case NORTH:
-                y = y + buffer;
-                x = x - buffer/2;
-                break;
-            case EAST:
-                x = x - buffer*2;
-                y = y - buffer - buffer/2;
-                break;
-            case WEST:
-                x = x + buffer/2;
-                y = y - buffer - buffer/2;
-                break;
-            case SOUTH:
-                y = y - buffer - buffer/2;
-                x = x - buffer/2;
-                break;
-        }
-        return new Rectangle(x, y, 60, 60);
-    }
-
-    @Override
-    public Items getItems() {
-        return item;
-    }
-
-    @Override
-    public void stopTimers() {
-        velocity_timer.stop();
-    }
-
-    @Override
-    public void startTimers() {
-        velocity_timer.start();
-    }
-
-    @Override
-    public String getSoundFile() {
-        return weaponSound;
     }
 
     @Override
@@ -113,57 +67,42 @@ public class Dagger extends TileShape implements Weapon, Timers {
 
     @Override
     public void enemyRangeAttack(Enemy enemy) {
+        //not required
     }
 
     @Override
     public void checkEnemyCollision(){
-
+        //not required
     }
 
-    @Override
-    public void paint(Graphics2D win) {
-        this.renderShape(win);
-        showDagger();
-    }
-
+    /**
+     * checks if dagger is colliding with enemy - damage enemy if so.
+     */
     @Override
     public void checkCollision() {
-        if (this.isRenderable()) {
-            daggerRec = this.getBounds();
-            ArrayList<Enemy> es = enemies.getCurrentEnemies();
-            for (int i = 0; i < es.size(); i++) {
-                Enemy enemy = es.get(i);
-                Rectangle enemyRec = es.get(i).getBounds();
-                if (daggerRec.intersects(enemyRec)) {
-                    if (!enemy.isBeingAttacked()){
-                        enemies.damageEnemy(enemy, lastWeaponDir);
-                        enemy.setbeingAttacked(true);
-                    }
-                } else {
-                    enemy.setbeingAttacked(false);
+        if (!this.isRenderable()) {
+            return;
+        }
+        daggerRec = this.getBounds();
+        ArrayList<Enemy> es = enemies.getCurrentEnemies();
+        for (int i = 0; i < es.size(); i++) {
+            Enemy enemy = es.get(i);
+            Rectangle enemyRec = es.get(i).getBounds();
+
+            if (daggerRec.intersects(enemyRec)) {
+                if (!enemy.isBeingAttacked()) {
+                    enemies.damageEnemy(enemy, lastWeaponDir);
+                    enemy.setbeingAttacked(true);
                 }
+            } else {
+                enemy.setbeingAttacked(false);
             }
         }
     }
 
-    public void checkCollisionOLD() {
-        if (this.isRenderable()) {
-            Rectangle daggerRec = this.getBounds();
-            ArrayList<Enemy> es = enemies.getCurrentEnemies();
-            for (int i = 0; i < es.size(); i++) {
-                Rectangle enemyRec = es.get(i).getBounds();
-                if (daggerRec.intersects(enemyRec)) {
-                    enemies.damageEnemy(es.get(i), lastWeaponDir);
-                }
-            }
-        }
-    }
-
-
-
-
-
-
+    /**
+     * this method changes the image and x y positions based on the direction/location of player
+     */
     private void showDagger() {
         direction = player.getDir();
         int xPos = player.getX();
@@ -224,5 +163,61 @@ public class Dagger extends TileShape implements Weapon, Timers {
         this.setX(currentXPos);
         this.setY(currentYPos);
     }
+
+    /**
+     * this method returns a rectangle of the dagger that better describes its position.
+     */
+    @Override
+    public Rectangle getBounds() {
+        int x = currentXPos;
+        int y = currentYPos;
+        int buffer = 10;
+        switch(lastWeaponDir){
+            case NORTH:
+                y = y + buffer;
+                x = x - buffer/2;
+                break;
+            case EAST:
+                x = x - buffer*2;
+                y = y - buffer - buffer/2;
+                break;
+            case WEST:
+                x = x + buffer/2;
+                y = y - buffer - buffer/2;
+                break;
+            case SOUTH:
+                y = y - buffer - buffer/2;
+                x = x - buffer/2;
+                break;
+        }
+        return new Rectangle(x, y, 60, 60);
+    }
+
+    @Override
+    public Items getItems() {
+        return item;
+    }
+
+    @Override
+    public void stopTimers() {
+        velocity_timer.stop();
+    }
+
+    @Override
+    public void startTimers() {
+        velocity_timer.start();
+    }
+
+    @Override
+    public String getSoundFile() {
+        return weaponSound;
+    }
+
+    @Override
+    public void paint(Graphics2D win) {
+        this.renderShape(win);
+        showDagger();
+    }
+
 
 }

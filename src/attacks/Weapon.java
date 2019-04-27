@@ -5,6 +5,9 @@ import pickup.Items;
 
 import java.awt.*;
 
+/**
+ * this class is an interface for a weapon
+ */
 public interface Weapon {
 
     public void attack();

@@ -8,6 +8,9 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * this class deals with setting a new map when a new level / map is required.
+ */
 public class MapHandler {
 
     private HashMap<Integer, Map> maps;
@@ -21,7 +24,6 @@ public class MapHandler {
     private Boolean gameComplete;
     private GamePanel game;
 
-    // Constructor initialises array of bullets
     public MapHandler(GamePanel game) {
         this.game = game;
         gameComplete = false;

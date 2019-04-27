@@ -7,6 +7,9 @@ import graphics.TileShape;
 
 import java.awt.*;
 
+/**
+ * this class represents a singular projectile (arrow).
+ */
 public class Projectile extends TileShape {
 
     private int dx;
@@ -81,7 +84,7 @@ public class Projectile extends TileShape {
         dy = dy * 2;
     }
 
-    public void move() {
+    public void move() { //movement for players projectile
         if (!isRenderable) {
             return;
         }
@@ -96,6 +99,10 @@ public class Projectile extends TileShape {
 
     }
 
+    /**
+     * tracking of bullet for boss wolf
+     * @param player
+     */
     public void emove(Being player) {
         if (!isRenderable) {
             return;
@@ -116,7 +123,6 @@ public class Projectile extends TileShape {
             dx = 0;
             dy = 0;
         }
-        //TODO change scale factor
         this.setX(this.getX() + dx * 3);
         this.setY(this.getY() + dy * 3);
 

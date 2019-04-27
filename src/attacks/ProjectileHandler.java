@@ -14,6 +14,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+/**
+ * this class represents a bow with arrows. it deals with projectiles.
+ * used for cupid bow, bow and arrow attack, and enemy projectile.
+ */
 public class ProjectileHandler implements Weapon, Timers {
 
     private final MapHandler maps;
@@ -29,7 +33,7 @@ public class ProjectileHandler implements Weapon, Timers {
     private WeaponHandler weapons = null;
     private int totalLevels;
 
-    // Constructor initialises array of bullets
+    // Constructor initialises array of bullets - without weapon handler.
     public ProjectileHandler(MapHandler maps, Protagonist player, EnemyHandler enemies, Items item) {
         this.totalLevels = maps.getTotalLevels();
         this.item = item;
@@ -67,11 +71,15 @@ public class ProjectileHandler implements Weapon, Timers {
         velocity_timer.start();
     }
 
+
     @Override
     public Items getItems() {
         return item;
     }
 
+    /**
+     * moves both enemy projectiles and player projectiles.
+     */
     public void move() {
         for (int i = 0; i < projectiles.size(); i++) {
             Projectile proj = projectiles.get(i);
@@ -150,7 +158,7 @@ public class ProjectileHandler implements Weapon, Timers {
     }
 
     @Override
-    public void enemyRangeAttack(Enemy enemy) {
+    public void enemyRangeAttack(Enemy enemy) { //enemy attack tracks player.
         int distX = player.getX() - enemy.getX();
         int distY = player.getY() - enemy.getY();
         Direction dir = null;
@@ -186,24 +194,6 @@ public class ProjectileHandler implements Weapon, Timers {
     }
 
     @Override
-    public void paint(Graphics2D g) {
-        for (Projectile proj : projectiles) {
-            proj.paint(g);
-        }
-        for (Projectile eproj : enemyProjectiles) {
-
-            //todo change magical number
-            if (eproj.incrementTimer() == 150) {
-                eproj.setIsRenderable(false);
-                enemyProjectiles.remove(eproj);
-                return;
-            } else {
-                eproj.paint(g);
-            }
-        }
-    }
-
-    @Override
     public void checkCollision() {
         for (int i = 0; i < projectiles.size(); i++) {
             Projectile projectile = projectiles.get(i);
@@ -213,12 +203,13 @@ public class ProjectileHandler implements Weapon, Timers {
                 Enemy enemy = es.get(j);
                 Rectangle enemyRec = enemy.getBounds();
                 if (projRec.intersects(enemyRec)) {
-                    //if projectile, or boss level, or only 2 enemies in level....
+
+                    /**
+                     * damages enemy - even if cupid bow attack
+                     */
                     if (item == Items.PROJECTILE || enemy.getLevel() == totalLevels - 1 || enemies.getCurrentEnemies().size() < 2) {
-                        System.out.println("cupid not used");
                         enemies.damageEnemy(enemy, null);
                     } else {
-                        System.out.println("BECOME FRIENDLY");
                         enemy.becomeFriendly();
                         if (weapons != null){
                             weapons.cupidUsed();
@@ -228,6 +219,21 @@ public class ProjectileHandler implements Weapon, Timers {
                     projectiles.remove(projectile);
                     return;
                 }
+            }
+        }
+    }
+
+    @Override
+    public void checkEnemyCollision() {
+        Rectangle playerRec = player.getBounds();
+        for (int i = 0; i < enemyProjectiles.size(); i++) {
+            Projectile eproj = enemyProjectiles.get(i);
+            Rectangle projRec = eproj.getBounds();
+            if (projRec.intersects(playerRec)) {
+                player.damageHealth();
+                eproj.setIsRenderable(false);
+                enemyProjectiles.remove(eproj);
+                return;
             }
         }
     }
@@ -248,37 +254,18 @@ public class ProjectileHandler implements Weapon, Timers {
     }
 
     @Override
-    public void checkEnemyCollision() {
-        Rectangle playerRec = player.getBounds();
-        for (int i = 0; i < enemyProjectiles.size(); i++) {
-            Projectile eproj = enemyProjectiles.get(i);
-            Rectangle projRec = eproj.getBounds();
-            if (projRec.intersects(playerRec)) {
-                player.damageHealth();
+    public void paint(Graphics2D g) {
+        for (Projectile proj : projectiles) {
+            proj.paint(g);
+        }
+        for (Projectile eproj : enemyProjectiles) {
+            if (eproj.incrementTimer() == 150) {
                 eproj.setIsRenderable(false);
                 enemyProjectiles.remove(eproj);
                 return;
+            } else {
+                eproj.paint(g);
             }
         }
     }
-//    @Override
-//    public void checkCollision() {
-//        for (attacks.Projectile projectile : projectiles){
-//            Rectangle projRec = projectile.getBounds();
-//            ArrayList<being.Enemy> currentEnemies = enemies.getCurrentEnemies();
-//            for (being.Enemy enemy : currentEnemies){
-//                Rectangle enemyRec = enemy.getBounds();
-//                if (projRec.intersects(enemyRec)) {
-//                    if (item == pickup.Items.PROJECTILE){
-//                        enemies.damageEnemy(enemy);
-//                    } else {
-//                        enemy.becomeFriendly();
-//                    }
-//                    projectile.setIsRenderable(false);
-//                    projectiles.remove(projectile);
-//                }
-//            }
-//        }
-//    }
-
 }

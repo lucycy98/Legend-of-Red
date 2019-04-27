@@ -13,8 +13,4 @@ public class ImageHandler {
         return im.getImage();
     }
 
-    public static BufferedImage getBufferedImage(String name){
-        return null;
-    }
-
 }

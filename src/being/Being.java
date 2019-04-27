@@ -1,21 +1,16 @@
 package being;
 
-import game.Direction;
 import graphics.TileShape;
-
 import java.awt.*;
 import java.util.ArrayList;
 
 /**
- * this class represents a tile shape with an image e.g hedge, enemy etc
+ * this class represents a living entity e.g wolf or player
  */
 public class Being extends TileShape {
 
-    private int speed;
-
-    public Being(int xPos, int yPos, int width, int height, int speed, String image) {
+    public Being(int xPos, int yPos, int width, int height, String image) {
         super(xPos, yPos, width, height, image, true);
-        this.speed = speed;
     }
 
     public double getDistance(Being otherBeing) {
@@ -27,11 +22,10 @@ public class Being extends TileShape {
     }
 
     /**
-     * checks collision and doesnt allow moving into the obstacle.
-     *
+     * checks for collision and doesnt allow moving into the obstacle.
      * @param obstacles
      */
-    public boolean checkCollision(ArrayList<TileShape> obstacles) {
+    public void checkCollision(ArrayList<TileShape> obstacles) {
 
         Rectangle playerRec = this.getBounds();
 
@@ -55,12 +49,17 @@ public class Being extends TileShape {
                 if (this.getY() - 10 < obstacle.getY() - this.getHeight()) { //intersect bottom
                     this.setY(obstacle.getY() - this.getHeight());
                 }
-                return true;
             }
         }
-        return false;
     }
 
+    /**
+     * checks if x and y are valid moves i.e not intersecting with an obstacle.
+     * @param obstacles
+     * @param x
+     * @param y
+     * @return
+     */
     public boolean isValidMove(ArrayList<TileShape> obstacles, int x, int y) {
 
         Rectangle playerRec = this.getBounds(x, y);
@@ -75,111 +74,8 @@ public class Being extends TileShape {
         return true;
     }
 
-
-    public void hi(TileShape obs, int x, int y){
-        if ((x >= obs.getX() && x <= obs.getWidth() + obs.getX()) && (y >= obs.getY() && y <= obs.getY() + obs.getHeight())){
-
-        }
-    }
-
-    public Boolean[] freeDirections(ArrayList<TileShape> obstacles) {
-        Boolean[] directions = {true,true,true,true}; //north, east, south, west
-
-        Rectangle playerRec = this.getBounds();
-
-        for (TileShape obstacle : obstacles) {
-            Rectangle obstacleRec = obstacle.getBounds();
-
-            if (playerRec.intersects(obstacleRec)) {
-                if (this.getY() + 10 > obstacle.getY() + obstacle.getHeight()) { //intersects top
-                    directions[0] = false;
-                }
-                if (this.getX() + 10 > obstacle.getX() + obstacle.getWidth()) { //intersects right
-                    directions[1] = false;
-                }
-                if (this.getX() + 10 > obstacle.getX() + obstacle.getWidth()) { //intersect bottom
-                    directions[2] = false;
-
-                }if (this.getY() - 10 < obstacle.getY() - this.getHeight()) {//intersects left
-                    directions[3] = false;
-                }
-            }
-        }
-        return directions;
-    }
-
-    public void checkCollision(TileShape obstacle) {
-
-        Rectangle playerRec = this.getBounds();
-        Rectangle obstacleRec = obstacle.getBounds();
-        if (playerRec.intersects(obstacleRec)) {
-
-            if (this.getY() + 10 > obstacle.getY() + obstacle.getHeight()) { //intersects top
-                this.setY(obstacle.getY() + obstacle.getHeight());
-            }
-            if (this.getX() - 10 < obstacle.getX() - this.getWidth()) {//intersects left
-                this.setX(obstacle.getX() - this.getWidth());
-            }
-
-            if (this.getX() + 10 > obstacle.getX() + obstacle.getWidth()) { //intersects right
-                this.setX(obstacle.getX() + obstacle.getWidth());
-            }
-
-            if (this.getY() - 10 < obstacle.getY() - this.getHeight()) { //intersect bottom
-                this.setY(obstacle.getY() - this.getHeight());
-            }
-        }
-    }
-
-    /**
-     * returns what location w/ respect to the being, the obstacle is.
-     * will be more computer friendly if we changed this to look at map tiles instead.
-     */
-    public ArrayList<Direction> checkCollisionDirection(ArrayList<TileShape> obstacles) {
-        ArrayList<Direction> obs = new ArrayList<>();
-        Rectangle playerRec = this.getBounds();
-        for (TileShape obstacle : obstacles) {
-            Rectangle obstacleRec = obstacle.getBounds();
-            if (playerRec.intersects(obstacleRec)) {
-                obs = new ArrayList<>();
-                if (this.getY() + 10 > obstacle.getY() + obstacle.getHeight()) { //intersects top
-                    obs.add(Direction.NORTH);
-                }
-                if (this.getX() - 10 < obstacle.getX() - this.getWidth()) {//intersects left
-                    obs.add(Direction.WEST);
-                }
-                if (this.getX() + 10 > obstacle.getX() + obstacle.getWidth()) { //intersects right
-                    obs.add(Direction.EAST);
-                }
-                if (this.getY() - 10 < obstacle.getY() - this.getHeight()) { //intersect bottom
-                    obs.add(Direction.SOUTH);
-                }
-            }
-        }
-        return obs;
-    }
-
-
-//    /**
-//     * returns a boolean whether it has collided with an obstacle.
-//     * @param obstacles
-//     * @return
-//     */
-//    public boolean checkCollisionWithoutMoving(ArrayList<graphics.TileShape> obstacles) {
-//
-//        Rectangle playerRec = this.getBounds();
-//
-//        for (graphics.TileShape obstacle : obstacles) {
-//            Rectangle obstacleRec = obstacle.getBounds();
-//            if (playerRec.intersects(obstacleRec)) {
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
-
     public void damageHealth() {
-        System.out.println("bullet hit player");
+        System.out.println("damaged health");
     }
 
 }

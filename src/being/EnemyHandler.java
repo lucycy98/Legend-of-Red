@@ -17,6 +17,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
+/***
+ * this class creates the enemies and pprovides the logic for enemies.
+ * It deals with wolf movement and health of wolves as a collective.
+ */
+
 public class EnemyHandler implements Timers {
 
     private HashMap<Integer, ArrayList<Enemy>> enemies;
@@ -44,6 +49,7 @@ public class EnemyHandler implements Timers {
         score.totalLevels(totallevels);
         this.difficulty = difficulty;
 
+        //creating enemies
         for (int i = 0; i < totallevels; i++) {
             int level = i;
             ArrayList<Enemy> enemy = createEnemies(level);
@@ -54,7 +60,7 @@ public class EnemyHandler implements Timers {
         this.velocity_timer = new Timer(1000 / 40, (new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                move();
+                basicMove();
             }
         }));
         velocity_timer.start();
@@ -66,28 +72,6 @@ public class EnemyHandler implements Timers {
             }
         }));
         los_timer.start();
-    }
-
-    public void stopTimers() {
-        velocity_timer.stop();
-        item.stopTimers();
-        los_timer.stop();
-    }
-
-    public void startTimers() {
-        velocity_timer.start();
-        los_timer.start();
-
-        item.startTimers();
-    }
-
-    public void addPlayer(Protagonist player) {
-        item.addPlayer(player);
-        this.player = player;
-    }
-
-    public void addWeaponHandler(WeaponHandler weapon) {
-        item.addWeaponHandler(weapon);
     }
 
     public ArrayList<Enemy> createEnemies(int level) {
@@ -108,22 +92,66 @@ public class EnemyHandler implements Timers {
                     }
                 }
                 if (!overlap) {
-                    enemies.add(new Enemy(x * tileSize, y * tileSize, tileSize, tileSize, "wolf.png", tileSize, maps, level, false, 1, difficulty));
+                    enemies.add(new Enemy(x * tileSize, y * tileSize, tileSize, tileSize, "wolf.png", maps, level, false, 1, difficulty));
                 } else {
                     i--;
                 }
             }
         } else { //boss level
-            enemies.add(new Enemy(10 * tileSize, 5 * tileSize, tileSize * 2, tileSize * 2, "wolf.png", tileSize, maps, level, true, 5, difficulty));
+            enemies.add(new Enemy(10 * tileSize, 5 * tileSize, tileSize * 2, tileSize * 2, "wolf.png", maps, level, true, 5, difficulty));
         }
-        System.out.println("level created " + level);
-        System.out.println("enemise in level" + level + enemiesPerLevel[level]);
         item.addNumberOfEnemies(level, enemiesPerLevel[level]);
         return enemies;
     }
 
-    public void setEnemy() {
-        currentEnemies = enemies.get(maps.getCurrentLevel());
+
+    ///////////////////////////////////////// ENEMY EVENTS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+    public void moveLos() { //dealing with tracking
+        if (player == null) {
+            return;
+        }
+        for (int i = 0; i < currentEnemies.size(); i++) {
+            Enemy enemy = currentEnemies.get(i);
+            if (enemy.isFriendly()) {
+                moveFriendly(enemy);
+            } else if (maps.getCurrentLevel() <= 2 || player.enemyIsAttacking(enemy)) {
+                continue;
+            } else if (enemy.isMovingBack()) {
+                enemy.moveEnemyBack();
+            } else if (player.isInvincible()) {
+                enemy.randomMovement();
+            } else {
+                enemy.losTracking(player.getX(), player.getY(), false);
+            }
+        }
+    }
+
+    public void basicMove() { //dealing with levels 1,2
+        if (player == null || maps.getCurrentLevel() > 2) {
+            return;
+        }
+        for (int i = 0; i < currentEnemies.size(); i++) {
+            Enemy enemy = currentEnemies.get(i);
+            if (enemy.isFriendly() || player.enemyIsAttacking(enemy)) {
+                continue;
+            } else if (enemy.isMovingBack()) {
+                enemy.moveEnemyBack();
+            } else if (player.isInvincible()) {
+                enemy.randomMovement();
+            } else {
+                switch (enemy.getLevel()) {
+                    case 1:
+                        enemy.move();
+                        break;
+                    case 2:
+                        enemy.randomMovement();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
     }
 
     public Enemy findClosestEnemy(Being subject, ArrayList<Enemy> enemies) {
@@ -139,88 +167,15 @@ public class EnemyHandler implements Timers {
         return closestEnemy;
     }
 
-    public void moveLos() {
-        if (player == null) {
-            return;
-        }
-        for (int i = 0; i < currentEnemies.size(); i++) {
-            Enemy enemy = currentEnemies.get(i);
-            if (enemy.isFriendly()) {
-                Enemy closest = findClosestEnemy(enemy, currentEnemies);
-
-                enemy.losTracking(closest.getX(), closest.getY(), true);
-                if (enemy.getBounds().intersects(closest.getBounds())) {
-                    damageEnemy(closest, null);
-                    if (!closest.getIsAlive()) {
-                        enemy.incrementKilledWolf();
-                    }
-                }
-                continue;
-            }
-
-            if (maps.getCurrentLevel() <= 2||enemy.isMovingBack() || player.enemyIsAttacking(enemy)) {
-                continue;
-            }
-
-            if (player.isInvincible()) {
-                enemy.randomMovement();
-                continue;
-            }
-
-            enemy.losTracking(player.getX(), player.getY(), false);
-
-
-        }
-    }
-
-    public void move() {
-        if (player == null || maps.getCurrentLevel() > 2) {
-            return;
-        }
-        for (int i = 0; i < currentEnemies.size(); i++) {
-            Enemy enemy = currentEnemies.get(i);
-            if (enemy.isFriendly()) {
-                continue;
-            }
-
-            if (enemy.isMovingBack() || player.enemyIsAttacking(enemy) ) {
-                continue;
-            }
-
-            if (player.isInvincible()) {
-                enemy.randomMovement();
-                continue;
-            }
-
-            switch (enemy.getLevel()) {
-                case 0:
-                    break;
-                case 1:
-                    enemy.move();
-                    break;
-                case 2:
-                    enemy.randomMovement();
-                    break;
-                default:
-                    break;
+    private void moveFriendly(Enemy enemy) {
+        Enemy closest = findClosestEnemy(enemy, currentEnemies);
+        enemy.losTracking(closest.getX(), closest.getY(), true);
+        if (enemy.getBounds().intersects(closest.getBounds())) {
+            damageEnemy(closest, null);
+            if (!closest.getIsAlive()) {
+                enemy.incrementKilledWolf();
             }
         }
-    }
-
-//    public void attack(){
-//        for (int i = 0; i < currentEnemies.size(); i++) {
-//            being.Enemy enemy = currentEnemies.get(i);
-//            if (enemy.canRangeAttack) {
-//
-//            }
-//        }
-//    }
-
-    public void paint(Graphics2D win) {
-        for (Enemy enemy : currentEnemies) {
-            enemy.paint(win);
-        }
-        item.paint(win);
     }
 
     public void damageEnemy(Enemy enemy, Direction dir) {
@@ -229,35 +184,55 @@ public class EnemyHandler implements Timers {
         if (!enemy.getIsAlive()) {
             score.killWolf(maps.getCurrentLevel());
             item.addEnemiesKilled(enemy.getLevel(), enemy.getX(), enemy.getY());
-            currentEnemies.remove(enemy); //todo update the hashmap
+            currentEnemies.remove(enemy);
         } else { //not kill just damage
             score.damageWolf(maps.getCurrentLevel());
             if (dir != null) {
-                System.out.println("SETTING MOVING BAK");
-                enemy.setMovingBack(dir);
+                enemy.setMovingBack(dir); //move enemy back.
 
             }
         }
     }
 
-    public void damageEnemyOld(Enemy enemy) {
-        enemy.damageHealth();
-        sound.play("damageEnemy.wav");
-        if (!enemy.getIsAlive()) {
-            score.killWolf(maps.getCurrentLevel());
-            item.addEnemiesKilled(enemy.getLevel(), enemy.getX(), enemy.getY());
-            currentEnemies.remove(enemy); //todo update the hashmap
-        } else { //not kill just damage
-            score.damageWolf(maps.getCurrentLevel());
-        }
+    //////////////////////////////////// HELPER \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+    public void setEnemy() {
+        currentEnemies = enemies.get(maps.getCurrentLevel());
     }
 
     public ArrayList<Enemy> getCurrentEnemies() {
         return currentEnemies;
     }
 
-    public ArrayList<Enemy> getEnemies(int level) {
-        return enemies.get(level);
+    public void addPlayer(Protagonist player) {
+        item.addPlayer(player);
+        this.player = player;
+    }
+
+    public void addWeaponHandler(WeaponHandler weapon) {
+        item.addWeaponHandler(weapon);
+    }
+
+
+    public void stopTimers() {
+        velocity_timer.stop();
+        item.stopTimers();
+        los_timer.stop();
+    }
+
+    public void startTimers() {
+        velocity_timer.start();
+        los_timer.start();
+
+        item.startTimers();
+    }
+
+    /////////////////////// GRAPHICS \\\\\\\\\\\\\\\\\\\\\\\\\\\
+    public void paint(Graphics2D win) {
+        for (Enemy enemy : currentEnemies) {
+            enemy.paint(win);
+        }
+        item.paint(win);
     }
 
 }

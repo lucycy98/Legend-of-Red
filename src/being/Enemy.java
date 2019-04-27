@@ -1,26 +1,23 @@
 package being;
 
-import being.Being;
 import game.Direction;
 import graphics.TileShape;
 import maps.MapHandler;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
- * keep incrementing x, y until key release OR another arrow is pressed.
+ * this class represents an enemy, or a wolf object.
+ * it's behaviours are dependent on its level assigned, as well as difficulty.
  */
 public class Enemy extends Being {
 
     // co-ordinates of player
     private int dx, dy;
-    private Direction currentDirection = Direction.NORTH_EAST;
     private Boolean isAlive = true;
     private MapHandler maps;
     private int timeLeft;
@@ -36,11 +33,10 @@ public class Enemy extends Being {
     private Boolean beingAttacked;
     private int difficulty;
 
-    public Enemy(int xPos, int yPos, int width, int height, String image, int tile, MapHandler maps, int level, boolean canRangeAttack, int health, int difficulty) {
-        super(xPos, yPos, width, height, 1, image);
+    public Enemy(int xPos, int yPos, int width, int height, String image, MapHandler maps, int level, boolean canRangeAttack, int health, int difficulty) {
+        super(xPos, yPos, width, height,  image);
         this.maps = maps;
         this.difficulty = difficulty;
-        assignSpeed();
         currentKilled = 0;
         beingAttacked = false;
         movingBack = false;
@@ -49,7 +45,14 @@ public class Enemy extends Being {
         this.canRangeAttack = canRangeAttack;
         friendly = false;
         attackStatus = false;
-        this.health = health * difficulty;
+
+        assignSpeed();
+
+        if (difficulty == 1){
+            this.health = health;
+        } else {
+            this.health = 2*health;
+        }
     }
 
     private void assignSpeed() {
@@ -73,14 +76,43 @@ public class Enemy extends Being {
                 }
                 break;
             case 2:
-                dy = ThreadLocalRandom.current().nextInt(-1, 1);
-                dx = ThreadLocalRandom.current().nextInt(-1, 1);
+                dy = ThreadLocalRandom.current().nextInt(-2, 2);
+                dx = ThreadLocalRandom.current().nextInt(-2, 2);
                 break;
             default:
                 dy = 2;
                 dx = 2;
                 break;
         }
+    }
+
+    ///////////////////////// DAMAGE HEALTH \\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+    private void killWolf() {
+        this.setIsRenderable(false);
+        isAlive = false;
+    }
+
+    @Override
+    public void damageHealth() {
+        health--;
+        if (health == 0) {
+            killWolf();
+        }
+        flash();
+    }
+
+    private void flash() {
+        changeImage("redWolf.png");
+        java.util.Timer timer = new java.util.Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                // Your database code here
+                changeImage("wolf.png");
+
+            }
+        }, 200);
     }
 
     public Boolean isMovingBack() {
@@ -96,7 +128,6 @@ public class Enemy extends Being {
     }
 
     public void setMovingBack(Direction dir) {
-        System.out.println(dir);
         movingBack = true;
         movingBackDirection = dir;
         Timer timer = new Timer();
@@ -109,6 +140,10 @@ public class Enemy extends Being {
         }, 800);
     }
 
+    ////////// FRIENDLY WOLF \\\\\\\\\\\\\\\\
+    /**
+     * friendly wolves can only kill a maximum number of other wolves before they die.
+     */
     public void incrementKilledWolf() {
         if (currentKilled + 1 > maxCanKill) {
             friendly = false;
@@ -118,54 +153,20 @@ public class Enemy extends Being {
         }
     }
 
-    public int getLevel() {
-        return level;
-    }
-
-    public Direction getDir() {
-        return currentDirection;
-    }
-
-    public void paint(Graphics2D win) {
-        renderShape(win);
-    }
-
-    @Override
-    public void damageHealth() {
-        health--;
-        if (health == 0) {
-            killWolf();
-        }
-        flash();
-    }
-
-    public void flash() {
-        changeImage("redWolf.png");
-        java.util.Timer timer = new java.util.Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                // Your database code here
-                changeImage("wolf.png");
-
-            }
-        }, 200);
-    }
-
-    public void killWolf() {
-        this.setIsRenderable(false);
-        isAlive = false;
-    }
-
-    public Boolean getIsAlive() {
-        return isAlive;
-    }
-
     public void becomeFriendly() {
         friendly = true;
         changeImage("friendlyWolf.png");
     }
 
+    public boolean isFriendly() {
+        return friendly;
+    }
+
+    /////////////////// MOVEMENT \\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+    /**
+     * when enemy is attacked by player, they move backwards depending on the last direction of the dagger.
+     */
     public void moveEnemyBack() {
         int currentX = getX();
         int currentY = getY();
@@ -194,37 +195,11 @@ public class Enemy extends Being {
         }
     }
 
-    public void moveEnemyBackOld() {
-        int currentX = getX();
-        int currentY = getY();
-        ArrayList<Direction> collidingobs = checkCollisionDirection(maps.getCurrentObstacles());
-        System.out.println(dx);
-
-        switch (movingBackDirection) {
-            case NORTH:
-                if (!collidingobs.contains(Direction.NORTH)) {
-                    setY(currentY - dy);
-                }
-                break;
-            case EAST:
-                if (!collidingobs.contains(Direction.EAST)) {
-                    setX(currentX + dx);
-                }
-                break;
-            case WEST:
-                if (!collidingobs.contains(Direction.WEST)) {
-                    setX(currentX - dx);
-                }
-                break;
-            case SOUTH:
-                if (!collidingobs.contains(Direction.SOUTH)) {
-                    setY(currentY + dy);
-                }
-                break;
-        }
-        checkCollision(maps.getCurrentObstacles());
-    }
-
+    /**
+     * this method takes the most updated dx, and dy (velocity) and checks if
+     * is a valid move (i.e no obstacles). if not, then it proceeds to find another
+     * direction to move in.
+     */
     public void move() {
         int currentX = getX();
         int currentY = getY();
@@ -270,6 +245,9 @@ public class Enemy extends Being {
         setY(finalY);
     }
 
+    /**
+     * this movement changes direction / speed after a certain amount of time.
+     */
     public void randomMovement() {
         if (timeLeft > 0) {
             timeLeft--;
@@ -279,15 +257,11 @@ public class Enemy extends Being {
             switch (difficulty) {
                 case 1:
                     randX = ThreadLocalRandom.current().nextInt(-2, 2);
-                    randY = ThreadLocalRandom.current().nextInt(-1, 1);
-                    break;
-                case 2:
-                    randX = ThreadLocalRandom.current().nextInt(-3, 3);
                     randY = ThreadLocalRandom.current().nextInt(-2, 2);
                     break;
                 default:
                     randX = ThreadLocalRandom.current().nextInt(-3, 3);
-                    randY = ThreadLocalRandom.current().nextInt(-2, 2);
+                    randY = ThreadLocalRandom.current().nextInt(-3, 3);
                     break;
             }
             dx = randX;
@@ -324,12 +298,18 @@ public class Enemy extends Being {
         }
     }
 
-    public Boolean getcanRangeAttack() {
-        return canRangeAttack;
+    /////////// other getters and setters \\\\\\\\\\\\
+
+    public int getLevel() {
+        return level;
     }
 
-    public boolean isFriendly() {
-        return friendly;
+    public Boolean getIsAlive() {
+        return isAlive;
+    }
+
+    public Boolean getcanRangeAttack() {
+        return canRangeAttack;
     }
 
     public boolean isAttacking() {
@@ -338,5 +318,10 @@ public class Enemy extends Being {
 
     public void setAttackStatus(Boolean bool) {
         attackStatus = bool;
+    }
+
+    /////// GRAPHICS \\\\\\\\\\\\\
+    public void paint(Graphics2D win) {
+        renderShape(win);
     }
 }

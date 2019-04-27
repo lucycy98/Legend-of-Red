@@ -3,6 +3,9 @@ package score;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * this class deals with high scores.
+ */
 public class ScoreHandler {
 
     private ArrayList<Integer> highscores;
@@ -18,7 +21,6 @@ public class ScoreHandler {
     public void addGameScore(int score){
         highscores.add(score);
     }
-
 
     public int getTopScore(int index){
         if (index < 0 || index > maxScores - 1){

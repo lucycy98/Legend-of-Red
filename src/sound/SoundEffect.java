@@ -24,10 +24,6 @@ public class SoundEffect implements Runnable {
         AudioInputStream audioInput = null;
         try {
             URL url = getClass().getClassLoader().getResource(file);
-
-
-
-            System.out.println(url);
             InputStream input = url.openStream();
             InputStream audio = new BufferedInputStream(input);
             audioInput = AudioSystem.getAudioInputStream(audio);
@@ -57,45 +53,4 @@ public class SoundEffect implements Runnable {
         playSound();
     }
 
-
-
-
-    private void playSoundOld() {
-        AudioInputStream audioInput = null;
-        try {
-            URL url = this.getClass().getResource(file);
-            System.out.println(url);
-            InputStream input = url.openStream();
-            InputStream audio = new BufferedInputStream(input);
-            audioInput = AudioSystem.getAudioInputStream(audio);
-        } catch (Exception ex) {
-            System.out.println("Sound error");
-        }
-        AudioFormat audioFormat = audioInput.getFormat();
-        SourceDataLine line = null;
-        DataLine.Info info = new DataLine.Info(SourceDataLine.class, audioFormat);
-        try {
-            line = (SourceDataLine) AudioSystem.getLine(info);
-            line.open(audioFormat);
-        } catch (LineUnavailableException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        line.start();
-        int nBytesRead = 0;
-        byte[] abData = new byte[128000];
-        while (nBytesRead != -1) {
-            try {
-                nBytesRead = audioInput.read(abData, 0, abData.length);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            if (nBytesRead >= 0) {
-                int nBytesWritten = line.write(abData, 0, nBytesRead);
-            }
-        }
-        line.drain();
-        line.close();
-    }
 }

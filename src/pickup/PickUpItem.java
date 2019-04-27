@@ -7,11 +7,12 @@ import graphics.TileShape;
 
 import java.awt.*;
 
+/**
+ * this class represents a pick up item icon when in the place of the enemy killed
+ */
 public class PickUpItem extends TileShape {
 
     private Protagonist player;
-    private  int x;
-    private int y;
     private Items item;
     private MapHandler map;
     private WeaponHandler weapon;

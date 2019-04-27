@@ -18,6 +18,13 @@ import pickup.Items;
 import graphics.TileShape;
 import sound.SoundHandler;
 
+/**
+ * this class deals with weapon attacks and logic.
+ * it treats weapons as the weapons (the interface) calling methods specific to the interface.
+ * also shows the current weapon in the game panel screen.
+ * weapons include projectile, cupidbow and dagger.
+ */
+
 public class WeaponHandler {
 
     private final MapHandler maps;
@@ -38,7 +45,6 @@ public class WeaponHandler {
     private Timer enemy_attack_timer;
     private int playerDim;
     private SoundHandler sound;
-
 
     // Constructor initialises array of bullets
     public WeaponHandler(MapHandler maps, Protagonist player, EnemyHandler enemies, GamePanel panel, SoundHandler sound) {
@@ -64,7 +70,7 @@ public class WeaponHandler {
         scaleFactor = 15;
         counter = 0;
 
-        this.attack_timer = new Timer(300, (new ActionListener() { //this timer shows what can be done
+        this.attack_timer = new Timer(300, (new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 canAttack = true;
@@ -75,31 +81,18 @@ public class WeaponHandler {
         this.enemy_attack_timer = new Timer(5000, (new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                enemyAttack(); //todo WILLIAM I MOVED THE METHOD HERE i recommend using timers.
+                enemyAttack();
             }
         }));
         enemy_attack_timer.start();
-
     }
 
-    public void obtainAllWeapons(){
-        for (Items item : requiredItems){
-            if (!containsWeapon(item)){
-                addWeapon(item);
-            }
-        }
-    }
+    //////////////// adding removing and switching weapons \\\\\\\\\\\\\\\\\\\\\\\\
 
-    private boolean containsWeapon(Items item){
-        Boolean contains = false;
-        for (Weapon weapon : availableWeapons){
-            if (weapon.getItems() == item){
-                contains = true;
-            }
-        }
-        return contains;
-    }
-
+    /**
+     * creates weapon and adds to inventory.
+     * @param item
+     */
     public void addWeapon(Items item) {
         Weapon weapon;
         switch (item) {
@@ -130,51 +123,8 @@ public class WeaponHandler {
             if (currentItem == items) {
                 availableWeapons.remove(weapon);
                 weapon = null; //get rid of it
-                //todo update
             }
         }
-    }
-
-    public void paint(Graphics2D win) {
-        if (currentWeapon != null) {
-            currentWeapon.paint(win);
-            icons.get(currentItem).renderShape(win);
-
-        }
-        bossWeapon.paint(win);
-    }
-
-    public void attack() {
-        if (!canAttack) {
-            return;
-        }
-        if (currentWeapon.getSoundFile() != null){
-            sound.play(currentWeapon.getSoundFile());
-        }
-        currentWeapon.attack();
-        canAttack = false;
-    }
-
-    public void cupidUsed(){
-        System.out.println("CUPID USED");
-        removeWeapon(Items.CUPIDBOW);
-        changeWeapon();
-    }
-
-    public void enemyAttack() {
-        for (int i = 0; i < enemies.getCurrentEnemies().size(); i++) {
-            Enemy enemy = enemies.getCurrentEnemies().get(i);
-            if (enemy.getcanRangeAttack()) {
-                bossWeapon.enemyRangeAttack(enemy);
-            }
-        }
-    }
-
-    public void checkCollision() {
-        if (currentWeapon != null) {
-            currentWeapon.checkCollision();
-        }
-        bossWeapon.checkEnemyCollision();
     }
 
     public void changeWeapon() {
@@ -197,17 +147,60 @@ public class WeaponHandler {
         currentItem = currentWeapon.getItems();
     }
 
-    public Items getCurrentWeapon() {
-        return currentItem;
+    public void obtainAllWeapons(){
+        for (Items item : requiredItems){
+            if (!containsWeapon(item)){
+                addWeapon(item);
+            }
+        }
     }
 
-    public void createImages(int x, int y, int width, int height) {
-        icons = new HashMap<>();
-        icons.put(Items.DAGGER, new TileShape(x, y, width, height, "daggerIcon.png", false));
-        icons.put(Items.PROJECTILE, new TileShape(x, y, width, height, "bow.png", false));
-        icons.put(Items.CUPIDBOW, new TileShape(x, y, width, height, "cupid.png", false));
+    //////////////////////////////////// attack \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+    /**
+     * checks if weapon collided.
+     */
+    public void checkCollision() {
+        if (currentWeapon != null) {
+            currentWeapon.checkCollision();
+        }
+        bossWeapon.checkEnemyCollision();
     }
 
+    /**
+     * player attack - add sound and attack for current weapon.
+     */
+    public void attack() {
+        if (!canAttack) {
+            return;
+        }
+        if (currentWeapon.getSoundFile() != null){
+            sound.play(currentWeapon.getSoundFile());
+        }
+        currentWeapon.attack();
+        canAttack = false;
+    }
+
+    /**
+     * attack for boss wolf (projectile).
+     */
+    public void enemyAttack() {
+        for (int i = 0; i < enemies.getCurrentEnemies().size(); i++) {
+            Enemy enemy = enemies.getCurrentEnemies().get(i);
+            if (enemy.getcanRangeAttack()) {
+                bossWeapon.enemyRangeAttack(enemy);
+            }
+        }
+    }
+
+    /**
+     * cupid bow can only be used ONCE.
+     */
+    public void cupidUsed(){
+        removeWeapon(Items.CUPIDBOW);
+        changeWeapon();
+    }
+
+    ////////////////// other methods \\\\\\\\\\\\\\\\\\\\\\\\
     public void stopTimers() {
         canAttack = false;
         velocity_timer.stop();
@@ -231,6 +224,35 @@ public class WeaponHandler {
         }
         attack_timer.start();
         enemy_attack_timer.stop();
+    }
+
+    private boolean containsWeapon(Items item){
+        Boolean contains = false;
+        for (Weapon weapon : availableWeapons){
+            if (weapon.getItems() == item){
+                contains = true;
+            }
+        }
+        return contains;
+    }
+
+    /**
+     * creates icon for current weapon in UI
+     */
+    public void createImages(int x, int y, int width, int height) {
+        icons = new HashMap<>();
+        icons.put(Items.DAGGER, new TileShape(x, y, width, height, "daggerIcon.png", false));
+        icons.put(Items.PROJECTILE, new TileShape(x, y, width, height, "bow.png", false));
+        icons.put(Items.CUPIDBOW, new TileShape(x, y, width, height, "cupid.png", false));
+    }
+
+    public void paint(Graphics2D win) {
+        if (currentWeapon != null) {
+            currentWeapon.paint(win);
+            icons.get(currentItem).renderShape(win);
+
+        }
+        bossWeapon.paint(win);
     }
 
 }

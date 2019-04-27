@@ -16,14 +16,14 @@ import java.awt.geom.Rectangle2D;
 import java.util.TimerTask;
 
 /**
- * keep incrementing x, y until key release OR another arrow is pressed.
+ *  this class represents the player / red riding hood
+ *  its movements are controlled by arrow keys
  */
 public class Protagonist extends Being implements Timers {
 
     private EnemyHandler enemies;
     private int dx, dy;
     private int tileSize;
-    private Rectangle2D rec;
     private Direction currentDirection = Direction.NORTH_EAST;
     private MapHandler maps;
     private Boolean pressUp = false;
@@ -33,32 +33,28 @@ public class Protagonist extends Being implements Timers {
     private int health;
     private int speed = 1;
     private int buffer = 50;
-    private boolean beingAttacked;
     private Timer velocity_timer;
     private boolean isInvincible;
     private TutorialLevel tutorial;
     private Boolean canMove;
     private SoundHandler sound;
-    Rectangle smallplayerRec;
-
+    private Rectangle smallplayerRec;
 
     public Protagonist(int xPos, int yPos, int width, int height, String image, int tile, MapHandler maps, EnemyHandler enemies, SoundHandler sound) {
-        super(xPos, yPos, width, height, 1, image);
+        super(xPos, yPos, width, height, image);
         this.sound = sound;
         canMove = true;
         this.tileSize = tile;
         this.maps = maps;
         this.enemies = enemies;
         health = 99;
-        beingAttacked = false;
-        this.velocity_timer = new Timer(1000/150, (new ActionListener() {
+        this.velocity_timer = new Timer(1000/500, (new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 checkCollision(maps.getCurrentObstacles());
                 if (canMove){
                     movePlayer();
                 }
-                checkCollision(maps.getCurrentObstacles());
                 checkPortal();
 
             }
@@ -67,138 +63,13 @@ public class Protagonist extends Being implements Timers {
         isInvincible = false;
     }
 
-    public void canMove(Boolean move){
-        canMove = move;
-    }
+    //////////// movement and direction \\\\\\\\\\\\\\\\
 
-    public void addTutorialLevel(TutorialLevel tut) {
-        tutorial = tut;
-    }
-
-    public void setInvincible(int time) {
-        isInvincible = true;
-        changeImage("transparentplayer.png");java.util.Timer timer = new java.util.Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                // Your database code here
-                isInvincible = false;
-                changeImage("player.png");
-            }
-        }, 5000);
-    }
-
-    public void flash() {
-        changeImage("damagedPlayer.png");
-        java.util.Timer timer = new java.util.Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                // Your database code here
-                changeImage("player.png");
-
-            }
-        }, 200);
-    }
-
-
-    public void healthUp() {
-        int up = 0;
-        sound.play("healthUp.wav");
-        if (health < 30) {
-            up = 40;
-        } else if (health < 70) {
-            up = 20;
-        } else if (health < 90) {
-            up = 9;
-        }
-        health = health + up;
-    }
-
-    public void checkPortal() {
-        Rectangle playerRec = this.getBounds();
-        TileShape fportal = maps.getCurrentForwardPortal();
-        if (fportal != null){
-            Rectangle fportalRec = fportal.getBounds();
-            if (playerRec.intersects(fportalRec)) {
-                if (maps.getCurrentLevel() == 0) {
-                    tutorial.beginGame();
-                }
-                maps.setNextLevel();
-                if (!maps.gameIsWon()){
-                    sound.play("portal.wav");
-                    enemies.setEnemy();
-                    this.setX(tileSize + buffer);
-                    this.setY(tileSize * 3 + buffer);
-                }
-            }
-        }
-        TileShape bportal = maps.getCurrentBackwardPortal();
-        if (bportal != null){
-            Rectangle bportalRec = bportal.getBounds();
-            if (playerRec.intersects(bportalRec)) {
-                maps.setPreviousLevel();
-                if (maps.getCurrentLevel() == 0) {
-                    tutorial.backLevel();
-                }
-                enemies.setEnemy();
-                this.setX(tileSize * 6 + buffer);
-                this.setY(tileSize * 3 + buffer);
-            }
-
-        }
-
-    }
-
-
-    public int getHealth() {
-        return health;
-    }
-
-    public Direction getDir() {
-        return currentDirection;
-    }
-
-    public void paint(Graphics2D win) {
-        renderShape(win);
-    }
-
-    public void movePlayer() {
-        int currentX = getX();
-        setX(currentX + dx);
-        int currentY = getY();
-        setY(currentY + dy);
-    }
-
-    public boolean isInvincible(){
-        return isInvincible;
-    }
-
-    public boolean enemyIsAttacking(Enemy enemy) {
-        smallplayerRec = this.getSmallerBounds();
-        Rectangle obstacleRec = enemy.getBounds();
-
-        if (isInvincible) {
-            return false;
-        }
-
-        if (smallplayerRec.intersects(obstacleRec)) {
-            if (!enemy.isAttacking()) {
-                sound.play("loseHealth.wav");
-                health -= 5;
-                flash();
-                enemy.setAttackStatus(true);
-            }
-            return true;
-        } else {
-            enemy.setAttackStatus(false);
-        }
-        return false;
-    }
-
+    /**
+     * direction that the player is facing - useful for weapon directions
+     */
     public void face() {
         if (pressUp) {
-
             if (pressRight) {
                 currentDirection = Direction.NORTH_EAST;
             } else if (pressLeft) {
@@ -206,9 +77,7 @@ public class Protagonist extends Being implements Timers {
             } else {
                 currentDirection = Direction.NORTH;
             }
-
         } else if (pressDown) {
-
             if (pressRight) {
                 currentDirection = Direction.SOUTH_EAST;
             } else if (pressLeft) {
@@ -216,9 +85,7 @@ public class Protagonist extends Being implements Timers {
             } else {
                 currentDirection = Direction.SOUTH;
             }
-
         } else if (pressRight) {
-
             currentDirection = Direction.EAST;
         } else if (pressLeft) {
             currentDirection = Direction.WEST;
@@ -245,12 +112,6 @@ public class Protagonist extends Being implements Timers {
         } else {
             dx = 0;
         }
-    }
-
-    public void damageHealth() {
-        System.out.println("bullet hit player");
-        health -= 5;
-        flash();
     }
 
     public void keyReleased(KeyEvent e) {
@@ -297,6 +158,154 @@ public class Protagonist extends Being implements Timers {
         }
         setVelocity();
         face();
+    }
+
+    public void movePlayer() {
+        int currentX = getX();
+        setX(currentX + dx);
+        int currentY = getY();
+        setY(currentY + dy);
+    }
+
+
+    public void canMove(Boolean move){
+        canMove = move;
+    }
+
+    ////////////////// HEALTH \\\\\\\\\\\\\\\\\\\\
+
+    public void damageHealth() {
+        System.out.println("bullet hit player");
+        health -= 5;
+        flash();
+    }
+
+    public void flash() {
+        changeImage("damagedPlayer.png");
+        java.util.Timer timer = new java.util.Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                // Your database code here
+                changeImage("player.png");
+
+            }
+        }, 200);
+    }
+
+    public void healthUp() {
+        int up = 0;
+        sound.play("healthUp.wav");
+        if (health < 30) {
+            up = 40;
+        } else if (health < 70) {
+            up = 20;
+        } else if (health < 90) {
+            up = 9;
+        }
+        health = health + up;
+    }
+
+    /**
+     * checks if enemy is attacking
+     * @param enemy
+     * @return
+     */
+    public boolean enemyIsAttacking(Enemy enemy) {
+        smallplayerRec = this.getSmallerBounds();
+        Rectangle obstacleRec = enemy.getBounds();
+
+        if (isInvincible) {
+            return false;
+        }
+
+        if (smallplayerRec.intersects(obstacleRec)) {
+            if (!enemy.isAttacking()) {
+                sound.play("loseHealth.wav");
+                health -= 5;
+                flash();
+                enemy.setAttackStatus(true);
+            }
+            return true;
+        } else {
+            enemy.setAttackStatus(false);
+        }
+        return false;
+    }
+
+    /**
+     * check if player is colliding with a portal
+     */
+    private void checkPortal() {
+        Rectangle playerRec = this.getBounds();
+        TileShape fportal = maps.getCurrentForwardPortal();
+        if (fportal != null){
+            Rectangle fportalRec = fportal.getBounds();
+            if (playerRec.intersects(fportalRec)) {
+                if (maps.getCurrentLevel() == 0) {
+                    tutorial.beginGame();
+                }
+                maps.setNextLevel();
+                if (!maps.gameIsWon()){
+                    sound.play("portal.wav");
+                    enemies.setEnemy();
+                    this.setX(tileSize + buffer);
+                    this.setY(tileSize * 3 + buffer);
+                }
+            }
+        }
+        TileShape bportal = maps.getCurrentBackwardPortal();
+        if (bportal != null){
+            Rectangle bportalRec = bportal.getBounds();
+            if (playerRec.intersects(bportalRec)) {
+                maps.setPreviousLevel();
+                if (maps.getCurrentLevel() == 0) {
+                    tutorial.backLevel();
+                }
+                enemies.setEnemy();
+                this.setX(tileSize * 6 + buffer);
+                this.setY(tileSize * 3 + buffer);
+            }
+        }
+    }
+
+    /**
+     * when player obtains wolfskin, chnage transparency.
+     * @param time
+     */
+    public void setInvincible(int time) {
+        isInvincible = true;
+        changeImage("transparentplayer.png");java.util.Timer timer = new java.util.Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                // Your database code here
+                isInvincible = false;
+                changeImage("player.png");
+            }
+        }, 5000);
+    }
+
+    /////////////// OTHER METHODS \\\\\\\\\\\\\\\\\\\
+
+    public void addTutorialLevel(TutorialLevel tut) {
+        tutorial = tut;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public Direction getDir() {
+        return currentDirection;
+    }
+
+    public void paint(Graphics2D win) {
+        renderShape(win);
+    }
+
+    public boolean isInvincible(){
+        return isInvincible;
     }
 
     @Override

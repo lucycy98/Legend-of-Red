@@ -6,6 +6,10 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * this class represents a map or level for the game
+ * can either be a house or a forest setting.
+ */
 public class Map {
 
     private int xTiles = 17;
@@ -52,7 +56,7 @@ public class Map {
         for (int k = 0; k < num_obs; k++) {
             int x = new Random().nextInt(xTiles);
             int y = new Random().nextInt(yTiles);
-            if ((x != (xTiles - 2) && y != yTiles / 2) || (x != 1 && y != yTiles / 2 )) { //todo make sure you dont include the TILESIZE when checking.
+            if ((x != (xTiles - 2) && y != yTiles / 2) || (x != 1 && y != yTiles / 2 )) {
                 TileShape tile = new TileShape(x * tileSize, y * tileSize, tileSize, tileSize, obs, true);
                 _obstacles.add(tile);
             } else {
@@ -62,13 +66,11 @@ public class Map {
     }
 
     public void addForwardsPortal() {
-        System.out.println("forwards portal added");
         TileShape portal = new TileShape((xTiles - 2) * tileSize, yTiles / 2 * tileSize, tileSize, tileSize, "portal.png", true);
         fportal = portal;
     }
 
     public void addBackwardsPortal() {
-        System.out.println("backwards portal added");
         TileShape portal = new TileShape(tileSize, yTiles / 2 * tileSize, tileSize, tileSize, "portal.png", true);
         bportal = portal;
     }
@@ -93,10 +95,6 @@ public class Map {
 
     public ArrayList<TileShape> getObstacles() {
         return this._obstacles;
-    }
-
-    public void setObstacles(ArrayList<TileShape> _obstacles) {
-        this._obstacles = _obstacles;
     }
 
     public TileShape getForwardPortals() {

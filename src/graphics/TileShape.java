@@ -5,7 +5,8 @@ import pickup.Items;
 import java.awt.*;
 
 /**
- * this class represents a tile shape with an image e.g hedge, enemy etc
+ * this class represents a tile shape with an image
+ * deals with x y location, images, dimensions etc
  */
 public class TileShape {
 
@@ -19,10 +20,6 @@ public class TileShape {
 
     private int small = 40;
 
-    public TileShape() {
-
-    }
-
     public TileShape(int x, int y, int width, int height, String img, Boolean r) {
         this.x = x;
         this.y = y + buffer;
@@ -32,6 +29,9 @@ public class TileShape {
         tileImg = ImageHandler.getImage(img);
     }
 
+    /**
+     * tile shape for a pick up item
+     */
     public TileShape(int x, int y, int width, int height, Items item, Boolean r) {
         this.x = x;
         this.y = y;
@@ -39,7 +39,6 @@ public class TileShape {
         this.height = height;
         this.isRenderable = r;
         String image;
-        System.out.println(item);
         switch (item) {
             case KEY:
                 image = "key.png";

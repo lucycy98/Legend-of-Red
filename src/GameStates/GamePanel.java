@@ -1,6 +1,4 @@
 package GameStates;
-
-import attacks.ProjectileHandler;
 import attacks.WeaponHandler;
 import being.EnemyHandler;
 import being.Protagonist;
@@ -83,8 +81,6 @@ public class GamePanel extends JPanel implements KeyListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 timeLeft -= 100;
-
-                //SimpleDateFormat df = new SimpleDateFormat("mm:ss");
                 time = df.format(timeLeft);
 
                 if (timeLeft <= 0) {
@@ -94,7 +90,6 @@ public class GamePanel extends JPanel implements KeyListener {
                 }
             }
         }));
-        updateHealth.start();
 
         this.addKeyListener(this);
         this.setFocusable(true);
@@ -114,11 +109,10 @@ public class GamePanel extends JPanel implements KeyListener {
 
     @Override
     public void paint(Graphics gr) {
-        // Clears window
         super.paint(gr);
         Graphics2D window = (Graphics2D) gr;
         window.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        maps.paint(gr);
+        maps.paint(window);
         player.paint(window);
         enemies.paint(window);
         weapons.paint(window);
