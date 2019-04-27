@@ -62,7 +62,7 @@ public class GamePanel extends JPanel implements KeyListener {
         enemies.addPlayer(player);
         weapons = new WeaponHandler(maps, player, enemies, this, sound);
         enemies.addWeaponHandler(weapons);
-        tutorial = new TutorialLevel(maps, item);
+        tutorial = new TutorialLevel(maps, item, width);
         player.addTutorialLevel(tutorial);
         weapons.createImages(weaponLocation, -40, 40, 40);
         time = df.format(timeLeft);
@@ -135,7 +135,7 @@ public class GamePanel extends JPanel implements KeyListener {
         window.drawString(String.valueOf(score.getScore()), 1*ratio + 50, infoHeight);
 
         window.drawString("Level:", 2*ratio, 25);
-        window.drawString(String.valueOf(maps.getCurrentLevel() + 1), 2*ratio + 50, infoHeight);
+        window.drawString(String.valueOf(maps.getCurrentLevel()), 2*ratio + 50, infoHeight);
 
         window.drawString("Health:", 3*ratio, 25);
         window.drawString(String.valueOf(player.getHealth() + 1), 3*ratio + 50, infoHeight);

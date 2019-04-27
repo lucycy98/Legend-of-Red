@@ -20,18 +20,23 @@ public class TutorialLevel implements Timers {
     private Boolean inTutorialLevel;
     private States currentState;
     private Boolean canMove;
+    private String spaceContinue = "Press SPACE BAR to continue.";
+    private String skipContinue = "Press ENTER to skip.";
     public enum States {TUTORIAL, INSTRUCTIONS, FINISHED};
+    private int width;
 
-    public TutorialLevel(MapHandler maps, PickUpItemHandler item) {
+    public TutorialLevel(MapHandler maps, PickUpItemHandler item, int width) {
         currentState = States.TUTORIAL;
         inTutorialLevel = true;
         this.maps = maps;
+        this.width = width;
         this.item = item;
         addTutorialMsg();
         addInstructionsMsg();
         createSprites();
         currentMsg = 0;
         canMove = false;
+        dialogueBox = new TileShape(60, 500, 900, 160, "dialogue/dialogueBox.png", true);
     }
 
     public Boolean canMove(){
@@ -41,13 +46,13 @@ public class TutorialLevel implements Timers {
     public void skip(){
         switch(currentState){
             case TUTORIAL:
-                currentState = States.INSTRUCTIONS;
-                currentMsg = 0;
+                //currentState = States.INSTRUCTIONS;
+                //currentMsg = 0;
                 break;
             case INSTRUCTIONS:
                 currentState = States.FINISHED;
                 canMove = true;
-                item.createItem(500, 200, Items.DAGGER);
+                //item.createItem(500, 200, Items.DAGGER);
                 break;
             default:
                 break;
@@ -59,6 +64,9 @@ public class TutorialLevel implements Timers {
             case TUTORIAL:
                 if (currentMsg < tutorialMsg.size() - 1) {
                     currentMsg++;
+                    if (currentMsg == 3){ //Here is a dagger to protect yourself
+                        item.createItem(500, 200, Items.DAGGER);
+                    }
                 } else {
                     currentMsg = 0;
                    currentState = States.INSTRUCTIONS;
@@ -67,8 +75,7 @@ public class TutorialLevel implements Timers {
             case INSTRUCTIONS:
                 if (currentMsg < instructionsMsg.size() - 1) {
                     currentMsg++;
-                    if (currentMsg == 6){ //Use your arrow keys to move the player towards the dagger to collect your first weapon.
-                        item.createItem(500, 200, Items.DAGGER);
+                    if (currentMsg == 7){ //Use your arrow keys to move the player towards the dagger to collect your first weapon.
                         canMove = true;
                     }
                 } else {
@@ -79,6 +86,37 @@ public class TutorialLevel implements Timers {
             default:
                 break;
         }
+    }
+
+    private TileShape getPointer(){
+        int x = -1; int y = -10;
+        int ratio = width/7;
+        switch (currentMsg){
+            case 1://score
+                x = ratio + 50;
+                break;
+            case 2: //level
+                x = 2*ratio + 50;
+                break;
+            case 3://health
+                x = 3*ratio + 50;
+                break;
+            case 4: //time
+                x = 5*ratio + 150;
+                break;
+            case 5: //weapon
+                x = 4*ratio + 110;
+                break;
+            case 6: //weapon
+                x = 4*ratio + 110;
+                break;
+                default:
+                    break;
+        }
+        if (x > -1){
+            return new TileShape(x, y, 40, 50, "dialogue/pointer.png", true);
+        }
+        return null;
     }
 
     public void createSprites() {
@@ -108,49 +146,68 @@ public class TutorialLevel implements Timers {
             return;
         }
 
-        if (mumSprite != null){
-            mumSprite.renderShape(win);
-        }
-
-        switch(currentState){
-            case TUTORIAL:
-                dialogueBox = new TileShape(60, 500, 900, 160, tutorialMsg.get(currentMsg), true);
-                System.out.println("tut");
-                break;
-            case INSTRUCTIONS:
-                dialogueBox = new TileShape(60, 500, 900, 160, instructionsMsg.get(currentMsg), true);
-                System.out.println("inst");
-                break;
-            default: //finished
-                dialogueBox = null;
-                break;
-        }
+        win.setColor(Color.BLACK);
+        win.setFont(new Font("TimesRoman", Font.PLAIN, 18));
 
         if (dialogueBox != null){
             dialogueBox.renderShape(win);
+        }
+
+        if (mumSprite != null){
+            mumSprite.renderShape(win);
+            win.drawString(spaceContinue, 650, 680);
+            if (currentState == States.INSTRUCTIONS){
+                win.drawString(skipContinue, 720, 580);
+            }
+        }
+
+        win.setFont(new Font("TimesRoman", Font.BOLD, 20));
+        switch(currentState){
+            case TUTORIAL:
+                win.drawString(tutorialMsg.get(currentMsg), 110, 610);
+                //dialogueBox = new TileShape(60, 500, 900, 160, tutorialMsg.get(currentMsg), true);
+                System.out.println("tut");
+                break;
+            case INSTRUCTIONS:
+                win.drawString(instructionsMsg.get(currentMsg), 110, 610);
+                TileShape pointer = getPointer();
+                if (pointer != null){
+                    pointer.renderShape(win);
+                }
+                //dialogueBox = new TileShape(60, 500, 900, 160, instructionsMsg.get(currentMsg), true);
+                System.out.println("inst");
+                break;
+            default: //finished
+                //dialogueBox = null;
+                break;
         }
     }
 
     private void addTutorialMsg(){
         tutorialMsg = new ArrayList<>();
-        tutorialMsg.add("dialogue/tut1.png");
-        tutorialMsg.add("dialogue/tut2.png");
-        tutorialMsg.add("dialogue/tut3.png");
+        tutorialMsg.add("Little Red Riding Hood, I have some bad news.");
+        tutorialMsg.add("Grandma has just been kidnapped by the big bad wolf...");
+        tutorialMsg.add("And you’re the only one who can save her.");
+        tutorialMsg.add("You’ll have to go through the woods. Here is a dagger to protect yourself.");
+        tutorialMsg.add("Be careful of the wolves, especially the big bad one.");
+        tutorialMsg.add("Good luck, my dear.");
     }
 
     private void addInstructionsMsg(){
         instructionsMsg = new ArrayList<>();
-        instructionsMsg.add("dialogue/tut1.png");
-        instructionsMsg.add("dialogue/tut2.png");
-        instructionsMsg.add("dialogue/tut3.png");
-        instructionsMsg.add("dialogue/tut4.png");
-        instructionsMsg.add("dialogue/tut5.png");
-        instructionsMsg.add("dialogue/tut1.png");
-        instructionsMsg.add("dialogue/tut2.png");
-        instructionsMsg.add("dialogue/tut3.png");
-        instructionsMsg.add("dialogue/tut4.png");
-        instructionsMsg.add("dialogue/tut5.png");
-        instructionsMsg.add("dialogue/tut1.png");
+        instructionsMsg.add("The following is a tutorial for the game.");
+        instructionsMsg.add("Your score will be displayed here. The more wolves you kill, the higher your score.");
+        instructionsMsg.add("Your current level will be displayed here.");
+        instructionsMsg.add("Your health will be displayed here. Once it reaches 0, you will have failed your mission.");
+        instructionsMsg.add("This is the time remaining for you to complete your mission.");
+        instructionsMsg.add("Your current weapon will be displayed here.");
+        instructionsMsg.add("When you upgrade your weapon, press (s) to switch between weapons.");
+        instructionsMsg.add("Attack with the SPACE BAR.");
+        instructionsMsg.add("Use ARROW KEYS to move towards the dagger to collect your first weapon. Give it a go.");
+        instructionsMsg.add("You will be rewarded with more power ups during the game.");
+        instructionsMsg.add("Move towards the portal to enter the next level.");
+        instructionsMsg.add("Take the other portal to return back to the previous level.");
+        instructionsMsg.add("Good luck!");
     }
 
     @Override

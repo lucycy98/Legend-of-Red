@@ -53,6 +53,7 @@ public class PickUpItemHandler {
         for (PickUpItem item : itemsList){
             if (item.getItem() == Items.DAGGER){
                 item.collectItem();
+                itemsList.remove(item);
             }
         }
     }
