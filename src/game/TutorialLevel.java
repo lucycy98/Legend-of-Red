@@ -64,7 +64,7 @@ public class TutorialLevel implements Timers {
             case TUTORIAL:
                 if (currentMsg < tutorialMsg.size() - 1) {
                     currentMsg++;
-                    if (currentMsg == 3){ //Here is a dagger to protect yourself
+                    if (currentMsg == 4){ //Here is a dagger to protect yourself
                         item.createItem(500, 200, Items.DAGGER);
                     }
                 } else {
@@ -188,7 +188,8 @@ public class TutorialLevel implements Timers {
         tutorialMsg.add("Little Red Riding Hood, I have some bad news.");
         tutorialMsg.add("Grandma has just been kidnapped by the big bad wolf...");
         tutorialMsg.add("And you’re the only one who can save her.");
-        tutorialMsg.add("You’ll have to go through the woods. Here is a dagger to protect yourself.");
+        tutorialMsg.add("You’ll have to go through the woods to get to Grandma's house.");
+        tutorialMsg.add("Here is a dagger to protect yourself.");
         tutorialMsg.add("Be careful of the wolves, especially the big bad one.");
         tutorialMsg.add("Good luck, my dear.");
     }
@@ -202,8 +203,8 @@ public class TutorialLevel implements Timers {
         instructionsMsg.add("This is the time remaining for you to complete your mission.");
         instructionsMsg.add("Your current weapon will be displayed here.");
         instructionsMsg.add("When you upgrade your weapon, press (s) to switch between weapons.");
-        instructionsMsg.add("Attack with the SPACE BAR.");
-        instructionsMsg.add("Use ARROW KEYS to move towards the dagger to collect your first weapon. Give it a go.");
+        instructionsMsg.add("Attack wolves with the SPACE BAR.");
+        instructionsMsg.add("Use ARROW KEYS to move towards the dagger to collect your first weapon.");
         instructionsMsg.add("You will be rewarded with more power ups during the game.");
         instructionsMsg.add("Move towards the portal to enter the next level.");
         instructionsMsg.add("Take the other portal to return back to the previous level.");
