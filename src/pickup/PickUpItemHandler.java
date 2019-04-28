@@ -190,7 +190,8 @@ public class PickUpItemHandler {
     }
 
     public void collectDagger(){
-        for (PickUpItem item : itemsList){
+        for (int i = 0; i < itemsList.size(); i++){
+            PickUpItem item = itemsList.get(i);
             if (item.getItem() == Items.DAGGER){
                 item.collectItem();
                 itemsList.remove(item);

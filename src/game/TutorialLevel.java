@@ -161,15 +161,15 @@ public class TutorialLevel implements Timers {
             }
         }
 
-        win.setFont(new Font("TimesRoman", Font.BOLD, 20));
+        win.setFont(new Font("TimesRoman", Font.BOLD, 18));
         switch(currentState){
             case TUTORIAL:
-                win.drawString(tutorialMsg.get(currentMsg), 110, 610);
+                win.drawString(tutorialMsg.get(currentMsg), 100, 610);
                 //dialogueBox = new TileShape(60, 500, 900, 160, tutorialMsg.get(currentMsg), true);
                 System.out.println("tut");
                 break;
             case INSTRUCTIONS:
-                win.drawString(instructionsMsg.get(currentMsg), 110, 610);
+                win.drawString(instructionsMsg.get(currentMsg), 100, 610);
                 TileShape pointer = getPointer();
                 if (pointer != null){
                     pointer.renderShape(win);
@@ -199,7 +199,7 @@ public class TutorialLevel implements Timers {
         instructionsMsg.add("The following is a tutorial for the game.");
         instructionsMsg.add("Your score will be displayed here. The more wolves you kill, the higher your score.");
         instructionsMsg.add("Your current level will be displayed here.");
-        instructionsMsg.add("Your health will be displayed here. Once it reaches 0, you will have failed your mission.");
+        instructionsMsg.add("Your health will be displayed here. Try keep it above 0.");
         instructionsMsg.add("This is the time remaining for you to complete your mission.");
         instructionsMsg.add("Your current weapon will be displayed here.");
         instructionsMsg.add("When you upgrade your weapon, press (s) to switch between weapons.");

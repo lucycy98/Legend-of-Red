@@ -126,19 +126,19 @@ public class GamePanel extends JPanel implements KeyListener {
         int ratio = width/7;
 
         window.drawString("Score:", 1*ratio, infoHeight);
-        window.drawString(String.valueOf(score.getScore()), 1*ratio + 50, infoHeight);
+        window.drawString(String.valueOf(score.getScore()), 1*ratio + 60, infoHeight);
 
         window.drawString("Level:", 2*ratio, 25);
-        window.drawString(String.valueOf(maps.getCurrentLevel()), 2*ratio + 50, infoHeight);
+        window.drawString(String.valueOf(maps.getCurrentLevel()), 2*ratio + 60, infoHeight);
 
         window.drawString("Health:", 3*ratio, 25);
-        window.drawString(String.valueOf(player.getHealth() + 1), 3*ratio + 50, infoHeight);
+        window.drawString(String.valueOf(player.getHealth() + 1), 3*ratio + 80, infoHeight);
 
         window.drawString("Current Weapon:", 4*ratio, infoHeight);
 
         window.drawString("Time Left:", 5*ratio + 70, infoHeight);
         if (time != null) {
-            window.drawString(time, 5*ratio + 150, infoHeight);
+            window.drawString(time, 5*ratio + 170, infoHeight);
         }
         repaint();
     }
@@ -266,6 +266,7 @@ public class GamePanel extends JPanel implements KeyListener {
                 weapons.obtainAllWeapons();
                 tutorial.beginGame();
                 item.collectDagger();
+                startGameTimer();
                 break;
             default:
                 if (maps.getCurrentLevel() != 0 || tutorial.canMove()){

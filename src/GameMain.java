@@ -15,8 +15,8 @@ public class GameMain {
     public static void main(String[] args) throws InterruptedException {
 
 
-        int width = 1040;
-        int height = 850;
+        int width = 1020;
+        int height = 830;
         JFrame gameWindow = new JFrame("Game of Red");
         gameWindow.setSize(width, height);
         gameWindow.setVisible(true);
