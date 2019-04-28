@@ -5,6 +5,7 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URISyntaxException;
 import java.net.URL;
 
 public class SoundEffect implements Runnable {
@@ -24,12 +25,14 @@ public class SoundEffect implements Runnable {
     private void playSound() {
         AudioInputStream audioInput = null;
         try {
-            URL url = getClass().getClassLoader().getResource(file);
-            InputStream input = url.openStream();
-            InputStream audio = new BufferedInputStream(input);
-            audioInput = AudioSystem.getAudioInputStream(audio);
-            clip = AudioSystem.getClip();
-            clip.open(audioInput);
+            if (clip == null){
+                URL url = getClass().getClassLoader().getResource(file);
+                InputStream input = url.openStream();
+                InputStream audio = new BufferedInputStream(input);
+                audioInput = AudioSystem.getAudioInputStream(audio);
+                clip = AudioSystem.getClip();
+                clip.open(audioInput);
+            }
             clip.start();
             System.out.println( clip.getFormat());
         } catch (LineUnavailableException e) {
@@ -94,11 +97,29 @@ public class SoundEffect implements Runnable {
      * depending on which constructor is called.
      */
     public void playFF() {
-        URL url = getClass().getClassLoader().getResource(file);
-        File file = new File(String.valueOf(url));
-        System.out.println(file);
-        String command = "ffplay -autoexit -nodisp -i " + file;
-        process(command);
+        //ClassLoader classLoader = new ReadResourceFileDemo().getClass().getClassLoader();
+
+        File file1;
+
+        //FileUtils.copyInputStreamToFile(getClass().getResourceAsStream(file), file1)
+
+        //System.out.println(filde.exists());
+        //InputStream input = url.openStream();
+        //InputStream audio = new BufferedInputStream(input);
+        //audioInput = AudioSystem.getAudioInputStream(audio);
+
+        // Load the directory as a resource
+        //URL dir_url = ClassLoader.getSystemResource(dir_path);
+// Turn the resource into a File object
+
+
+
+
+
+        //File file1 = new File(getClass().getClassLoader().getResourceAsStream(file));
+
+        //String command = "ffplay -autoexit -nodisp -i " + filde;
+        //process(command);
     }
 
 
@@ -117,7 +138,7 @@ public class SoundEffect implements Runnable {
 
     @Override
     public void run() {
-        playFF();
+        playSound();
     }
 
 }
