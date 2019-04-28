@@ -2,7 +2,10 @@ package maps;
 
 import graphics.TileShape;
 
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -22,14 +25,21 @@ public class Map {
     private TileShape bportal;
     private int tileSize = 60;
 
+    private String[] portals = {"portal.png", "portal1.png", "portal2.png", "portal3.png"};
+
     private String houseGround = "floor.png";
     private String houseObs = "brick.png";
 
     private String forestGround = "grass.jpg";
     private String forestObs = "tree.png";
 
+    private int orientation;
+
+    private Timer rotate_timer;
+
 
     public Map(int num_obs, Boolean isForest) {
+        orientation = 0;
         String ground;
         String obs;
         if (isForest) {
@@ -63,16 +73,33 @@ public class Map {
                 k--;
             }
         }
+
+        this.rotate_timer = new Timer(100, (new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println(orientation);
+                orientation++;
+            }
+        }));
+        rotate_timer.start();
     }
 
     public void addForwardsPortal() {
-        TileShape portal = new TileShape((xTiles - 2) * tileSize, yTiles / 2 * tileSize, tileSize, tileSize, "portal.png", true);
+        TileShape portal = new TileShape((xTiles - 2) * tileSize, yTiles / 2 * tileSize, tileSize, tileSize, portals[orientation % 4], true);
         fportal = portal;
     }
 
     public void addBackwardsPortal() {
-        TileShape portal = new TileShape(tileSize, yTiles / 2 * tileSize, tileSize, tileSize, "portal.png", true);
+        TileShape portal = new TileShape(tileSize, yTiles / 2 * tileSize, tileSize, tileSize, portals[orientation % 4], true);
         bportal = portal;
+    }
+
+    public void rotateForwards(){
+        fportal.changeImage(portals[orientation % 4]);
+    }
+
+    public void rotateBackwards(){
+        bportal.changeImage(portals[orientation % 4]);
     }
 
     public void paint(Graphics g) {
@@ -85,9 +112,11 @@ public class Map {
             obs.renderShape(g);
         }
         if (fportal != null){
+            rotateForwards();
             fportal.renderShape(g);
         }
         if (bportal != null){
+            rotateBackwards();
             bportal.renderShape(g);
         }
 
