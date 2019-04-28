@@ -1,9 +1,0 @@
-public enum MapElement {
-    BOUNDARY,
-    OBSTACLE,
-    PLAYER,
-    MONSTER,
-    ITEM,
-    EMPTY
-}
-
