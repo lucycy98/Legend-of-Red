@@ -39,6 +39,7 @@ public class Protagonist extends Being implements Timers {
     private Boolean canMove;
     private SoundHandler sound;
     private Rectangle smallplayerRec;
+    private TutorialLevel tutorialEnd;
 
     public Protagonist(int xPos, int yPos, int width, int height, String image, int tile, MapHandler maps, EnemyHandler enemies, SoundHandler sound) {
         super(xPos, yPos, width, height, image);
@@ -246,6 +247,10 @@ public class Protagonist extends Being implements Timers {
                     tutorial.beginGame();
                 }
                 maps.setNextLevel();
+                if (maps.getCurrentLevel() == 4 && tutorialEnd.canTutorial()){
+                    tutorialEnd.startTutorialEnd();
+                }
+
                 if (!maps.gameIsWon()){
                     sound.play("portal.wav");
                     enemies.setEnemy();
@@ -261,6 +266,8 @@ public class Protagonist extends Being implements Timers {
                 maps.setPreviousLevel();
                 if (maps.getCurrentLevel() == 0) {
                     tutorial.backLevel();
+                } else if (maps.getCurrentLevel() == 3){
+                    enemies.startTimers();
                 }
                 enemies.setEnemy();
                 this.setX(tileSize * 6 + buffer);
@@ -290,6 +297,10 @@ public class Protagonist extends Being implements Timers {
 
     public void addTutorialLevel(TutorialLevel tut) {
         tutorial = tut;
+    }
+
+    public void addTutorialLevelEnd(TutorialLevel tut) {
+        tutorialEnd = tut;
     }
 
     public int getHealth() {

@@ -63,9 +63,9 @@ public class GamePanel extends JPanel implements KeyListener {
         weapons = new WeaponHandler(maps, player, enemies, this, sound);
         enemies.addWeaponHandler(weapons);
         tutorial = new TutorialLevel(maps, item, width, true);
-        tutorialEnd = new TutorialLevel(maps, item, width, false); //todo
+        tutorialEnd = new TutorialLevel(maps, item, width, false, enemies, this); //todo
         player.addTutorialLevel(tutorial);
-        player.addTutorialLevel(tutorialEnd);
+        player.addTutorialLevelEnd(tutorialEnd);
         weapons.createImages(weaponLocation, -40, 40, 40);
         time = df.format(timeLeft);
 
@@ -104,6 +104,11 @@ public class GamePanel extends JPanel implements KeyListener {
         gameTimer.start();
     }
 
+    public void stopGameTimer(){
+        gameTimer.stop();
+    }
+
+
     public void gameWon(){
         stopTimers();
         score.considerTimeRemaining(timeLeft);
@@ -121,7 +126,7 @@ public class GamePanel extends JPanel implements KeyListener {
         enemies.paint(window);
         weapons.paint(window);
         tutorial.paint(window);
-
+        tutorialEnd.paint(window);
         redSprite.renderShape(window);
 
         window.setColor(Color.white);
@@ -220,10 +225,14 @@ public class GamePanel extends JPanel implements KeyListener {
                 break;
             case KeyEvent.VK_SPACE:
                 if (maps.getCurrentLevel() == 0) {
+                    System.out.println("next message");
                     tutorial.nextMessage();
+                } else if(( maps.getCurrentLevel() == 4 && !tutorialEnd.isFinished())){
+                    tutorialEnd.nextMessage();
                 } else {
                     weapons.attack();
                 }
+
                 break;
             case KeyEvent.VK_C: //FOR TESTING!!!!!
                 if (maps.getCurrentLevel() == 0){
@@ -271,8 +280,10 @@ public class GamePanel extends JPanel implements KeyListener {
                 tutorial.beginGame();
                 item.collectDagger();
                 startGameTimer();
+                tutorialEnd.startTutorialEnd();
                 break;
             default:
+
                 if (maps.getCurrentLevel() != 0 || tutorial.canMove()){
                     player.keyPressed(evt);
                 }

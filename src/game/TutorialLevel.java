@@ -1,5 +1,8 @@
 package game;
 
+import GameStates.GamePanel;
+import being.Enemy;
+import being.EnemyHandler;
 import maps.MapHandler;
 import pickup.Items;
 import pickup.PickUpItemHandler;
@@ -11,6 +14,7 @@ import java.util.ArrayList;
 public class TutorialLevel implements Timers {
 
     private final MapHandler maps;
+    private GamePanel game;
     private PickUpItemHandler item;
     private TileShape mumSprite;
     private ArrayList<String> tutorialMsg;
@@ -25,17 +29,43 @@ public class TutorialLevel implements Timers {
     public enum States {TUTORIAL, INSTRUCTIONS, FINISHED};
     private int width;
     private boolean isBeginning;
+    private EnemyHandler enemy;
+    private Boolean grandmaDialog;
 
     public TutorialLevel(MapHandler maps, PickUpItemHandler item, int width, Boolean isBeginning) {
         this.isBeginning = isBeginning;
         currentState = States.TUTORIAL;
-        inTutorialLevel = true;
         this.maps = maps;
         this.width = width;
         this.item = item;
         if (isBeginning){
             addTutorialMsgBeginning();
+            inTutorialLevel = true;
         } else {
+            inTutorialLevel = false;
+            addTutorialMsgEnd();
+        }
+        addInstructionsMsg();
+        createSprites();
+        currentMsg = 0;
+        canMove = false;
+        dialogueBox = new TileShape(60, 500, 900, 160, "dialogue/dialogueBox.png", true);
+    }
+
+    public TutorialLevel(MapHandler maps, PickUpItemHandler item, int width, Boolean isBeginning, EnemyHandler enemy, GamePanel game) {
+        grandmaDialog = true;
+        this.game = game;
+        this.enemy = enemy;
+        this.isBeginning = isBeginning;
+        currentState = States.TUTORIAL;
+        this.maps = maps;
+        this.width = width;
+        this.item = item;
+        if (isBeginning){
+            addTutorialMsgBeginning();
+            inTutorialLevel = true;
+        } else {
+            inTutorialLevel = false;
             addTutorialMsgEnd();
         }
         addInstructionsMsg();
@@ -62,7 +92,13 @@ public class TutorialLevel implements Timers {
         }
     }
 
+    public Boolean canTutorial(){
+        return grandmaDialog;
+
+    }
+
     public void nextMessage() {
+        System.out.println("next messg");
         switch(currentState){
             case TUTORIAL:
                 if (currentMsg < tutorialMsg.size() - 1) {
@@ -79,6 +115,9 @@ public class TutorialLevel implements Timers {
                         currentState = States.INSTRUCTIONS;
                     } else {
                         currentState = States.FINISHED;
+                        grandmaDialog = false;
+                        game.startGameTimer();
+                        enemy.startTimers();
                     }
 
                 }
@@ -97,6 +136,12 @@ public class TutorialLevel implements Timers {
             default:
                 break;
         }
+    }
+
+    public void startTutorialEnd(){
+        inTutorialLevel = true;
+        game.stopGameTimer();
+        enemy.stopTimers();
     }
 
     private TileShape getPointer(){
@@ -152,6 +197,14 @@ public class TutorialLevel implements Timers {
         inTutorialLevel = true;
     }
 
+    public boolean isFinished(){
+        if (currentState == States.FINISHED){
+            System.out.println("true?");
+            return true;
+        }
+        return false;
+    }
+
     public void paint(Graphics2D win) {
         if (!inTutorialLevel || currentState == States.FINISHED) {
             return;
@@ -175,9 +228,9 @@ public class TutorialLevel implements Timers {
         win.setFont(new Font("TimesRoman", Font.BOLD, 18));
         switch(currentState){
             case TUTORIAL:
+                System.out.println(currentMsg);
                 win.drawString(tutorialMsg.get(currentMsg), 100, 610);
                 //dialogueBox = new TileShape(60, 500, 900, 160, tutorialMsg.get(currentMsg), true);
-                System.out.println("tut");
                 break;
             case INSTRUCTIONS:
                 win.drawString(instructionsMsg.get(currentMsg), 100, 610);
