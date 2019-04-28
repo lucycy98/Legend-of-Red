@@ -33,7 +33,11 @@ public class TutorialLevel implements Timers {
         this.maps = maps;
         this.width = width;
         this.item = item;
-        addTutorialMsg();
+        if (isBeginning){
+            addTutorialMsgBeginning();
+        } else {
+            addTutorialMsgEnd();
+        }
         addInstructionsMsg();
         createSprites();
         currentMsg = 0;
@@ -63,9 +67,11 @@ public class TutorialLevel implements Timers {
             case TUTORIAL:
                 if (currentMsg < tutorialMsg.size() - 1) {
                     currentMsg++;
-                    if (currentMsg == 4){ //Here is a dagger to protect yourself
+
+                    if (currentMsg == 4 && isBeginning){ //Here is a dagger to protect yourself
                         item.createItem(500, 200, Items.DAGGER);
                     }
+
                 } else {
                     currentMsg = 0;
 
@@ -188,7 +194,7 @@ public class TutorialLevel implements Timers {
         }
     }
 
-    private void addTutorialMsg(){
+    private void addTutorialMsgBeginning(){
         tutorialMsg = new ArrayList<>();
         tutorialMsg.add("Little Red Riding Hood, I have some bad news.");
         tutorialMsg.add("Grandma has just been kidnapped by the big bad wolf...");
@@ -198,6 +204,19 @@ public class TutorialLevel implements Timers {
         tutorialMsg.add("Be careful of the wolves, especially the big bad one.");
         tutorialMsg.add("Good luck, my dear.");
     }
+
+    private void addTutorialMsgEnd(){
+        tutorialMsg = new ArrayList<>();
+        tutorialMsg.add("Help!");
+        tutorialMsg.add("Little Red Riding Hood, HELP!");
+        tutorialMsg.add("The big bad wolf has kidnapped me");
+        tutorialMsg.add("You must defeat him to set me free");
+        tutorialMsg.add("Be ware:");
+        tutorialMsg.add("He is BIG...");
+        tutorialMsg.add("...BAD...");
+        tutorialMsg.add("...and he shoots cannon balls at you");
+    }
+
 
     private void addInstructionsMsg(){
         instructionsMsg = new ArrayList<>();

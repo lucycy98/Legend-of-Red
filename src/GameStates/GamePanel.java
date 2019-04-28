@@ -35,6 +35,8 @@ public class GamePanel extends JPanel implements KeyListener {
     private String time;
     private PickUpItemHandler item;
     private TutorialLevel tutorial;
+    private TutorialLevel tutorialEnd;
+
     private SoundHandler sound;
     private int difficulty;
     private TileShape redSprite;
@@ -60,8 +62,10 @@ public class GamePanel extends JPanel implements KeyListener {
         enemies.addPlayer(player);
         weapons = new WeaponHandler(maps, player, enemies, this, sound);
         enemies.addWeaponHandler(weapons);
-        tutorial = new TutorialLevel(maps, item, width);
+        tutorial = new TutorialLevel(maps, item, width, true);
+        tutorialEnd = new TutorialLevel(maps, item, width, false); //todo
         player.addTutorialLevel(tutorial);
+        player.addTutorialLevel(tutorialEnd);
         weapons.createImages(weaponLocation, -40, 40, 40);
         time = df.format(timeLeft);
 
