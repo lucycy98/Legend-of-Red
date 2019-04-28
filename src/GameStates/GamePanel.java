@@ -1,4 +1,5 @@
 package GameStates;
+
 import attacks.WeaponHandler;
 import being.EnemyHandler;
 import being.Protagonist;
@@ -27,11 +28,11 @@ public class GamePanel extends JPanel implements KeyListener {
     private MapHandler maps;
     private WeaponHandler weapons;
     private final int weaponLocation = 700;
-    private  Gamestate option;
+    private Gamestate option;
     private Timer updateHealth;
     private Timer gameTimer;
     private Score score;
-    private  int timeLeft = 1000 * 300;
+    private int timeLeft = 1000 * 300;
     private String time;
     private PickUpItemHandler item;
     private TutorialLevel tutorial;
@@ -49,7 +50,7 @@ public class GamePanel extends JPanel implements KeyListener {
     public GamePanel(int width, int height, Score score, SoundHandler sound, int difficulty) {
         this.width = width;
         this.height = height;
-        redSprite = new TileShape(0, -40, 40,40, "player.png", true);
+        redSprite = new TileShape(0, -40, 40, 40, "player.png", true);
         this.sound = sound;
         option = Gamestate.GAME;
         maps = new MapHandler(this);
@@ -100,16 +101,16 @@ public class GamePanel extends JPanel implements KeyListener {
         this.requestFocus();
     }
 
-    public void startGameTimer(){
+    public void startGameTimer() {
         gameTimer.start();
     }
 
-    public void stopGameTimer(){
+    public void stopGameTimer() {
         gameTimer.stop();
     }
 
 
-    public void gameWon(){
+    public void gameWon() {
         stopTimers();
         score.considerTimeRemaining(timeLeft);
         score.considerHealth(player.getHealth());
@@ -132,22 +133,22 @@ public class GamePanel extends JPanel implements KeyListener {
         window.setColor(Color.white);
         window.setFont(new Font("TimesRoman", Font.PLAIN, 15));
 
-        int ratio = width/7;
+        int ratio = width / 7;
 
-        window.drawString("Score:", 1*ratio, infoHeight);
-        window.drawString(String.valueOf(score.getScore()), 1*ratio + 60, infoHeight);
+        window.drawString("Score:", 1 * ratio, infoHeight);
+        window.drawString(String.valueOf(score.getScore()), 1 * ratio + 60, infoHeight);
 
-        window.drawString("Level:", 2*ratio, 25);
-        window.drawString(String.valueOf(maps.getCurrentLevel()), 2*ratio + 60, infoHeight);
+        window.drawString("Level:", 2 * ratio, 25);
+        window.drawString(String.valueOf(maps.getCurrentLevel()), 2 * ratio + 60, infoHeight);
 
-        window.drawString("Health:", 3*ratio, 25);
-        window.drawString(String.valueOf(player.getHealth() + 1), 3*ratio + 80, infoHeight);
+        window.drawString("Health:", 3 * ratio, 25);
+        window.drawString(String.valueOf(player.getHealth() + 1), 3 * ratio + 80, infoHeight);
 
-        window.drawString("Current Weapon:", 4*ratio, infoHeight);
+        window.drawString("Current Weapon:", 4 * ratio, infoHeight);
 
-        window.drawString("Time Left:", 5*ratio + 70, infoHeight);
+        window.drawString("Time Left:", 5 * ratio + 70, infoHeight);
         if (time != null) {
-            window.drawString(time, 5*ratio + 170, infoHeight);
+            window.drawString(time, 5 * ratio + 170, infoHeight);
         }
         repaint();
     }
@@ -227,7 +228,7 @@ public class GamePanel extends JPanel implements KeyListener {
                 if (maps.getCurrentLevel() == 0) {
                     System.out.println("next message");
                     tutorial.nextMessage();
-                } else if(( maps.getCurrentLevel() == 4 && !tutorialEnd.isFinished())){
+                } else if ((maps.getCurrentLevel() == 4 && !tutorialEnd.isFinished())) {
                     tutorialEnd.nextMessage();
                 } else {
                     weapons.attack();
@@ -235,28 +236,28 @@ public class GamePanel extends JPanel implements KeyListener {
 
                 break;
             case KeyEvent.VK_C: //FOR TESTING!!!!!
-                if (maps.getCurrentLevel() == 0){
+                if (maps.getCurrentLevel() == 0) {
                     break;
                 }
                 weapons.obtainAllWeapons();
                 weapons.addWeapon(Items.CUPIDBOW);
                 break;
             case KeyEvent.VK_W: //FOR TESTING!!!!!
-                if (maps.getCurrentLevel() == 0){
+                if (maps.getCurrentLevel() == 0) {
                     break;
                 }
                 weapons.obtainAllWeapons();
 
-                item.createItem(player.getX(), player.getY()+tileSize, Items.WOLFSKIN);
+                item.createItem(player.getX(), player.getY() + tileSize, Items.WOLFSKIN);
                 break;
             case KeyEvent.VK_H:
-                if (maps.getCurrentLevel() == 0){
+                if (maps.getCurrentLevel() == 0) {
                     break;
                 }
                 weapons.obtainAllWeapons();
-                item.createItem(player.getX()+tileSize, player.getY(), Items.HEALTH);
+                item.createItem(player.getX() + tileSize, player.getY(), Items.HEALTH);
             case KeyEvent.VK_ENTER:
-                if (maps.getCurrentLevel() == 0){
+                if (maps.getCurrentLevel() == 0) {
                     tutorial.skip();
                 }
                 break;
@@ -284,10 +285,17 @@ public class GamePanel extends JPanel implements KeyListener {
                 break;
             default:
 
-                if (maps.getCurrentLevel() != 0 || tutorial.canMove()){
-                    player.keyPressed(evt);
+                if (maps.getCurrentLevel() == 0 && !tutorial.canMove()) {
+                    break;
                 }
-                break;
+
+                if (maps.getCurrentLevel() == 4 && !tutorialEnd.canMove()) {
+                    break;
+                }
+
+                player.keyPressed(evt);
+
+
         }
     }
 }

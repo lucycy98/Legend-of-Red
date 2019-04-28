@@ -17,6 +17,7 @@ public class TutorialLevel implements Timers {
     private GamePanel game;
     private PickUpItemHandler item;
     private TileShape mumSprite;
+    private TileShape grandmaSprite;
     private ArrayList<String> tutorialMsg;
     private ArrayList<String> instructionsMsg;
     private int currentMsg;
@@ -115,6 +116,7 @@ public class TutorialLevel implements Timers {
                         currentState = States.INSTRUCTIONS;
                     } else {
                         currentState = States.FINISHED;
+                        canMove = true;
                         grandmaDialog = false;
                         game.startGameTimer();
                         enemy.startTimers();
@@ -176,8 +178,14 @@ public class TutorialLevel implements Timers {
     }
 
     public void createSprites() {
+        String image;
+        if (isBeginning){
+            image = "mum.png";
+        } else {
+            image = "grandma.png";
+        }
         if (maps.getCurrentLevel() == 0) {
-            mumSprite = new TileShape(100, 400, 100, 100, "mum.png", true);
+            mumSprite = new TileShape(100, 400, 100, 100, image, true);
         }
     }
 
@@ -262,12 +270,12 @@ public class TutorialLevel implements Timers {
         tutorialMsg = new ArrayList<>();
         tutorialMsg.add("Help!");
         tutorialMsg.add("Little Red Riding Hood, HELP!");
-        tutorialMsg.add("The big bad wolf has kidnapped me");
-        tutorialMsg.add("You must defeat him to set me free");
-        tutorialMsg.add("Be ware:");
+        tutorialMsg.add("The big bad wolf has kidnapped me.");
+        tutorialMsg.add("You must defeat him to set me free.");
+        tutorialMsg.add("Beware:");
         tutorialMsg.add("He is BIG...");
         tutorialMsg.add("...BAD...");
-        tutorialMsg.add("...and he shoots cannon balls at you");
+        tutorialMsg.add("...and he also shoots cannon balls at you.");
     }
 
 
