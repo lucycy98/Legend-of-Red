@@ -50,7 +50,6 @@ public class GameMain {
                     state = menu.getOption();
                     break;
                 case DIFFICULTY:
-                    System.out.println("difficulty chooser");
                     difficulty = new DifficultyPanel(2,2, diff);
                     difficulty.setBackground(Color.BLACK);
                     gameWindow.add(difficulty);
@@ -64,7 +63,6 @@ public class GameMain {
                     diff = difficulty.getDiff();
                     break;
                 case HIGHSCORE:
-                    System.out.println("highscore");
                     scorePanel = new HighScorePanel(scoreHandler);
                     scorePanel.setBackground(Color.BLACK);
                     gameWindow.add(scorePanel);
