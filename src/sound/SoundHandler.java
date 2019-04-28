@@ -37,7 +37,7 @@ public class SoundHandler {
             System.out.println("null");
             return;
         }
-        sound.play();
+        sound.playSound();
     }
 
     public void pause(){

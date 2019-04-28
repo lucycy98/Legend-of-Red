@@ -2,10 +2,11 @@ package sound;
 
 import javax.sound.sampled.*;
 import java.io.BufferedInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
-public class SoundEffect implements Runnable {
+public class SoundEffect {
 
     private String file;
     private Clip clip = null;
@@ -14,12 +15,8 @@ public class SoundEffect implements Runnable {
         this.file = "audio/" + filename;
     }
 
-    public void play() {
-        Thread t = new Thread(this);
-        t.start();
-    }
 
-    private void playSound() {
+    public void playSound() {
         AudioInputStream audioInput = null;
         try {
             URL url = getClass().getClassLoader().getResource(file);
@@ -29,7 +26,6 @@ public class SoundEffect implements Runnable {
             clip = AudioSystem.getClip();
             clip.open(audioInput);
             clip.start();
-            clip.drain();
         } catch (LineUnavailableException e) {
             throw new RuntimeException("Sound: Line Unavailable: " + e);
         }catch (Exception ex) {
@@ -48,9 +44,6 @@ public class SoundEffect implements Runnable {
         }
     }
 
-    @Override
-    public void run() {
-        playSound();
-    }
+
 
 }
