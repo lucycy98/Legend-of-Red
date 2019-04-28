@@ -29,6 +29,7 @@ public class SoundEffect implements Runnable {
             clip = AudioSystem.getClip();
             clip.open(audioInput);
             clip.start();
+            clip.drain();
         } catch (LineUnavailableException e) {
             throw new RuntimeException("Sound: Line Unavailable: " + e);
         }catch (Exception ex) {
