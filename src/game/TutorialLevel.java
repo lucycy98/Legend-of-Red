@@ -230,7 +230,6 @@ public class TutorialLevel implements Timers {
             case TUTORIAL:
                 System.out.println(currentMsg);
                 win.drawString(tutorialMsg.get(currentMsg), 100, 610);
-                //dialogueBox = new TileShape(60, 500, 900, 160, tutorialMsg.get(currentMsg), true);
                 break;
             case INSTRUCTIONS:
                 win.drawString(instructionsMsg.get(currentMsg), 100, 610);
@@ -238,11 +237,8 @@ public class TutorialLevel implements Timers {
                 if (pointer != null){
                     pointer.renderShape(win);
                 }
-                //dialogueBox = new TileShape(60, 500, 900, 160, instructionsMsg.get(currentMsg), true);
-                System.out.println("inst");
                 break;
             default: //finished
-                //dialogueBox = null;
                 break;
         }
     }
