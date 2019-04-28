@@ -47,8 +47,7 @@ public class HighScorePanel extends JPanel {
 
         BufferedImage image = null;
         try {
-            image = ImageIO.read(getClass().getResource("../player.png"));
-        }
+            image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player.png"));        }
         catch (IOException e) {
             e.printStackTrace();
         }

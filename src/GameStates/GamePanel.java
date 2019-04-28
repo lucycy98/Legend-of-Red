@@ -226,7 +226,6 @@ public class GamePanel extends JPanel implements KeyListener {
                 break;
             case KeyEvent.VK_SPACE:
                 if (maps.getCurrentLevel() == 0) {
-                    System.out.println("next message");
                     tutorial.nextMessage();
                 } else if ((maps.getCurrentLevel() == 4 && !tutorialEnd.isFinished())) {
                     tutorialEnd.nextMessage();

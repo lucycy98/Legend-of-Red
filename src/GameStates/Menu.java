@@ -49,9 +49,6 @@ public class Menu extends JPanel {
 
         BufferedImage image = null;
         try {
-            System.out.println("classpath is: " + System.getProperty("java.class.path"));
-            URL location = getClass().getResource("player.png");
-            System.out.println(getClass().getClassLoader().getResource("player.png"));
             image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player.png"));
         }
         catch (IOException e) {

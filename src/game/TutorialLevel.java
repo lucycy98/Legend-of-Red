@@ -99,7 +99,6 @@ public class TutorialLevel implements Timers {
     }
 
     public void nextMessage() {
-        System.out.println("next messg");
         switch(currentState){
             case TUTORIAL:
                 if (currentMsg < tutorialMsg.size() - 1) {
@@ -207,7 +206,6 @@ public class TutorialLevel implements Timers {
 
     public boolean isFinished(){
         if (currentState == States.FINISHED){
-            System.out.println("true?");
             return true;
         }
         return false;

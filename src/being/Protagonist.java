@@ -176,7 +176,6 @@ public class Protagonist extends Being implements Timers {
     ////////////////// HEALTH \\\\\\\\\\\\\\\\\\\\
 
     public void damageHealth() {
-        System.out.println("bullet hit player");
         health -= 5;
         flash();
     }

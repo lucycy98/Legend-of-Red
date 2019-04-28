@@ -16,7 +16,7 @@ public class ScoreHandler {
     private static ArrayList<Integer> highscores;
     private int maxScores = 3;
 
-    public ScoreHandler(){
+    public ScoreHandler() {
         loadScoreFile();
         if (highscores == null) {
             highscores = new ArrayList<>();
@@ -26,12 +26,12 @@ public class ScoreHandler {
         }
     }
 
-    public void addGameScore(int score){
+    public void addGameScore(int score) {
         highscores.add(score);
     }
 
-    public int getTopScore(int index){
-        if (index < 0 || index > maxScores - 1){
+    public int getTopScore(int index) {
+        if (index < 0 || index > maxScores - 1) {
             return -1;
         }
         Collections.sort(highscores);
@@ -48,7 +48,7 @@ public class ScoreHandler {
             inputStream = new ObjectInputStream(new FileInputStream(HIGHSCORE_FILE));
             highscores = (ArrayList<Integer>) inputStream.readObject();
         } catch (FileNotFoundException e) {
-           e.printStackTrace();
+            //none
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -65,8 +65,9 @@ public class ScoreHandler {
             outputStream.writeObject(highscores);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-        } catch (IOException e) { e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-    }
 
+    }
 }
