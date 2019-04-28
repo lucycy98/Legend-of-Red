@@ -2,7 +2,7 @@ package sound;
 
 import java.util.HashMap;
 
-public class SoundHandler {
+public class SoundHandler implements Runnable{
 
     private HashMap<String, SoundEffect> sounds;
 
@@ -37,7 +37,7 @@ public class SoundHandler {
             System.out.println("null");
             return;
         }
-        sound.play();
+//        sound.play();
     }
 
     public void pause(){
@@ -46,4 +46,9 @@ public class SoundHandler {
         }
     }
 
+    @Override
+    public void run() {
+        Thread t = new Thread(this);
+        t.start();
+    }
 }
