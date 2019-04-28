@@ -14,7 +14,6 @@ import java.io.IOException;
 public class WinPanel extends JPanel {
 
     private JButton startButton;
-    private JButton quitButton;
     private Gamestate option;
     private JLabel title;
     private JLabel scoreLabel;
@@ -99,14 +98,6 @@ public class WinPanel extends JPanel {
             }
         });
 
-        quitButton = new JButton(icon);
-        buttonSettings(quitButton, "QUIT");
-        quitButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                option = Gamestate.QUIT;
-            }
-        });
     }
 
     private void buttonSettings(JButton button, String text){
@@ -129,8 +120,6 @@ public class WinPanel extends JPanel {
         this.add(startButton);
         this.add(Box.createVerticalGlue());
         this.add(menuButton);
-        this.add(Box.createVerticalGlue());
-        this.add(quitButton);
         this.add(Box.createVerticalGlue());
     }
 

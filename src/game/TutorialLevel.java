@@ -228,7 +228,6 @@ public class TutorialLevel implements Timers {
         win.setFont(new Font("TimesRoman", Font.BOLD, 18));
         switch(currentState){
             case TUTORIAL:
-                System.out.println(currentMsg);
                 win.drawString(tutorialMsg.get(currentMsg), 100, 610);
                 break;
             case INSTRUCTIONS:

@@ -77,7 +77,6 @@ public class Map {
         this.rotate_timer = new Timer(100, (new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println(orientation);
                 orientation++;
             }
         }));

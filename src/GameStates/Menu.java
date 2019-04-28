@@ -19,7 +19,6 @@ public class Menu extends JPanel {
     private int width;
     private JButton startButton;
     private JButton difficultyButton;
-    private JButton quitButton;
     private Gamestate option;
     private JLabel title;
     private JLabel imageLabel = null;
@@ -106,22 +105,6 @@ public class Menu extends JPanel {
             }
         });
 
-        quitButton = new JButton(icon){
-            {
-                setPreferredSize(new Dimension(300, 100));
-                setMaximumSize(new Dimension(300, 100));
-                setText("QUIT");
-                setHorizontalTextPosition(JButton.CENTER);
-                setAlignmentX(JButton.CENTER_ALIGNMENT);
-            }
-        };
-        quitButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                option = Gamestate.QUIT;
-            }
-        });
-
         difficultyButton = new JButton(icon){
             {
                 setPreferredSize(new Dimension(300, 100));
@@ -170,8 +153,6 @@ public class Menu extends JPanel {
         this.add(difficultyButton);
         this.add(Box.createVerticalGlue());
         this.add(highscore);
-        this.add(Box.createVerticalGlue());
-        this.add(quitButton);
         this.add(Box.createVerticalGlue());
         this.add(saveButton);
         this.add(Box.createVerticalGlue());
