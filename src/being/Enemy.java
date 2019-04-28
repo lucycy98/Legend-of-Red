@@ -48,11 +48,7 @@ public class Enemy extends Being {
 
         assignSpeed();
 
-        if (difficulty == 1){
-            this.health = health;
-        } else {
-            this.health = 2*health;
-        }
+        this.health = health * difficulty;
     }
 
     private void assignSpeed() {
