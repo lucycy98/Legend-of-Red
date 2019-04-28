@@ -24,8 +24,10 @@ public class TutorialLevel implements Timers {
     private String skipContinue = "Press ENTER to skip.";
     public enum States {TUTORIAL, INSTRUCTIONS, FINISHED};
     private int width;
+    private boolean isBeginning;
 
-    public TutorialLevel(MapHandler maps, PickUpItemHandler item, int width) {
+    public TutorialLevel(MapHandler maps, PickUpItemHandler item, int width, Boolean isBeginning) {
+        this.isBeginning = isBeginning;
         currentState = States.TUTORIAL;
         inTutorialLevel = true;
         this.maps = maps;
@@ -46,13 +48,10 @@ public class TutorialLevel implements Timers {
     public void skip(){
         switch(currentState){
             case TUTORIAL:
-                //currentState = States.INSTRUCTIONS;
-                //currentMsg = 0;
                 break;
             case INSTRUCTIONS:
                 currentState = States.FINISHED;
                 canMove = true;
-                //item.createItem(500, 200, Items.DAGGER);
                 break;
             default:
                 break;
@@ -69,7 +68,13 @@ public class TutorialLevel implements Timers {
                     }
                 } else {
                     currentMsg = 0;
-                   currentState = States.INSTRUCTIONS;
+
+                    if (isBeginning){
+                        currentState = States.INSTRUCTIONS;
+                    } else {
+                        currentState = States.FINISHED;
+                    }
+
                 }
                 break;
             case INSTRUCTIONS:
