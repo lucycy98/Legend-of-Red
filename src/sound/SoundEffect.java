@@ -2,6 +2,7 @@ package sound;
 
 import javax.sound.sampled.*;
 import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -88,9 +89,35 @@ public class SoundEffect implements Runnable {
         line.close();
     }
 
+    /**
+     * Plays the {@code Practice} or {@code Original}
+     * depending on which constructor is called.
+     */
+    public void playFF() {
+        URL url = getClass().getClassLoader().getResource(file);
+        File file = new File(String.valueOf(url));
+        System.out.println(file);
+        String command = "ffplay -autoexit -nodisp -i " + file;
+        process(command);
+    }
+
+
+
+    public static void process(String command) {
+        ProcessBuilder pb = new ProcessBuilder("/bin/bash", "-c", command);
+        //pb.directory(directory);
+
+        try {
+            Process process = pb.start();
+            process.waitFor();
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void run() {
-        playSoundOld();
+        playFF();
     }
 
 }

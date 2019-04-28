@@ -1,8 +1,10 @@
 package sound;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 
-public class SoundHandler implements Runnable{
+public class SoundHandler {
 
     private HashMap<String, SoundEffect> sounds;
 
@@ -37,7 +39,7 @@ public class SoundHandler implements Runnable{
             System.out.println("null");
             return;
         }
-//        sound.play();
+        sound.play();
     }
 
     public void pause(){
@@ -46,9 +48,4 @@ public class SoundHandler implements Runnable{
         }
     }
 
-    @Override
-    public void run() {
-        Thread t = new Thread(this);
-        t.start();
-    }
 }

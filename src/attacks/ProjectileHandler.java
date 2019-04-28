@@ -124,17 +124,17 @@ public class ProjectileHandler implements Weapon, Timers {
                 h = 40;
                 break;
             case SOUTH:
-                image = "arrowSouth.png";
+                image = "ArrowSouth.png";
                 w = 15;
                 h = 40;
                 break;
             case SOUTH_EAST:
-                image = "arrowSouth.png";
+                image = "ArrowSouth.png";
                 w = 15;
                 h = 40;
                 break;
             case SOUTH_WEST:
-                image = "arrowSouth.png";
+                image = "AsoorrowSouth.png";
                 w = 15;
                 h = 40;
                 break;
