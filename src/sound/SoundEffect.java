@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
-public class SoundEffect {
+public class SoundEffect implements Runnable {
 
     private String file;
     private Clip clip = null;
@@ -15,8 +15,12 @@ public class SoundEffect {
         this.file = "audio/" + filename;
     }
 
+    public void play() {
+        Thread t = new Thread(this);
+        t.start();
+    }
 
-    public void playSound() {
+    private void playSound() {
         AudioInputStream audioInput = null;
         try {
             URL url = getClass().getClassLoader().getResource(file);
@@ -44,6 +48,9 @@ public class SoundEffect {
         }
     }
 
-
+    @Override
+    public void run() {
+        playSound();
+    }
 
 }
