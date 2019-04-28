@@ -48,20 +48,11 @@ public class ScoreHandler {
             inputStream = new ObjectInputStream(new FileInputStream(HIGHSCORE_FILE));
             highscores = (ArrayList<Integer>) inputStream.readObject();
         } catch (FileNotFoundException e) {
-            System.out.println("[Laad] FNF Error: " + e.getMessage());
+           e.printStackTrace();
         } catch (IOException e) {
-            System.out.println("[Laad] IO Error: " + e.getMessage());
+            e.printStackTrace();
         } catch (ClassNotFoundException e) {
-            System.out.println("[Laad] CNF Error: " + e.getMessage());
-        } finally {
-            try {
-                if (outputStream != null) {
-                    outputStream.flush();
-                    outputStream.close();
-                }
-            } catch (IOException e) {
-                System.out.println("[Laad] IO Error: " + e.getMessage());
-            }
+            e.printStackTrace();
         }
     }
 
@@ -73,15 +64,8 @@ public class ScoreHandler {
             outputStream = new ObjectOutputStream(new FileOutputStream(HIGHSCORE_FILE));
             outputStream.writeObject(highscores);
         } catch (FileNotFoundException e) {
-            System.out.println("[Update] FNF Error: " + e.getMessage() + ",the program will try and make a new file");
-        } catch (IOException e) { System.out.println("[Update] IO Error: " + e.getMessage());
-        } finally {
-            try {
-                if (outputStream != null) {
-                    outputStream.flush();
-                    outputStream.close();
-                }
-            } catch (IOException e) { System.out.println("[Update] Error: " + e.getMessage()); }
+            e.printStackTrace();
+        } catch (IOException e) { e.printStackTrace();
         }
     }
 
