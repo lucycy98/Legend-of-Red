@@ -195,6 +195,7 @@ public class PickUpItemHandler {
             if (item.getItem() == Items.DAGGER){
                 item.collectItem();
                 itemsList.remove(item);
+
             }
         }
     }
