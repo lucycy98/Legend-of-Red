@@ -1,10 +1,12 @@
 package score;
 
+import java.io.Serializable;
+
 /**
  * this class represents the score of the player
  * final score depends on difficulty, wolves killed, health and time remaining
  */
-public class Score {
+public class Score implements Serializable {
 
     private int score;
     private int totalLevels;

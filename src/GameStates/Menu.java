@@ -11,6 +11,8 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 
+import static score.ScoreHandler.updateScoreFile;
+
 public class Menu extends JPanel {
 
     private  int height;
@@ -22,6 +24,7 @@ public class Menu extends JPanel {
     private JLabel title;
     private JLabel imageLabel = null;
     private JButton highscore;
+    private JButton saveButton;
 
 
     public Menu(int width, int height) {
@@ -134,6 +137,24 @@ public class Menu extends JPanel {
                 option = Gamestate.DIFFICULTY;
             }
         });
+        saveButton = new JButton(icon){
+            {
+                setPreferredSize(new Dimension(300, 100));
+                setMaximumSize(new Dimension(300, 100));
+                setText("SAVE");
+                setHorizontalTextPosition(JButton.CENTER);
+                setAlignmentX(JButton.CENTER_ALIGNMENT);
+            }
+        };
+        saveButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                updateScoreFile();
+                /**
+                 * save button
+                 */
+            }
+        });
     }
 
     private void addComponents() {
@@ -151,6 +172,8 @@ public class Menu extends JPanel {
         this.add(highscore);
         this.add(Box.createVerticalGlue());
         this.add(quitButton);
+        this.add(Box.createVerticalGlue());
+        this.add(saveButton);
         this.add(Box.createVerticalGlue());
     }
 
