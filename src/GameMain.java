@@ -1,20 +1,20 @@
-import GameStates.*;
-import GameStates.Menu;
-import score.Score;
-import score.ScoreHandler;
+import view.*;
+import controller.GameEngine;
+import model.score.Score;
+import model.score.ScoreHandler;
 import sound.SoundHandler;
+import view.Gamestate;
+import view.Menu;
 
 import javax.swing.*;
 import java.awt.*;
 
 /**
- * where the game starts
+ * where the model.game starts
  */
 public class GameMain {
 
     public static void main(String[] args) throws InterruptedException {
-
-
         int width = 1020;
         int height = 830;
         JFrame gameWindow = new JFrame("Game of Red");
@@ -23,7 +23,8 @@ public class GameMain {
         gameWindow.setResizable(false);
         gameWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        GameStates.Menu menu;
+        GameEngine gameEngine;
+        Menu menu;
         DifficultyPanel difficulty;
         GamePanel playScreen;
         LosePanel lose;
@@ -77,15 +78,16 @@ public class GameMain {
                 case GAME:
                     score = new Score(diff);
                     playScreen = new GamePanel(width, height, score, soundHandler, diff);
+                    gameEngine = playScreen.getEngine();
                     playScreen.setBackground(Color.BLACK);
                     gameWindow.add(playScreen);
                     gameWindow.validate();
                     playScreen.requestFocus();
-                    while (playScreen.getOption() == Gamestate.GAME || playScreen.getOption() == Gamestate.PAUSE ) {
+                    while (gameEngine.getOption() == Gamestate.GAME || gameEngine.getOption() == Gamestate.PAUSE ) {
                         Thread.sleep(1);
                     }
                     gameWindow.remove(playScreen);
-                    state = playScreen.getOption();
+                    state = gameEngine.getOption();
                     break;
                 case LOSE:
                     if (score == null){
